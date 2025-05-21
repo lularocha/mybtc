@@ -1,0 +1,482 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
+@media (min-width: 768px) {
+  body {
+    background-color: #fd0 !important;
+  }
+  .main-container {
+    padding: 30px !important;
+    z-index: 1; /* Lower than modal */
+  }
+  /* Override for larger screens in dark mode */
+  body.dark-mode {
+    background-color: #111 !important;
+    height: 100vh;
+  }
+  .dark-mode body {
+    background-color: #111 !important;
+  }
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    box-sizing: border-box;
+    font-family: "Space Grotesk", sans-serif;
+    background-color: #fe0;
+    overflow-x: hidden;
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+.main-container {
+    max-width: 620px;
+    margin: 0 auto;
+    padding-top: 0px;
+    background-color: #fe0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 81vh;
+    transition: transform 0.3s ease-out, padding-bottom 0.3s ease-out; /* Add transition for both properties */
+    position: relative;
+    z-index: 1; /* Lower than modal */
+}
+/* Add hardware acceleration to main container as well */
+.main-container {
+    transform: translate3d(0,0,0);
+}
+.slide-up {
+    transform: translateY(-90px);
+    padding-bottom: 90px; /* Add padding when slid up to maintain content visibility */
+}
+
+.header {
+    position: relative;
+}
+img.mybtclogo {
+    float: right;
+    width: 54px;
+    cursor: pointer;
+}
+@media (min-width: 992px) {
+    img.mybtclogo:hover {
+      transform: scale(1.05);    
+    }
+}
+
+h1#mybtc-brand {
+  font-size: 2.45rem;
+  font-weight: 700;
+  margin: -7px 0 0 0;
+  padding: 0;
+}
+
+h1#sugiro-logo {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: -10px 0 -5px 0;
+}
+.lang-btn-container {
+  position: absolute;
+  top: 3px;
+  left: 145px;
+}
+button.lang-btn {
+  background-color: #fc0;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 0;
+  border-radius: 3px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+button.lang-btn.active {
+  background-color: #f90;
+  color: #fff;
+  font-weight: 700;
+}
+.info-container {
+    margin-top: 35px;
+}
+.amount-container {
+    margin-bottom: 30px;
+}
+img.info-icon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 5px;
+  left: 155px;
+  opacity: 0.75;
+}
+.unit-selector {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+    position: relative;
+}
+button.unit-btn {
+    background-color: #fd0;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 18px;
+    cursor: pointer;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+button.unit-btn.active {
+    background-color: #f90;
+    color: #fff;
+    font-weight: 700;
+}
+.amount-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: 500;
+    background: #fd0;
+    padding: 7px 0;
+    border-radius: 5px;
+    min-height: 65px;
+    text-align: center;
+    cursor: pointer;
+}
+.amount-display .BTC-amount,
+.amount-display .USDBRL-amount {
+    order: 1;
+}
+.amount-display .USDBRL-symbol {
+    font-weight: 400;
+    margin-right: 3px;
+}
+.amount-input {
+    width: 100%;
+    padding: 7px 0;
+    font-size: 50px;
+    font-weight: 500;
+    border: 2px solid #f90; 
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #fd0; 
+    text-align: center;
+    display: none; 
+}
+.amount-input:focus {
+    outline: none; 
+}
+.current {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+h2#current-BTC-price-display,
+h2#current-BTC-change-display {
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0;
+}
+@media (max-width: 400px) {
+    h2#current-BTC-price-display,
+    h2#current-BTC-change-display {
+        font-size: 27px;
+    }
+}
+/*h2#current-BTC-price-display {
+    cursor: pointer;
+}*/
+h2#current-BTC-price-display .USDBRL-symbol {
+    font-weight: 400;
+    margin-right: -5px;
+}
+h2#current-BTC-change-display .arrow-symbol {
+    font-weight: 400;
+    margin-right: -7px;
+}
+p#current-BTC-price-label, 
+p#current-BTC-change-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.current-BTC-change {
+    text-align: right;
+    position: relative;
+    cursor: pointer;
+}
+.period-menu {
+    display: flex;
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    width: 60px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 0;
+    z-index: 100;
+    flex-direction: column;
+    box-shadow: 0 0 15px #0005;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    pointer-events: none;
+}
+.period-menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.period-menu button {
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  padding: 9px 0;
+  margin: 0 0 1px 0;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+}
+.period-menu button:hover {
+    background-color: #fff;
+}
+.period-menu button.selected {
+    background-color: #f90;
+    color: #fff;
+    font-weight: 700;
+    margin-top: -2px;
+    margin-bottom: 0;
+}
+.period-menu button.selected:hover {
+    background-color: #f90;
+}
+.period-menu button:last-child {
+    margin-bottom: 0;
+}
+.button-container {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+.button-container button {
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 20px 5px;
+    border: 0;
+    border-radius: 5px;
+    flex: 1;
+    cursor: pointer;
+}
+button#info {
+    background-color: #00b129;
+}
+button#info:hover {
+    background-color: #009a22;
+}
+button#refresh {
+    background-color: #f80;
+}
+button#refresh:hover {
+    background-color: #f60;
+}
+
+/* Footer styles for dark mode toggle */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+/*  padding-top: 10px;*/
+}
+
+p.footer-info {
+  flex: 1;
+  text-align: left;
+  margin: 0;
+  padding-top: 2px;
+}
+
+.dark-mode-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  background: #333;
+  color: #fd0;
+  margin-left: 10px;
+}
+
+.dark-mode .dark-mode-icon {
+  background: #333;
+  color: #fd0;
+}
+
+/* Updated Keypad Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1000; /* Higher than main container */
+}
+.modal {
+    /* Force hardware acceleration on Android */
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.modal-content {
+    background: #000;
+    padding: 20px 20px 30px; /* Add extra padding at bottom for visual balance */
+    width: 100%; /* Full width */
+    max-width: none; /* Remove max-width restriction */
+    font-family: 'Space Grotesk', sans-serif;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    position: relative;
+    z-index: 1001;
+}
+.modal-content {
+    /* Hint to browser about transform for better performance */
+    will-change: transform;
+}
+
+/* New container for the keypad elements to keep them centered */
+.keypad-container {
+    max-width: 400px;
+    margin: 0 auto; /* Center the keypad */
+    width: 100%;
+}
+
+.modal.open .modal-content {
+    transform: translateY(0);
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.keypad button {
+    padding: 9px 0;
+    font-size: 21px;
+    border: none;
+    background: #222;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    touch-action: manipulation;
+}
+
+.keypad button:hover {
+    background: #f60;
+}
+
+.keypad button.delete {
+    background: #222;
+    color: #fff;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+svg.delete-icon {
+    margin-bottom: -4px;
+    transform: scale(0.9);
+}
+
+.keypad button.delete:hover {
+    background: #f60;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-actions button {
+    width: 48%;
+    padding: 10px 0 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+}
+
+.modal-actions .cancel {
+    background: #900;
+    color: #fff;
+}
+
+.modal-actions .cancel:hover {
+    background: #d00;
+}
+
+.modal-actions .ok {
+    background: #050;
+    color: #fff;
+}
+
+.modal-actions .ok:hover {
+    background: #080;
+}
+.info-modal p.modal-text[data-translate="infoModalText0"] {
+    color: #fe0;
+    font-weight: 900;
+}
+/* Style for secondary input during editing */
+.amount-input.secondary-display {
+    border: none;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Make sure the secondary displays are visible when needed */
+.BTC-input.secondary-display,
+.fiat-input.secondary-display {
+    display: block;
+}
+
+/* Add responsive adjustments for larger screens */
+@media (min-width: 768px) {
+    .keypad button {
+        padding: 18px; /* Slightly larger buttons on bigger screens */
+    }
+}

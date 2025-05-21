@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MYBTC Calculator.</title>
+    <link rel="icon" type="image/x-icon" href="btc-fav-3.png">
+    <link rel="stylesheet" href="mybtc-styles.css">
+    <link rel="stylesheet" href="btclogo-animation.css">
+    <link rel="stylesheet" href="info.css">
+    
+    <!-- Add this small script in the head to fix Android issues -->
+    <script>
+        // Detect Android and set a flag
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        if (isAndroid) {
+            document.documentElement.classList.add('android-device');
+        }
+        
+        // Fix for preventing zooming on Android
+        document.addEventListener('touchmove', function(event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <img class="mybtclogo" src="btc_icon.png" role="button" tabindex="0">
+            <h1 id="mybtc-brand"><a href="/">MYBTC</a></h1>
+            <h1 id="sugiro-logo"><a href="/">sugirodesign</a></h1>
+
+            <div class="lang-btn-container">
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="pt">PT</button>
+            </div>
+        </div>
+        <div class="info-container">
+            <!-- BTC/SATS Amount -->
+            <div class="amount-container">
+                <div class="unit-selector btc-unit-selector">
+                    <button class="unit-btn btc-btn active">BTC</button>
+                    <button class="unit-btn sats-btn">SATS</button>
+                    <img class="info-icon" src="infoicon_4.png" alt="Info Icon">
+                    <!-- Info Modal -->
+                    <div class="info-modal" id="info-modal" style="display: none;">
+                        <button class="close-modal-btn" id="close-info-modal">×</button>
+                        <p class="modal-text" data-translate="infoModalText0">Placeholder text for the new first paragraph of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText1">Placeholder text for the first paragraph of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText2">Placeholder text for the second paragraph of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText3">Placeholder text for the third paragraph of the info modal.</p>
+                    </div>
+                </div>
+                <div class="amount-display" id="BTC-amount-display">
+                    <span class="BTC-amount">0</span>
+                </div>
+                <input type="text" class="amount-input BTC-input" style="display: none;">
+            </div>
+            <!-- USD/BRL Amount -->
+            <div class="amount-container">
+                <div class="unit-selector fiat-unit-selector">
+                    <button class="unit-btn usd-btn active">USD</button>
+                    <button class="unit-btn brl-btn">BRL</button>
+                </div>
+                <div class="amount-display" id="USDBRL-amount-display">
+                    <span class="USDBRL-symbol">$</span>
+                    <span class="USDBRL-amount">0.00</span>
+                </div>
+                <input type="text" class="amount-input fiat-input" style="display: none;">
+            </div>
+            <!-- CURRENT BTC Price and Change Display -->
+            <div class="current">
+                <!-- Current BTC Price Display -->
+                <div class="current-BTC-price">
+                    <p id="current-BTC-price-label" data-translate="currentBitcoinPrice">Current Bitcoin Price</p>
+                    <h2 id="current-BTC-price-display" role="button" tabindex="0">
+                        <span class="USDBRL-symbol">$</span>
+                        <span class="current-BTC-price-amount">0.00</span>
+                    </h2>
+                </div>
+                <!-- Current BTC Change Display -->
+                <div class="current-BTC-change">
+                    <p id="current-BTC-change-label">Last 12 months</p>
+                    <h2 id="current-BTC-change-display">
+                        <span class="arrow-symbol"></span>
+                        <span class="current-BTC-change-amount"></span>
+                    </h2>
+                    <div id="period-menu" class="period-menu"></div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="refresh" data-translate="refreshPrice">refresh price</button>
+            <button id="info" data-translate="help">help</button>
+        </div>
+        <div class="footer">
+            <p class="footer-info" data-translate="footerInfo">Click the BTC/SATS or USD/BRL display to enter an amount and view its equivalent.</p>
+            <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
+        </div>
+        <!-- Info Panel -->
+        <div class="info-panel" id="info-panel">
+            <div class="info-panel-content">
+                <button id="close-info-panel" class="close-btn"><span class="closex">×</span></button>
+                <h3 class="panel-title" data-translate="howToUse">How to use:</h3>
+                <ul>
+                    <li data-translate="instruction1">Instruction 1</li>
+                    <li data-translate="instruction2">Instruction 2</li>
+                    <li data-translate="instruction3">Instruction 3</li>
+                    <li data-translate="instruction4">Instruction 4</li>
+                    <li data-translate="instruction5">Instruction 5</li>
+                    <li data-translate="instruction6"><a href="https://21bitcoin.info" target="_blank">Learn Bitcoin</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Keypad Modal - Enhanced for Android compatibility -->
+    <div class="modal" id="keypadModal">
+        <div class="modal-content">
+            <div class="keypad-container">
+                <div class="keypad">
+                    <button data-value="1" onclick="appendToDisplay('1')">1</button>
+                    <button data-value="2" onclick="appendToDisplay('2')">2</button>
+                    <button data-value="3" onclick="appendToDisplay('3')">3</button>
+                    <button data-value="4" onclick="appendToDisplay('4')">4</button>
+                    <button data-value="5" onclick="appendToDisplay('5')">5</button>
+                    <button data-value="6" onclick="appendToDisplay('6')">6</button>
+                    <button data-value="7" onclick="appendToDisplay('7')">7</button>
+                    <button data-value="8" onclick="appendToDisplay('8')">8</button>
+                    <button data-value="9" onclick="appendToDisplay('9')">9</button>
+                    <button data-value="." onclick="appendToDisplay('.')">.</button>
+                    <button data-value="0" onclick="appendToDisplay('0')">0</button>
+                    <button class="delete" data-action="delete" onclick="deleteLast()" aria-label="Backspace">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="delete-icon">
+                            <path fill="white" stroke="white" stroke-width="0.5" d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z"/>
+                            <path fill="white" stroke="white" stroke-width="0.5" d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-actions">
+                    <button class="cancel" data-action="cancel" onclick="cancelInput()">cancel</button>
+                    <button class="ok" data-action="ok" onclick="submitInput()">ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="translations.js"></script>
+    <script src="mybtc-script.js"></script>
+    <script src="btclogo-animation.js"></script>
+    <script src="info.js"></script>
+    <script src="dark-mode.js"></script>
+    
+    <!-- Add this small script at the end to fix Android issues -->
+    <script>
+        // Additional Android compatibility script
+        if (/Android/i.test(navigator.userAgent)) {
+            // Add direct touch event listeners for Android
+            document.addEventListener('DOMContentLoaded', function() {
+                // Function to handle direct touch events for keypad buttons
+                function addTouchHandler(element, handler) {
+                    if (!element) return; // Skip if element doesn't exist
+                    
+                    element.addEventListener('touchstart', function(e) {
+                        // Prevent default only for keypad buttons
+                        e.preventDefault();
+                        // Call the handler after a small delay for visual feedback
+                        setTimeout(function() {
+                            handler(e);
+                        }, 10);
+                    }, { passive: false });
+                }
+                
+                // Apply to BTC and fiat displays
+                addTouchHandler(document.getElementById('BTC-amount-display'), function() {
+                    openModal('btc');
+                });
+                
+                addTouchHandler(document.getElementById('USDBRL-amount-display'), function() {
+                    openModal('fiat');
+                });
+                
+                // Apply to all keypad buttons using data attributes
+                document.querySelectorAll('.keypad button[data-value]').forEach(function(button) {
+                    addTouchHandler(button, function() {
+                        appendToDisplay(button.getAttribute('data-value'));
+                    });
+                });
+                
+                // Special actions
+                const deleteBtn = document.querySelector('.keypad button[data-action="delete"]');
+                if (deleteBtn) {
+                    addTouchHandler(deleteBtn, function() {
+                        deleteLast();
+                    });
+                }
+                
+                const cancelBtn = document.querySelector('.modal-actions button[data-action="cancel"]');
+                if (cancelBtn) {
+                    addTouchHandler(cancelBtn, function() {
+                        cancelInput();
+                    });
+                }
+                
+                const okBtn = document.querySelector('.modal-actions button[data-action="ok"]');
+                if (okBtn) {
+                    addTouchHandler(okBtn, function() {
+                        submitInput();
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

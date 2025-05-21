@@ -1,0 +1,17 @@
+.mybtclogo {
+  display: block;
+}
+
+.mybtclogo.spin {
+  animation: spinEightTimes 1s ease-in-out;
+}
+
+/* Keyframes for spinning 8 times with ease-in-out */
+@keyframes spinEightTimes {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(2160deg); /* 8 full rotations (8 * 360 = 2880 degrees) */
+  }
+}
