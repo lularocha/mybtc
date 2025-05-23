@@ -1,75 +1,59 @@
-// Dark Mode Color Mapping for MYBTC Calculator
+// MYBTC Calculator - Dark Mode Configuration
+// 
+// DARK MODE COLOR MAPPING
+// Edit the values in the darkModeColors object below to customize your dark mode theme.
+// Each property shows: darkModeColor // Original light mode color -> UI Element description
 
-/**
- * DARK MODE COLOR MAPPING
- * 
- * Original color : Dark Mode equivalent // UI Element description
- * 
- * #fe0 : #1a1a1a // Main yellow background, main container
- * #fd0 : #222 // Secondary yellow background, unit buttons, amount display
- * #f90 : #f50 // Active buttons (unit selector, language, period menu)
- * #f80 : #f50 // Refresh button
- * #f60 : #f60 // Button hover states
- * #fc0 : #fc0 // Language buttons
- * #000 : #fff // Main text color
- * #fff : #000 // White text/backgrounds
- * #090 : #00cc00 // Positive change percentage
- * #f00 : #ff3333 // Negative change percentage
- * #00b129 : #050 // Help button
- * #009a22 : #00b327 // Help button hover
- * #ddd : #3d3d3d // Light gray (period menu buttons)
- * #666 : #999999 // Medium gray (markers)
- * #0005 : #0005 // Semi-transparent shadows
- * #ff0 : #ffff33 // Link hover
- */
-
-// Simple object mapping original colors to dark mode colors
-// EDIT THESE VALUES TO CUSTOMIZE YOUR DARK MODE
-const darkModeMap = {
-  // Main backgrounds
-  "#fe0": "#1a1a1a", // Main yellow background
-  "#fd0": "#222", // Secondary yellow background
+const darkModeColors = {
+  // === MAIN BACKGROUNDS ===
+  mainBackground: "#1a1a1a",        // #fe0 -> Main yellow background container
+  secondaryBackground: "#2a2a2a",      // #fd0 -> Amount displays, unit buttons background
+  pageBackground: "#000",           // Used for larger screens body background
   
-  // Active elements
-  "#f90": "#f50", // Active buttons
-  "#f80": "#f50", // Refresh button
-  "#f60": "#f60", // Button hover states
-  "#fc0": "#fc0", // Language buttons
+  // === ACTIVE ELEMENTS ===
+  activeButtons: "#f50",            // #f90 -> Active unit buttons, language buttons, period menu selected
+  refreshButton: "#f50",            // #f80 -> Refresh button background
+  buttonHover: "#f60",              // #f60 -> Button hover states (unchanged)
+  languageButtons: "#fc0",          // #fc0 -> Language button background (unchanged)
   
-  // Text colors
-  "#000": "#fff", // Main text color
-  "#fff": "#000", // White text/backgrounds
+  // === TEXT COLORS ===
+  mainText: "#fff",                 // #000 -> Main text color (black text becomes white)
+  whiteText: "#000",                // #fff -> White text/backgrounds become black
   
-  // Status colors
-  "#090": "#00cc00", // Positive change 
-  "#f00": "#ff3333", // Negative change
+  // === STATUS COLORS ===
+  positiveChange: "#0c0",           // #090 -> Positive percentage change (green)
+  negativeChange: "#ff3333",        // #f00 -> Negative percentage change (red)
   
-  // Help/Info elements
-  "#00b129": "#050", // Help button
-  "#009a22": "#00b327", // Help button hover
+  // === HELP/INFO ELEMENTS ===
+  helpButton: "#050",               // #00b129 -> Help button background (dark green)
+  helpButtonHover: "#090",          // #009a22 -> Help button hover state
   
-  // UI elements
-  "#ddd": "#3d3d3d", // Light gray
-  "#666": "#999999", // Medium gray
-  "#0005": "#0005", // Semi-transparent shadows
-  "#ff0": "#ffff33", // Link hover
+  // === PERIOD MENU SPECIFIC ===
+  periodMenuBackground: "#2a2a2a",  // #fff -> Period menu container background
+  periodMenuButton: "#3d3d3d",      // #ddd -> Period menu button background
+  periodMenuButtonHover: "#555",    // #fff -> Period menu button hover background
+  periodMenuButtonText: "#fff",     // #000 -> Period menu button text color
+  periodMenuSelected: "#f50",       // #f90 -> Period menu selected button background
+  periodMenuSelectedText: "#000",   // #fff -> Period menu selected button text color
+  
+  // === OTHER UI ELEMENTS ===
+  mediumGray: "#999999",            // #666 -> Medium gray elements, markers
+  shadows: "#0005",                 // #0005 -> Semi-transparent shadows (unchanged)
+  linkHover: "#ffff33",             // #ff0 -> Link hover color
+  
+  // === CUSTOM UI COLORS ===
+  darkElement: "#2a2a2a",           // Custom dark UI elements
+  darkPanel: "#000",                // Info panel background
+  footerText: "#fff",               // Footer text color
+  panelTitle: "#f90",               // Info panel title color
+  
+  // === BUTTON TEXT COLORS ===
+  activeButtonText: "#000",         // Text color for all active buttons
+  nonActiveButtonText: "#ccc",      // Text color for non-active buttons
 };
 
-// These are necessary UI element colors for dark mode
-const uiColors = {
-  darkBackground: "#1a1a1a", // Page background
-  darkElement: "#2a2a2a",    // Dark UI elements
-  darkPanel: "#000",      // Info panel background
-  footerText: "#fff",     // Footer text
-  
-  // Custom text colors for buttons
-  activeButtonText: "#000", // Text color for all active buttons
-  nonActiveButtonText: "#ccc" // Text color for non-active buttons
-};
-
-// Function to toggle dark mode
+// Function to toggle dark mode on/off
 function toggleDarkMode(enabled) {
-  // Apply or remove dark mode class
   if (enabled) {
     document.body.classList.add('dark-mode');
     document.documentElement.classList.add('dark-mode');
@@ -79,38 +63,38 @@ function toggleDarkMode(enabled) {
   }
 }
 
-// Create dark mode styles based on the color mapping
+// Create all dark mode CSS styles
 function createDarkModeStyles() {
   const styleEl = document.createElement('style');
+  const colors = darkModeColors; // Shorthand reference
   
-  // Basic dark mode styles using the color map
   styleEl.textContent = `
-  /* Main page elements */
+  /* === MAIN PAGE ELEMENTS === */
   .dark-mode, .dark-mode body {
-    background-color: ${uiColors.darkBackground} !important;
-    color: ${darkModeMap["#000"]};
+    background-color: ${colors.mainBackground} !important;
+    color: ${colors.mainText};
   }
   
   /* Override for larger screens */
   @media (min-width: 768px) {
     .dark-mode body {
-      background-color: #111 !important;
+      background-color: ${colors.pageBackground} !important;
     }
     body.dark-mode {
-      background-color: #111 !important;
+      background-color: ${colors.pageBackground} !important;
     }
   }
   
   .dark-mode .main-container {
-    background-color: ${darkModeMap["#fe0"]};
+    background-color: ${colors.mainBackground};
   }
   
-  /* Text elements */
+  /* === TEXT ELEMENTS === */
   .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode a {
-    color: ${darkModeMap["#000"]};
+    color: ${colors.mainText};
   }
   
-  /* Icons */
+  /* === ICONS === */
   .dark-mode img.mybtclogo {
     filter: brightness(0.8);
   }
@@ -119,108 +103,143 @@ function createDarkModeStyles() {
     filter: invert(1);
   }
   
-  /* Language buttons */
+  /* === LANGUAGE BUTTONS === */
   .dark-mode button.lang-btn {
-    background-color: ${uiColors.darkElement};
-    color: ${uiColors.nonActiveButtonText};
+    background-color: ${colors.darkElement};
+    color: ${colors.nonActiveButtonText};
   }
   
   .dark-mode button.lang-btn.active {
-    background-color: ${darkModeMap["#f90"]};
-    color: ${uiColors.activeButtonText}; /* Using the custom text color */
+    background-color: ${colors.activeButtons};
+    color: ${colors.activeButtonText};
   }
   
-  /* Unit selector buttons */
+  /* === UNIT SELECTOR BUTTONS === */
   .dark-mode .unit-selector button.unit-btn {
-    background-color: ${uiColors.darkElement};
-    color: ${uiColors.nonActiveButtonText};
+    background-color: ${colors.darkElement};
+    color: ${colors.nonActiveButtonText};
   }
   
   .dark-mode .unit-selector button.unit-btn.active {
-    background-color: ${darkModeMap["#f90"]};
-    color: ${uiColors.activeButtonText}; /* Using the custom text color */
+    background-color: ${colors.activeButtons};
+    color: ${colors.activeButtonText};
   }
   
-  /* Amount displays */
+  /* === AMOUNT DISPLAYS === */
   .dark-mode .amount-display {
-    background-color: ${darkModeMap["#fd0"]};
-    color: ${darkModeMap["#000"]};
+    background-color: ${colors.secondaryBackground};
+    color: ${colors.mainText};
   }
   
   .dark-mode .amount-input {
-    background-color: ${uiColors.darkElement};
-    color: ${darkModeMap["#000"]};
-    border-color: ${darkModeMap["#f90"]};
+    background-color: ${colors.darkElement};
+    color: ${colors.mainText};
+    border-color: ${colors.activeButtons};
   }
   
-  /* Period menu */
+  /* === PERIOD MENU === */
   .dark-mode .period-menu {
-    background-color: ${uiColors.darkElement};
-    box-shadow: 0 0 15px ${darkModeMap["#0005"]};
+    background-color: ${colors.periodMenuBackground};
+    box-shadow: 0 0 15px ${colors.shadows};
   }
   
   .dark-mode .period-menu button {
-    background-color: ${uiColors.darkElement};
-    color: ${uiColors.nonActiveButtonText};
+    background-color: ${colors.periodMenuButton};
+    color: ${colors.periodMenuButtonText};
+  }
+  
+  .dark-mode .period-menu button:hover {
+    background-color: ${colors.periodMenuButtonHover};
   }
   
   .dark-mode .period-menu button.selected {
-    background-color: ${darkModeMap["#f90"]};
-    color: ${uiColors.activeButtonText}; /* Using the custom text color */
+    background-color: ${colors.periodMenuSelected};
+    color: ${colors.periodMenuSelectedText};
   }
   
-  /* Action buttons */
+  .dark-mode .period-menu button.selected:hover {
+    background-color: ${colors.periodMenuSelected};
+  }
+  
+  /* === ACTION BUTTONS === */
   .dark-mode .button-container button#info {
-    background-color: ${darkModeMap["#00b129"]};
+    background-color: ${colors.helpButton};
+  }
+  
+  .dark-mode .button-container button#info:hover {
+    background-color: ${colors.helpButtonHover};
   }
   
   .dark-mode .button-container button#refresh {
-    background-color: ${darkModeMap["#f80"]};
+    background-color: ${colors.refreshButton};
   }
   
-  /* Footer */
+  .dark-mode .button-container button#refresh:hover {
+    background-color: ${colors.buttonHover};
+  }
+  
+  /* === HOVER STATES === */
+  .dark-mode .keypad button:hover {
+    background-color: ${colors.buttonHover};
+  }
+  
+  /* === FOOTER === */
   .dark-mode .footer-info {
-    color: ${uiColors.footerText};
+    color: ${colors.footerText};
   }
   
   .dark-mode .footer-info a {
-    border-bottom: 1px dashed ${uiColors.footerText};
+    border-bottom: 1px dashed ${colors.footerText};
   }
   
-  /* Info panel */
+  /* === INFO PANEL === */
   .dark-mode .info-panel {
-    background-color: ${uiColors.darkPanel};
+    background-color: ${colors.darkPanel};
   }
   
   .dark-mode .close-btn {
-    background-color: ${uiColors.darkElement};
+    background-color: ${colors.darkElement};
   }
   
- .dark-mode h3.panel-title {
-    color: #f90;
+  .dark-mode h3.panel-title {
+    color: ${colors.panelTitle};
   }
   
   .dark-mode .info-panel a {
-    color: ${uiColors.footerText};
-    border-bottom: 1px dashed ${uiColors.footerText};
+    color: ${colors.footerText};
+    border-bottom: 1px dashed ${colors.footerText};
   }
   
+  /* === INFO MODAL === */
   .dark-mode .info-modal {
-    background: ${uiColors.darkPanel};
-    box-shadow: 0 2px 5px ${darkModeMap["#0005"]};
+    background: ${colors.darkPanel};
+    box-shadow: 0 2px 5px ${colors.shadows};
   }
   
   .dark-mode .info-modal p.modal-text[data-translate="infoModalText0"] {
-    color: #f90;
+    color: ${colors.panelTitle};
+  }
+  
+  /* === DARK MODE TOGGLE ICON === */
+  .dark-mode .dark-mode-icon {
+    background: #333;
   }
   `;
   
   return styleEl;
 }
 
-// Setup dark mode toggle in the footer
+// Create Material Symbol icon element
+function createMaterialIcon(iconName) {
+  const iconSpan = document.createElement('span');
+  iconSpan.className = 'material-symbols-outlined';
+  iconSpan.textContent = iconName;
+  return iconSpan;
+}
+
+// Setup dark mode toggle functionality
 function setupDarkModeToggle() {
-  // Create the style element
+  // Create and add the dark mode styles to the page
   const darkModeStyles = createDarkModeStyles();
   darkModeStyles.id = 'dark-mode-styles';
   document.head.appendChild(darkModeStyles);
@@ -229,23 +248,41 @@ function setupDarkModeToggle() {
   const darkModeIconContainer = document.querySelector('.dark-mode-icon');
   
   if (darkModeIconContainer) {
-    // Clear any placeholder text
-    darkModeIconContainer.textContent = '🌙';
+    // Clear any placeholder text and add the moon icon (for light mode)
+    darkModeIconContainer.innerHTML = '';
+    const moonIcon = createMaterialIcon('dark_mode');
+    darkModeIconContainer.appendChild(moonIcon);
     darkModeIconContainer.title = 'Toggle Dark Mode';
     
-    // Add click handler
+    // Add click handler for toggling dark mode
     darkModeIconContainer.addEventListener('click', () => {
       const isDarkMode = document.body.classList.contains('dark-mode');
       toggleDarkMode(!isDarkMode);
-      darkModeIconContainer.textContent = isDarkMode ? '🌙' : '☀️';
+      
+      // Update the icon based on current mode
+      darkModeIconContainer.innerHTML = '';
+      if (isDarkMode) {
+        // Switching to light mode - show moon icon
+        const moonIcon = createMaterialIcon('dark_mode');
+        darkModeIconContainer.appendChild(moonIcon);
+      } else {
+        // Switching to dark mode - show sun icon
+        const sunIcon = createMaterialIcon('light_mode');
+        darkModeIconContainer.appendChild(sunIcon);
+      }
+      
+      // Save preference to localStorage
       localStorage.setItem('darkMode', !isDarkMode);
     });
     
-    // Check for saved preference
+    // Check for saved dark mode preference and apply it
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     if (savedDarkMode) {
       toggleDarkMode(true);
-      darkModeIconContainer.textContent = '☀️';
+      // Show sun icon for dark mode
+      darkModeIconContainer.innerHTML = '';
+      const sunIcon = createMaterialIcon('light_mode');
+      darkModeIconContainer.appendChild(sunIcon);
     }
   }
 }
@@ -254,31 +291,28 @@ function setupDarkModeToggle() {
 document.addEventListener('DOMContentLoaded', setupDarkModeToggle);
 
 /**
- * HOW TO CUSTOMIZE DARK MODE:
+ * === HOW TO CUSTOMIZE YOUR DARK MODE ===
  * 
- * To create your own color scheme, simply edit the colors in the darkModeMap object.
- * Each entry shows the original color and its dark mode equivalent.
+ * To change colors:
+ * 1. Edit the values in the darkModeColors object above
+ * 2. Each property shows the original light mode color and which UI element it affects
  * 
- * To change the text colors of buttons:
- * 1. Find the uiColors object
- * 2. Change these values:
- *    - activeButtonText: Controls text color for all active buttons
- *    - nonActiveButtonText: Controls text color for non-active buttons
+ * To change button text colors:
+ * - activeButtonText: Controls text color for all active/selected buttons
+ * - nonActiveButtonText: Controls text color for non-active buttons
  * 
- * Example:
- * uiColors = {
- *   ...
- *   activeButtonText: "#000",   // Black text for active buttons
- *   nonActiveButtonText: "#aaa" // Light gray for non-active buttons
- * };
+ * To change the toggle icons:
+ * - Edit the icon names in createMaterialIcon() calls:
+ *   - 'dark_mode' (moon icon for light mode)
+ *   - 'light_mode' (sun icon for dark mode)
  * 
- * For a completely different theme like "Blue Night":
+ * Alternative icon options:
+ * - 'brightness_6' (half sun/moon)
+ * - 'wb_sunny' (alternative sun)
+ * - 'nightlight' (alternative moon)
  * 
- * // Change these values in darkModeMap:
- * "#fe0": "#001a2a",  // Main background - dark blue
- * "#fd0": "#001a2a",  // Secondary background - dark blue  
- * "#f90": "#3498db",  // Active buttons - bright blue
- * 
- * // And in uiColors:
- * darkBackground: "#0a192f", // Even darker blue for page background
+ * Example custom theme (Blue Night):
+ * mainBackground: "#001a2a",     // Dark blue instead of dark gray
+ * activeButtons: "#3498db",      // Bright blue instead of orange
+ * pageBackground: "#0a192f",     // Even darker blue for body
  */
