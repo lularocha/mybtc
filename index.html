@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MYBTC Calculator</title>
-    <link rel="icon" type="image/x-icon" href="btc_icon2.png">
-    <link rel="stylesheet" href="mybtc-styles.css">
-    <link rel="stylesheet" href="btclogo-animation.css">
-    <link rel="stylesheet" href="info.css">
+    <link rel="icon" type="image/x-icon" href="assets/btc_icon2.png">
+    <link rel="stylesheet" href="css/mybtc-styles.css">
+    <link rel="stylesheet" href="css/btclogo-animation.css">
+    <link rel="stylesheet" href="css/info.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+
     <!-- Add this small script in the head to fix Android issues -->
     <script>
         // Detect Android and set a flag
@@ -20,19 +23,20 @@
         if (isAndroid) {
             document.documentElement.classList.add('android-device');
         }
-        
+
         // Fix for preventing zooming on Android
-        document.addEventListener('touchmove', function(event) {
+        document.addEventListener('touchmove', function (event) {
             if (event.scale !== 1) {
                 event.preventDefault();
             }
         }, { passive: false });
     </script>
 </head>
+
 <body>
     <div class="main-container">
         <div class="header">
-            <img class="mybtclogo" src="btc_icon2.png" role="button" tabindex="0">
+            <img class="mybtclogo" src="assets/btc_icon2.png" role="button" tabindex="0">
             <h1 id="mybtc-brand"><a href="/" target="_blank">MYBTC</a></h1>
             <h1 id="sugiro-logo"><a href="/">sugirodesign</a></h1>
 
@@ -47,14 +51,18 @@
                 <div class="unit-selector btc-unit-selector">
                     <button class="unit-btn btc-btn active">BTC</button>
                     <button class="unit-btn sats-btn">SATS</button>
-                    <img class="info-icon" src="infoicon.png" alt="Info Icon">
+                    <img class="info-icon" src="assets/infoicon.png" alt="Info Icon">
                     <!-- Info Modal -->
                     <div class="info-modal" id="info-modal" style="display: none;">
                         <button class="close-modal-btn" id="close-info-modal">×</button>
-                        <p class="modal-text" data-translate="infoModalText0">Placeholder text for the new first paragraph of the info modal.</p>
-                        <p class="modal-text" data-translate="infoModalText1">Placeholder text for the first paragraph of the info modal.</p>
-                        <p class="modal-text" data-translate="infoModalText2">Placeholder text for the second paragraph of the info modal.</p>
-                        <p class="modal-text" data-translate="infoModalText3">Placeholder text for the third paragraph of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText0">Placeholder text for the new first
+                            paragraph of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText1">Placeholder text for the first paragraph
+                            of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText2">Placeholder text for the second paragraph
+                            of the info modal.</p>
+                        <p class="modal-text" data-translate="infoModalText3">Placeholder text for the third paragraph
+                            of the info modal.</p>
                     </div>
                 </div>
                 <div class="amount-display" id="BTC-amount-display">
@@ -103,7 +111,8 @@
             <button id="info" data-translate="help">help</button>
         </div>
         <div class="footer">
-            <p class="footer-info" data-translate="footerInfo">Click the BTC/SATS or Fiat currency display to enter an amount and view its equivalent.</p>
+            <p class="footer-info" data-translate="footerInfo">Click the BTC/SATS or Fiat currency display to enter an
+                amount and view its equivalent.</p>
             <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
         </div>
         <!-- Info Panel -->
@@ -117,12 +126,13 @@
                     <li data-translate="instruction3">Instruction 3</li>
                     <li data-translate="instruction4">Instruction 4</li>
                     <li data-translate="instruction5">Instruction 5</li>
-                    <li data-translate="instruction6"><a href="https://21bitcoin.info" target="_blank">Learn Bitcoin</a></li>
+                    <li data-translate="instruction6"><a href="https://21bitcoin.info" target="_blank">Learn Bitcoin</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-    
+
     <!-- Keypad Modal - Enhanced for Android compatibility -->
     <div class="modal" id="keypadModal">
         <div class="modal-content">
@@ -141,8 +151,10 @@
                     <button data-value="0" onclick="appendToDisplay('0')">0</button>
                     <button class="delete" data-action="delete" onclick="deleteLast()" aria-label="Backspace">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="delete-icon">
-                            <path fill="white" stroke="white" stroke-width="0.5" d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z"/>
-                            <path fill="white" stroke="white" stroke-width="0.5" d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
+                            <path fill="white" stroke="white" stroke-width="0.5"
+                                d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z" />
+                            <path fill="white" stroke="white" stroke-width="0.5"
+                                d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z" />
                         </svg>
                     </button>
                 </div>
@@ -153,71 +165,71 @@
             </div>
         </div>
     </div>
-    
-    <script src="translations.js"></script>
-    <script src="mybtc-core.js"></script>
-    <script src="mybtc-api.js"></script>
-    <script src="mybtc-ui.js"></script>
-    <script src="btclogo-animation.js"></script>
-    <script src="info.js"></script>
-    <script src="dark-mode.js"></script>
-    <script src="android-keypad-fallback.js"></script>
 
-    
+    <script src="js/translations.js"></script>
+    <script src="js/mybtc-core.js"></script>
+    <script src="js/mybtc-api.js"></script>
+    <script src="js/mybtc-ui.js"></script>
+    <script src="js/btclogo-animation.js"></script>
+    <script src="js/info.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/android-keypad-fallback.js"></script>
+
+
     <!-- Add this small script at the end to fix Android issues -->
     <script>
         // Additional Android compatibility script
         if (/Android/i.test(navigator.userAgent)) {
             // Add direct touch event listeners for Android
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 // Function to handle direct touch events for keypad buttons
                 function addTouchHandler(element, handler) {
                     if (!element) return; // Skip if element doesn't exist
-                    
-                    element.addEventListener('touchstart', function(e) {
+
+                    element.addEventListener('touchstart', function (e) {
                         // Prevent default only for keypad buttons
                         e.preventDefault();
                         // Call the handler after a small delay for visual feedback
-                        setTimeout(function() {
+                        setTimeout(function () {
                             handler(e);
                         }, 10);
                     }, { passive: false });
                 }
-                
+
                 // Apply to BTC and fiat displays
-                addTouchHandler(document.getElementById('BTC-amount-display'), function() {
+                addTouchHandler(document.getElementById('BTC-amount-display'), function () {
                     openModal('btc');
                 });
-                
-                addTouchHandler(document.getElementById('USDBRL-amount-display'), function() {
+
+                addTouchHandler(document.getElementById('USDBRL-amount-display'), function () {
                     openModal('fiat');
                 });
-                
+
                 // Apply to all keypad buttons using data attributes
-                document.querySelectorAll('.keypad button[data-value]').forEach(function(button) {
-                    addTouchHandler(button, function() {
+                document.querySelectorAll('.keypad button[data-value]').forEach(function (button) {
+                    addTouchHandler(button, function () {
                         appendToDisplay(button.getAttribute('data-value'));
                     });
                 });
-                
+
                 // Special actions
                 const deleteBtn = document.querySelector('.keypad button[data-action="delete"]');
                 if (deleteBtn) {
-                    addTouchHandler(deleteBtn, function() {
+                    addTouchHandler(deleteBtn, function () {
                         deleteLast();
                     });
                 }
-                
+
                 const cancelBtn = document.querySelector('.modal-actions button[data-action="cancel"]');
                 if (cancelBtn) {
-                    addTouchHandler(cancelBtn, function() {
+                    addTouchHandler(cancelBtn, function () {
                         cancelInput();
                     });
                 }
-                
+
                 const okBtn = document.querySelector('.modal-actions button[data-action="ok"]');
                 if (okBtn) {
-                    addTouchHandler(okBtn, function() {
+                    addTouchHandler(okBtn, function () {
                         submitInput();
                     });
                 }
@@ -225,4 +237,5 @@
         }
     </script>
 </body>
+
 </html>
