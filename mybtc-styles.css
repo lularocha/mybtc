@@ -2,7 +2,7 @@
 
 @media (min-width: 768px) {
   body {
-    background-color: #fd0 !important;
+    background-color: #000 !important;
   }
   .main-container {
     padding: 30px !important;
@@ -74,8 +74,6 @@ h1#mybtc-brand {
   padding: 0;
 }
 
-
-
 h1#sugiro-logo {
   font-size: 0.8rem;
   font-weight: 500;
@@ -115,29 +113,60 @@ button.lang-btn.active {
 img.info-icon {
   width: 24px;
   height: 24px;
-  position: absolute;
-  top: 5px;
-  left: 155px;
-  opacity: 0.7 !important;
+  padding-top: 2px;
+/*  position: absolute;*/
+  /*top: 5px;*/
+  /*left: 155px;*/
+  /*opacity: 0.7 !important;*/
 }
 .unit-selector {
     display: flex;
     gap: 5px;
     margin-bottom: 5px;
     position: relative;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
+
+/* Fiat currency selector specific styling */
+.fiat-unit-selector {
+    justify-content: flex-start;
+}
+
 button.unit-btn {
     background-color: #fd0;
     border: none;
     border-radius: 5px;
-    padding: 6px 18px;
+    padding: 6px 12px; /* Reduced horizontal padding for more buttons */
     cursor: pointer;
     color: #000;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
+    font-size: 0.9rem; /* Slightly smaller font */
     font-weight: 500;
+    min-width: 50px; /* Minimum width for consistency */
+    text-align: center;
 }
 
+/* Responsive adjustments for currency buttons 
+@media (max-width: 450px) {
+    button.unit-btn {
+        padding: 5px 8px;
+        font-size: 0.8rem;
+        min-width: 45px;
+    }
+}
+
+@media (max-width: 375px) {
+    .fiat-unit-selector {
+        gap: 3px;
+    }
+    
+    button.unit-btn {
+        padding: 4px 6px;
+        font-size: 0.75rem;
+        min-width: 40px;
+    }
+}
+*/
 .dark-mode button.lang-btn.active, 
 .dark-mode button.unit-btn.active {
     color: #fff !important;
@@ -148,6 +177,17 @@ button.unit-btn.active {
     color: #fff;
     font-weight: 700;
 }
+
+/* Specific button styling for better identification */
+button.usd-btn { order: 1; }
+button.brl-btn { order: 2; }
+button.eur-btn { order: 3; }
+button.gbp-btn { order: 4; }
+button.cad-btn { 
+    order: 5; 
+    display: none; /* Hidden due to Binance Canada exit */
+}
+
 .amount-display {
     display: flex;
     justify-content: center;
@@ -500,5 +540,18 @@ svg.delete-icon {
 @media (min-width: 768px) {
     .keypad button {
         padding: 18px; /* Slightly larger buttons on bigger screens */
+    }
+}
+
+/* Additional responsive styles for currency buttons on very small screens */
+@media (max-width: 320px) {
+    .fiat-unit-selector {
+        gap: 2px;
+    }
+    
+    button.unit-btn {
+        padding: 3px 4px;
+        font-size: 0.7rem;
+        min-width: 35px;
     }
 }

@@ -62,11 +62,14 @@
                 </div>
                 <input type="text" class="amount-input BTC-input" style="display: none;">
             </div>
-            <!-- USD/BRL Amount -->
+            <!-- Multi-Currency Fiat Amount -->
             <div class="amount-container">
                 <div class="unit-selector fiat-unit-selector">
                     <button class="unit-btn usd-btn active">USD</button>
                     <button class="unit-btn brl-btn">BRL</button>
+                    <button class="unit-btn eur-btn">EUR</button>
+                    <button class="unit-btn gbp-btn">GBP</button>
+                    <button class="unit-btn cad-btn">CAD</button>
                 </div>
                 <div class="amount-display" id="USDBRL-amount-display">
                     <span class="USDBRL-symbol">$</span>
@@ -100,7 +103,7 @@
             <button id="info" data-translate="help">help</button>
         </div>
         <div class="footer">
-            <p class="footer-info" data-translate="footerInfo">Click the BTC/SATS or USD/BRL display to enter an amount and view its equivalent.</p>
+            <p class="footer-info" data-translate="footerInfo">Click the BTC/SATS or Fiat currency display to enter an amount and view its equivalent.</p>
             <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
         </div>
         <!-- Info Panel -->
@@ -151,12 +154,6 @@
         </div>
     </div>
     
-<!--     <script src="translations.js"></script>
-    <script src="mybtc-script.js"></script>
-    <script src="btclogo-animation.js"></script>
-    <script src="info.js"></script>
-    <script src="dark-mode.js"></script> -->
-
     <script src="translations.js"></script>
     <script src="mybtc-core.js"></script>
     <script src="mybtc-api.js"></script>

@@ -1,14 +1,3 @@
-img.infoicon {
-  width: 33px;
-  position: absolute;
-  top: 5px;
-  left: 165px;
-  cursor: pointer;
-}
-img#info-icon:hover {
-  transform: scale(1.1);
-}
-
 .info-panel {
     position: fixed;
     top: 0;
@@ -89,7 +78,7 @@ h3.infotagline {
 }
 .info-panel ul li {
   line-height: 1.35;
-  padding-bottom: 25px;
+  padding-bottom: 20px;
 }
 .info-panel ul li:last-child {
     padding-bottom: 15px;
@@ -115,12 +104,12 @@ h3.infotagline {
     padding: 20px;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transform: translateX(100%);
-    transition: transform 0.2s ease-out;
+    transform: translateY(270%);
+    transition: transform 0.3s ease-out;
 }
 
 .info-modal.is-visible {
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
 .modal-text {

@@ -112,30 +112,85 @@ window.MYBTC.API = (function() {
     }
     
     /**
-     * Fetch all required price data (current and historical)
-     * @returns {Promise<{currentPriceUSD: number, currentPriceBRL: number, currentPriceChangePercent: number}>}
+     * Fetch all required price data (current and historical) for all supported currencies
+     * @returns {Promise<Object>} Object containing all price data
      */
     async function fetchData() {
-        // Fetch multiple pieces of data in parallel for efficiency
-        const [btcUsdt, usdtBrl, historicalPrice] = await Promise.all([
-            fetchPrice('BTCUSDT'),
-            fetchPrice('USDTBRL'),
-            fetchHistoricalBitcoinPrice(Core.selectedPeriod)
-        ]);
-        
-        // Calculate values
-        const newCurrentPriceUSD = btcUsdt;
-        const newCurrentPriceBRL = btcUsdt !== null && usdtBrl !== null ? btcUsdt * usdtBrl : null;
-        const newCurrentPriceChangePercent = newCurrentPriceUSD && historicalPrice 
-            ? ((newCurrentPriceUSD - historicalPrice) / historicalPrice) * 100 
-            : null;
-        
-        // Return all values
-        return { 
-            currentPriceUSD: newCurrentPriceUSD, 
-            currentPriceBRL: newCurrentPriceBRL, 
-            currentPriceChangePercent: newCurrentPriceChangePercent 
-        };
+        try {
+            // Step 1: Get BTC price in USD and historical price
+            const [btcUsdt, historicalPrice] = await Promise.all([
+                fetchPrice('BTCUSDT'), 
+                fetchHistoricalBitcoinPrice(Core.selectedPeriod)
+            ]);
+            
+            if (!btcUsdt) {
+                throw new Error('Failed to fetch BTC USD price');
+            }
+            
+            // Step 2: Get conversion rates - using available Binance pairs
+            const [usdtBrl, eurUsdt, gbpUsdt, cadUsdt] = await Promise.all([
+                fetchPrice('USDTBRL'),    // USDT to BRL
+                fetchPrice('EURUSDT'),    // EUR to USDT (reverse of what we need)
+                fetchPrice('GBPUSDT'),    // GBP to USDT (reverse of what we need)
+                fetchPrice('USDCAD')      // USD to CAD (direct)
+            ]);
+            
+            // Step 3: Calculate BTC prices in all currencies
+            const prices = {};
+            
+            // USD (base currency)
+            prices.USD = btcUsdt;
+            
+            // BRL (direct conversion rate available)
+            prices.BRL = btcUsdt && usdtBrl ? btcUsdt * usdtBrl : null;
+            
+            // EUR (we have EURUSDT, so we need to invert: 1/EURUSDT gives us USDTEUR rate)
+            prices.EUR = btcUsdt && eurUsdt ? btcUsdt / eurUsdt : null;
+            
+            // GBP (we have GBPUSDT, so we need to invert: 1/GBPUSDT gives us USDTGBP rate)
+            prices.GBP = btcUsdt && gbpUsdt ? btcUsdt / gbpUsdt : null;
+            
+            // CAD (we have USDCAD, so direct conversion)
+            prices.CAD = btcUsdt && cadUsdt ? btcUsdt * cadUsdt : null;
+            
+            // Calculate price change percentage (based on USD price)
+            const priceChangePercent = btcUsdt && historicalPrice 
+                ? ((btcUsdt - historicalPrice) / historicalPrice) * 100 
+                : null;
+            
+            // Update Core module with all prices
+            Core.currentPriceUSD = prices.USD;
+            Core.currentPriceBRL = prices.BRL;
+            Core.currentPriceEUR = prices.EUR;
+            Core.currentPriceGBP = prices.GBP;
+            Core.currentPriceCAD = prices.CAD;
+            Core.currentPriceChangePercent = priceChangePercent;
+            
+            // Return all data for backward compatibility
+            return {
+                currentPriceUSD: prices.USD,
+                currentPriceBRL: prices.BRL,
+                currentPriceEUR: prices.EUR,
+                currentPriceGBP: prices.GBP,
+                currentPriceCAD: prices.CAD,
+                currentPriceChangePercent: priceChangePercent,
+                allPrices: prices
+            };
+            
+        } catch (error) {
+            console.error('Error fetching price data:', error);
+            
+            // Return null values on error
+            return {
+                currentPriceUSD: null,
+                currentPriceBRL: null,
+                currentPriceEUR: null,
+                currentPriceGBP: null,
+                currentPriceCAD: null,
+                currentPriceChangePercent: null,
+                allPrices: {}
+            };
+        }
     }
     
     // ==============================================

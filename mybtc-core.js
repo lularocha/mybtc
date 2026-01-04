@@ -22,10 +22,22 @@ window.MYBTC.Core = (function() {
     // Price tracking variables
     let currentPriceUSD = null;
     let currentPriceBRL = null;
+    let currentPriceEUR = null;
+    let currentPriceGBP = null;
+    let currentPriceCAD = null;
     let currentPriceChangePercent = null;
     let currentAmount = null;
     let btcUnit = 'BTC';
     let fiatUnit = 'USD';
+
+    // Currency configuration
+    const supportedCurrencies = {
+        'USD': { symbol: '$', pair: 'USDTUSDT' }, // Special case - will use direct BTC price
+        'BRL': { symbol: 'R$', pair: 'USDTBRL' },
+        'EUR': { symbol: '€', pair: 'USDTEUR' },
+        'GBP': { symbol: '£', pair: 'USDTGBP' },
+        'CAD': { symbol: 'C$', pair: 'USDTCAD' }
+    };
 
     // Period settings
     const periodCodes = ['1D', '1W', '1M', '3M', '6M', '1Y', '2Y', '5Y', 'YTD'];
@@ -60,7 +72,7 @@ window.MYBTC.Core = (function() {
     /**
      * Format a number with commas as thousand separators
      * @param {string} value - The value to format
-     * @param {string} unit - The unit (BTC, SATS, USD, BRL)
+     * @param {string} unit - The unit (BTC, SATS, USD, BRL, EUR, GBP, CAD)
      * @returns {string} Formatted number
      */
     function formatNumberWithCommas(value, unit) {
@@ -149,6 +161,37 @@ window.MYBTC.Core = (function() {
     }
 
     /**
+     * Get the current price for the specified currency
+     * @param {string} currency - Currency code (USD, BRL, EUR, GBP, CAD)
+     * @returns {number|null} Current price or null if not available
+     */
+    function getCurrentPrice(currency) {
+        switch (currency) {
+            case 'USD': return currentPriceUSD;
+            case 'BRL': return currentPriceBRL;
+            case 'EUR': return currentPriceEUR;
+            case 'GBP': return currentPriceGBP;
+            case 'CAD': return currentPriceCAD;
+            default: return null;
+        }
+    }
+
+    /**
+     * Set the current price for the specified currency
+     * @param {string} currency - Currency code (USD, BRL, EUR, GBP, CAD)
+     * @param {number} price - Price to set
+     */
+    function setCurrentPrice(currency, price) {
+        switch (currency) {
+            case 'USD': currentPriceUSD = price; break;
+            case 'BRL': currentPriceBRL = price; break;
+            case 'EUR': currentPriceEUR = price; break;
+            case 'GBP': currentPriceGBP = price; break;
+            case 'CAD': currentPriceCAD = price; break;
+        }
+    }
+
+    /**
      * Get the translation for the current language
      * @param {string} key - Translation key
      * @returns {string} Translated text
@@ -200,6 +243,15 @@ window.MYBTC.Core = (function() {
         get currentPriceBRL() { return currentPriceBRL; },
         set currentPriceBRL(value) { currentPriceBRL = value; },
         
+        get currentPriceEUR() { return currentPriceEUR; },
+        set currentPriceEUR(value) { currentPriceEUR = value; },
+        
+        get currentPriceGBP() { return currentPriceGBP; },
+        set currentPriceGBP(value) { currentPriceGBP = value; },
+        
+        get currentPriceCAD() { return currentPriceCAD; },
+        set currentPriceCAD(value) { currentPriceCAD = value; },
+        
         get currentPriceChangePercent() { return currentPriceChangePercent; },
         set currentPriceChangePercent(value) { currentPriceChangePercent = value; },
         
@@ -213,6 +265,7 @@ window.MYBTC.Core = (function() {
         set fiatUnit(value) { fiatUnit = value; },
         
         // Constants
+        supportedCurrencies,
         periodCodes,
         periodToDaysAgo,
         fiatFormatter,
@@ -224,6 +277,8 @@ window.MYBTC.Core = (function() {
         countDigits,
         getFontSizeBtcSats,
         getFontSizeUsdBrl,
+        getCurrentPrice,
+        setCurrentPrice,
         getTranslation,
         setLanguage
     };

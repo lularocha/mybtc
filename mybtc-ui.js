@@ -35,9 +35,9 @@ window.MYBTC.UI = (function() {
         const periodLabel = translations[Core.currentLang].periodLabels[Core.selectedPeriod];
         document.getElementById('current-BTC-change-label').textContent = periodLabel;
         
-        // Determine which price to use based on selected currency
-        const price = Core.fiatUnit === 'USD' ? Core.currentPriceUSD : Core.currentPriceBRL;
-        const symbol = Core.fiatUnit === 'USD' ? '$' : 'R$';
+        // Get current price and symbol for selected currency
+        const price = Core.getCurrentPrice(Core.fiatUnit);
+        const symbol = Core.supportedCurrencies[Core.fiatUnit].symbol;
 
         // Update BTC price display
         const priceElement = document.getElementById('current-BTC-price-display');
@@ -57,7 +57,7 @@ window.MYBTC.UI = (function() {
         }
         btcDisplaySpan.textContent = displayAmount;
 
-        // Update USD/BRL amount display
+        // Update Fiat amount display
         const fiatSymbolSpan = document.querySelector('#USDBRL-amount-display .USDBRL-symbol');
         fiatSymbolSpan.textContent = symbol;
         const fiatAmountSpan = document.querySelector('#USDBRL-amount-display .USDBRL-amount');
@@ -94,18 +94,26 @@ window.MYBTC.UI = (function() {
      * Update the unit buttons to reflect current selection
      */
     function updateUnitButtons() {
+        // Update BTC unit buttons
         document.querySelector('.btc-btn').classList.toggle('active', Core.btcUnit === 'BTC');
         document.querySelector('.sats-btn').classList.toggle('active', Core.btcUnit === 'SATS');
-        document.querySelector('.usd-btn').classList.toggle('active', Core.fiatUnit === 'USD');
-        document.querySelector('.brl-btn').classList.toggle('active', Core.fiatUnit === 'BRL');
+        
+        // Update fiat unit buttons
+        Object.keys(Core.supportedCurrencies).forEach(currency => {
+            const button = document.querySelector(`.${currency.toLowerCase()}-btn`);
+            if (button) {
+                button.classList.toggle('active', Core.fiatUnit === currency);
+            }
+        });
     }
     
     /**
      * Update the equivalent value in real-time during input
      */
     function updateEquivalentValue() {
-        // Skip if no prices are available
-        if (!Core.currentPriceUSD || (Core.fiatUnit === 'BRL' && !Core.currentPriceBRL)) {
+        // Skip if no price is available for current currency
+        const currentPrice = Core.getCurrentPrice(Core.fiatUnit);
+        if (!currentPrice) {
             return;
         }
         
@@ -122,8 +130,7 @@ window.MYBTC.UI = (function() {
             }
             
             // Calculate fiat value
-            const price = Core.fiatUnit === 'USD' ? Core.currentPriceUSD : Core.currentPriceBRL;
-            const fiatValue = btcAmount * price;
+            const fiatValue = btcAmount * currentPrice;
             
             // Update fiat display
             const fiatDisplaySpan = document.querySelector('#USDBRL-amount-display .USDBRL-amount');
@@ -136,8 +143,7 @@ window.MYBTC.UI = (function() {
         } else { // fiat is active
             // Calculate BTC equivalent
             const fiatValue = parseFloat(currentValue) || 0;
-            const price = Core.fiatUnit === 'USD' ? Core.currentPriceUSD : Core.currentPriceBRL;
-            const btcValue = fiatValue / price;
+            const btcValue = fiatValue / currentPrice;
             
             // Update BTC display
             const btcDisplaySpan = document.querySelector('#BTC-amount-display .BTC-amount');
@@ -162,7 +168,7 @@ window.MYBTC.UI = (function() {
         let text = inputElement.value;
         if (unit === 'BTC' || unit === 'SATS') {
             inputElement.style.fontSize = `${Core.getFontSizeBtcSats(Core.countDigits(text))}px`;
-        } else if (unit === 'USD' || unit === 'BRL') {
+        } else if (Object.keys(Core.supportedCurrencies).includes(unit)) {
             inputElement.style.fontSize = `${Core.getFontSizeUsdBrl(Core.countDigits(text))}px`;
         }
     }
@@ -213,8 +219,9 @@ window.MYBTC.UI = (function() {
             fiatInput.style.display = 'block';
             
             // Set the initial value
-            if (Core.currentAmount !== null && (Core.fiatUnit === 'USD' ? Core.currentPriceUSD : Core.currentPriceBRL)) {
-                tempValue = ((Core.fiatUnit === 'USD' ? Core.currentPriceUSD : Core.currentPriceBRL) * Core.currentAmount).toFixed(2);
+            const currentPrice = Core.getCurrentPrice(Core.fiatUnit);
+            if (Core.currentAmount !== null && currentPrice) {
+                tempValue = (currentPrice * Core.currentAmount).toFixed(2);
                 // Remove trailing zeros after decimal point for display only
                 tempValue = tempValue.replace(/\.?0+$/, '');
                 if (tempValue === '') tempValue = '0';
@@ -249,8 +256,7 @@ window.MYBTC.UI = (function() {
         const mainContainer = document.querySelector('.main-container');
         mainContainer.classList.remove('slide-up');
 
-
-// Animate out
+        // Animate out
         modal.classList.remove('open');
         
         // Wait for animation to complete before hiding
@@ -384,7 +390,7 @@ window.MYBTC.UI = (function() {
                 Core.currentAmount = (parseInt(tempValue, 10) || 0) / 100000000;
             }
         } else { // Fiat
-            const price = Core.fiatUnit === 'USD' ? Core.currentPriceUSD : Core.currentPriceBRL;
+            const price = Core.getCurrentPrice(Core.fiatUnit);
             if (price) {
                 Core.currentAmount = (parseFloat(tempValue) || 0) / price;
             }
@@ -440,10 +446,9 @@ window.MYBTC.UI = (function() {
         } else {
             value = parseFloat(value);
             if (!isNaN(value) && value >= 0) {
-                if (Core.fiatUnit === 'USD' && Core.currentPriceUSD) {
-                    Core.currentAmount = value / Core.currentPriceUSD;
-                } else if (Core.fiatUnit === 'BRL' && Core.currentPriceBRL) {
-                    Core.currentAmount = value / Core.currentPriceBRL;
+                const price = Core.getCurrentPrice(Core.fiatUnit);
+                if (price) {
+                    Core.currentAmount = value / price;
                 } else {
                     Core.currentAmount = null;
                 }
@@ -536,8 +541,6 @@ window.MYBTC.UI = (function() {
         // Unit buttons
         const btcBtn = document.querySelector('.btc-btn');
         const satsBtn = document.querySelector('.sats-btn');
-        const usdBtn = document.querySelector('.usd-btn');
-        const brlBtn = document.querySelector('.brl-btn');
         
         btcBtn.addEventListener('click', () => { 
             Core.btcUnit = 'BTC'; 
@@ -550,17 +553,17 @@ window.MYBTC.UI = (function() {
             updateUnitButtons(); 
             updateDisplay(); 
         });
-        
-        usdBtn.addEventListener('click', () => { 
-            Core.fiatUnit = 'USD'; 
-            updateUnitButtons(); 
-            updateDisplay(); 
-        });
-        
-        brlBtn.addEventListener('click', () => { 
-            Core.fiatUnit = 'BRL'; 
-            updateUnitButtons(); 
-            updateDisplay(); 
+
+        // Fiat currency buttons
+        Object.keys(Core.supportedCurrencies).forEach(currency => {
+            const button = document.querySelector(`.${currency.toLowerCase()}-btn`);
+            if (button) {
+                button.addEventListener('click', () => { 
+                    Core.fiatUnit = currency; 
+                    updateUnitButtons(); 
+                    updateDisplay(); 
+                });
+            }
         });
 
         // Display click handlers
@@ -610,9 +613,6 @@ window.MYBTC.UI = (function() {
         // Refresh button
         document.getElementById('refresh').addEventListener('click', async () => {
             const data = await API.fetchData();
-            Core.currentPriceUSD = data.currentPriceUSD;
-            Core.currentPriceBRL = data.currentPriceBRL;
-            Core.currentPriceChangePercent = data.currentPriceChangePercent;
             updateDisplay();
         });
 
@@ -620,9 +620,6 @@ window.MYBTC.UI = (function() {
         document.querySelector('.mybtclogo').addEventListener('click', async () => {
             window.spinLogo();
             const data = await API.fetchData();
-            Core.currentPriceUSD = data.currentPriceUSD;
-            Core.currentPriceBRL = data.currentPriceBRL;
-            Core.currentPriceChangePercent = data.currentPriceChangePercent;
             updateDisplay();
         });
 
@@ -654,9 +651,6 @@ window.MYBTC.UI = (function() {
         
         // Get initial price data
         const data = await API.fetchData();
-        Core.currentPriceUSD = data.currentPriceUSD;
-        Core.currentPriceBRL = data.currentPriceBRL;
-        Core.currentPriceChangePercent = data.currentPriceChangePercent;
         
         updateDisplay();
         updateUnitButtons();

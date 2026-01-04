@@ -6,7 +6,7 @@
 
 const darkModeColors = {
   // === MAIN BACKGROUNDS ===
-  mainBackground: "#1a1a1b",        // #fe0 -> Main yellow background container
+  mainBackground: "#1a1a1a",        // #fe0 -> Main yellow background container
   secondaryBackground: "#2a2a2a",      // #fd0 -> Amount displays, unit buttons background
   pageBackground: "#000",           // Used for larger screens body background
   
@@ -34,7 +34,7 @@ const darkModeColors = {
   periodMenuButtonHover: "#555",    // #fff -> Period menu button hover background
   periodMenuButtonText: "#fff",     // #000 -> Period menu button text color
   periodMenuSelected: "#f50",       // #f90 -> Period menu selected button background
-  periodMenuSelectedText: "#000",   // #fff -> Period menu selected button text color
+  periodMenuSelectedText: "#fff",   // #fff -> Period menu selected button text color
   
   // === OTHER UI ELEMENTS ===
   mediumGray: "#999999",            // #666 -> Medium gray elements, markers
