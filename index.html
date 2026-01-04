@@ -15,20 +15,11 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         rel="stylesheet">
 
-    <!-- Add this small script in the head to fix Android issues -->
+    <!-- Android compatibility flag is now handled in app.js -->
     <script>
-        // Detect Android and set a flag
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        if (isAndroid) {
+        if (/Android/i.test(navigator.userAgent)) {
             document.documentElement.classList.add('android-device');
         }
-
-        // Fix for preventing zooming on Android
-        document.addEventListener('touchmove', function (event) {
-            if (event.scale !== 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
     </script>
 </head>
 
@@ -77,9 +68,9 @@
                     <button class="unit-btn eur-btn">EUR</button>
                     <button class="unit-btn gbp-btn">GBP</button>
                 </div>
-                <div class="amount-display" id="USDBRL-amount-display">
-                    <span class="USDBRL-symbol">$</span>
-                    <span class="USDBRL-amount">0.00</span>
+                <div class="amount-display" id="fiat-amount-display">
+                    <span class="fiat-symbol">$</span>
+                    <span class="fiat-amount">0.00</span>
                 </div>
                 <input type="text" class="amount-input fiat-input" style="display: none;">
             </div>
@@ -89,7 +80,7 @@
                 <div class="current-BTC-price">
                     <p id="current-BTC-price-label" data-translate="currentBitcoinPrice">Current Bitcoin Price</p>
                     <h2 id="current-BTC-price-display" role="button" tabindex="0">
-                        <span class="USDBRL-symbol">$</span>
+                        <span class="fiat-symbol">$</span>
                         <span class="current-BTC-price-amount">0.00</span>
                     </h2>
                 </div>
@@ -164,76 +155,8 @@
         </div>
     </div>
 
-    <script src="js/translations.js"></script>
-    <script src="js/mybtc-core.js"></script>
-    <script src="js/mybtc-api.js"></script>
-    <script src="js/mybtc-ui.js"></script>
-    <script src="js/btclogo-animation.js"></script>
-    <script src="js/info.js"></script>
-    <script src="js/dark-mode.js"></script>
-    <script src="js/android-keypad-fallback.js"></script>
-
-
-    <!-- Add this small script at the end to fix Android issues -->
-    <script>
-        // Additional Android compatibility script
-        if (/Android/i.test(navigator.userAgent)) {
-            // Add direct touch event listeners for Android
-            document.addEventListener('DOMContentLoaded', function () {
-                // Function to handle direct touch events for keypad buttons
-                function addTouchHandler(element, handler) {
-                    if (!element) return; // Skip if element doesn't exist
-
-                    element.addEventListener('touchstart', function (e) {
-                        // Prevent default only for keypad buttons
-                        e.preventDefault();
-                        // Call the handler after a small delay for visual feedback
-                        setTimeout(function () {
-                            handler(e);
-                        }, 10);
-                    }, { passive: false });
-                }
-
-                // Apply to BTC and fiat displays
-                addTouchHandler(document.getElementById('BTC-amount-display'), function () {
-                    openModal('btc');
-                });
-
-                addTouchHandler(document.getElementById('USDBRL-amount-display'), function () {
-                    openModal('fiat');
-                });
-
-                // Apply to all keypad buttons using data attributes
-                document.querySelectorAll('.keypad button[data-value]').forEach(function (button) {
-                    addTouchHandler(button, function () {
-                        appendToDisplay(button.getAttribute('data-value'));
-                    });
-                });
-
-                // Special actions
-                const deleteBtn = document.querySelector('.keypad button[data-action="delete"]');
-                if (deleteBtn) {
-                    addTouchHandler(deleteBtn, function () {
-                        deleteLast();
-                    });
-                }
-
-                const cancelBtn = document.querySelector('.modal-actions button[data-action="cancel"]');
-                if (cancelBtn) {
-                    addTouchHandler(cancelBtn, function () {
-                        cancelInput();
-                    });
-                }
-
-                const okBtn = document.querySelector('.modal-actions button[data-action="ok"]');
-                if (okBtn) {
-                    addTouchHandler(okBtn, function () {
-                        submitInput();
-                    });
-                }
-            });
-        }
-    </script>
+    <script src="js/core.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

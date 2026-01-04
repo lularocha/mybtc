@@ -45,6 +45,32 @@
 
     /* Transitions */
     --transition-standard: 0.3s ease-out;
+
+    /* Theme Colors (Defaults to Light) */
+    --theme-bg-main: var(--color-primary);
+    --theme-bg-secondary: var(--color-primary-light);
+    --theme-bg-page: var(--color-black);
+    --theme-text-main: var(--color-black);
+    --theme-text-white: var(--color-white);
+    --theme-active-btn: var(--color-primary-dark);
+    --theme-active-btn-text: var(--color-white);
+    --theme-status-pos: #090;
+    --theme-status-neg: #f00;
+    --theme-accent: var(--color-accent);
+}
+
+:root.dark-mode {
+    --theme-bg-main: #1a1a1a;
+    --theme-bg-secondary: #2a2a2a;
+    --theme-bg-page: #000;
+    --theme-text-main: #fff;
+    --theme-text-white: #000;
+    --theme-active-btn: #f50;
+    --theme-active-btn-text: #fff;
+    --theme-status-pos: #0c0;
+    --theme-status-neg: #ff3333;
+    --theme-accent: #ff3333;
+    /* For icons/highlights */
 }
 
 /* --------------------------------------------------------------------------
@@ -240,7 +266,7 @@ button#refresh:hover {
     cursor: pointer;
 }
 
-.amount-display .USDBRL-symbol {
+.amount-display .fiat-symbol {
     font-weight: 400;
     margin-right: 3px;
 }
@@ -557,39 +583,103 @@ h3.panel-title {
 }
 
 /* --------------------------------------------------------------------------
-   DARK MODE
+   DARK MODE THEME OVERRIDES
    -------------------------------------------------------------------------- */
 body.dark-mode {
-    background-color: var(--color-gray-dark) !important;
+    background-color: var(--theme-bg-main) !important;
+    color: var(--theme-text-main);
 }
 
 .dark-mode .main-container {
-    background-color: var(--color-gray-dark);
+    background-color: var(--theme-bg-main);
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode p {
+    color: var(--theme-text-main);
+}
+
+.dark-mode .amount-display {
+    background-color: var(--theme-bg-secondary);
+    color: var(--theme-text-main);
+}
+
+.dark-mode .amount-input {
+    background-color: var(--theme-bg-secondary);
+    color: var(--theme-text-main);
+    border-color: var(--theme-active-btn);
+}
+
+.dark-mode button.unit-btn {
+    background-color: var(--theme-bg-secondary);
+    color: #ccc;
+}
+
+.dark-mode button.unit-btn.active {
+    background-color: var(--theme-active-btn);
+    color: var(--theme-active-btn-text) !important;
+}
+
+.dark-mode button.lang-btn {
+    background-color: #2a2a2a;
+    color: #ccc;
+}
+
+.dark-mode button.lang-btn.active {
+    background-color: var(--theme-active-btn);
+    color: var(--theme-active-btn-text) !important;
+}
+
+.dark-mode .period-menu {
+    background-color: var(--theme-bg-secondary);
+}
+
+.dark-mode .period-menu button {
+    background-color: #3d3d3d;
+    color: #fff;
+}
+
+.dark-mode .period-menu button.selected {
+    background-color: var(--theme-active-btn);
+}
+
+.dark-mode .info-panel {
+    background-color: #000;
+}
+
+.dark-mode .info-modal {
+    background: #000;
 }
 
 .dark-mode-icon {
     width: 36px;
     height: 36px;
-    min-width: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: var(--color-black);
+    background: #333;
     margin-left: 10px;
     margin-top: 18px;
 }
 
 .dark-mode-icon .material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
     font-size: 24px;
     color: var(--color-accent);
 }
 
-.dark-mode button.lang-btn.active,
-.dark-mode button.unit-btn.active {
-    color: var(--color-white) !important;
+.dark-mode img.info-icon {
+    filter: invert(1);
+}
+
+/* Override for larger screens */
+@media (min-width: 768px) {
+    body.dark-mode {
+        background-color: var(--theme-bg-page) !important;
+    }
 }
 
 /* --------------------------------------------------------------------------
