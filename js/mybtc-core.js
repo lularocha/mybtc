@@ -24,7 +24,6 @@ window.MYBTC.Core = (function() {
     let currentPriceBRL = null;
     let currentPriceEUR = null;
     let currentPriceGBP = null;
-    let currentPriceCAD = null;
     let currentPriceChangePercent = null;
     let currentAmount = null;
     let btcUnit = 'BTC';
@@ -35,8 +34,7 @@ window.MYBTC.Core = (function() {
         'USD': { symbol: '$', pair: 'USDTUSDT' }, // Special case - will use direct BTC price
         'BRL': { symbol: 'R$', pair: 'USDTBRL' },
         'EUR': { symbol: '€', pair: 'USDTEUR' },
-        'GBP': { symbol: '£', pair: 'USDTGBP' },
-        'CAD': { symbol: 'C$', pair: 'USDTCAD' }
+        'GBP': { symbol: '£', pair: 'USDTGBP' }
     };
 
     // Period settings
@@ -171,7 +169,6 @@ window.MYBTC.Core = (function() {
             case 'BRL': return currentPriceBRL;
             case 'EUR': return currentPriceEUR;
             case 'GBP': return currentPriceGBP;
-            case 'CAD': return currentPriceCAD;
             default: return null;
         }
     }
@@ -187,7 +184,6 @@ window.MYBTC.Core = (function() {
             case 'BRL': currentPriceBRL = price; break;
             case 'EUR': currentPriceEUR = price; break;
             case 'GBP': currentPriceGBP = price; break;
-            case 'CAD': currentPriceCAD = price; break;
         }
     }
 
@@ -248,9 +244,6 @@ window.MYBTC.Core = (function() {
         
         get currentPriceGBP() { return currentPriceGBP; },
         set currentPriceGBP(value) { currentPriceGBP = value; },
-        
-        get currentPriceCAD() { return currentPriceCAD; },
-        set currentPriceCAD(value) { currentPriceCAD = value; },
         
         get currentPriceChangePercent() { return currentPriceChangePercent; },
         set currentPriceChangePercent(value) { currentPriceChangePercent = value; },
