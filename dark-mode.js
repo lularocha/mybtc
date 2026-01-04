@@ -6,7 +6,7 @@
 
 const darkModeColors = {
   // === MAIN BACKGROUNDS ===
-  mainBackground: "#1a1a1a",        // #fe0 -> Main yellow background container
+  mainBackground: "#1a1a1b",        // #fe0 -> Main yellow background container
   secondaryBackground: "#2a2a2a",      // #fd0 -> Amount displays, unit buttons background
   pageBackground: "#000",           // Used for larger screens body background
   
