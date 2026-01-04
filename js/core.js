@@ -1,4 +1,4 @@
-// Updated translations.js file with new infoModalText0
+// Translation Dictionary
 const translations = {
     en: {
         currentBitcoinPrice: 'Current Bitcoin Price',
@@ -88,11 +88,11 @@ const translations = {
 window.MYBTC = window.MYBTC || {};
 
 // Core module
-window.MYBTC.Core = (function() {
+window.MYBTC.Core = (function () {
     // ==============================================
     // PRIVATE VARIABLES
     // ==============================================
-    
+
     // Language and period settings
     let currentLang = 'en';
     let earliestPrice = null;
@@ -202,17 +202,17 @@ window.MYBTC.Core = (function() {
     function getFontSizeBtcSats(digitCount) {
         const screenWidth = window.innerWidth;
         if (screenWidth >= 520) return 50;
-        
+
         const fontSizeTable = {
             'case1': { maxWidth: 519, minWidth: 430, sizes: { 9: 50, 10: 46, 11: 42, 12: 38 } },
             'case2': { maxWidth: 429, minWidth: 375, sizes: { 9: 42.5, 10: 39.1, 11: 35.7, 12: 32.3 } },
             'case3': { maxWidth: 374, minWidth: 320, sizes: { 9: 35, 10: 32.2, 11: 29.4, 12: 26.6 } }
         };
-        
+
         let caseKey = screenWidth >= 430 ? 'case1' : screenWidth >= 375 ? 'case2' : 'case3';
         const effectiveDigitCount = Math.min(digitCount, 12);
         const sizeKey = effectiveDigitCount <= 9 ? 9 : effectiveDigitCount;
-        
+
         return fontSizeTable[caseKey].sizes[sizeKey] || fontSizeTable[caseKey].sizes[12];
     }
 
@@ -224,17 +224,17 @@ window.MYBTC.Core = (function() {
     function getFontSizeUsdBrl(digitCount) {
         const screenWidth = window.innerWidth;
         if (screenWidth >= 520) return 50;
-        
+
         const fontSizeTable = {
             'case1': { maxWidth: 519, minWidth: 430, sizes: { 8: 50, 9: 46, 10: 42, 11: 38 } },
             'case2': { maxWidth: 429, minWidth: 375, sizes: { 8: 42.5, 9: 39.1, 10: 35.7, 11: 32.3 } },
             'case3': { maxWidth: 374, minWidth: 320, sizes: { 8: 35, 9: 32.2, 10: 29.4, 11: 26.6 } }
         };
-        
+
         let caseKey = screenWidth >= 430 ? 'case1' : screenWidth >= 375 ? 'case2' : 'case3';
         const effectiveDigitCount = Math.min(digitCount, 11);
         const sizeKey = effectiveDigitCount <= 8 ? 8 : effectiveDigitCount;
-        
+
         return fontSizeTable[caseKey].sizes[sizeKey] || fontSizeTable[caseKey].sizes[11];
     }
 
@@ -282,13 +282,13 @@ window.MYBTC.Core = (function() {
      */
     function setLanguage(lang) {
         currentLang = lang;
-        
+
         // Update all elements with data-translate attribute
         document.querySelectorAll('[data-translate]').forEach(element => {
             const key = element.getAttribute('data-translate');
             element.innerHTML = translations[lang][key];
         });
-        
+
         // Update language buttons
         const langButtons = document.querySelectorAll('.lang-btn');
         langButtons.forEach(button => {
@@ -303,47 +303,47 @@ window.MYBTC.Core = (function() {
         // Variables
         get currentLang() { return currentLang; },
         set currentLang(value) { currentLang = value; },
-        
+
         get earliestPrice() { return earliestPrice; },
         set earliestPrice(value) { earliestPrice = value; },
-        
+
         get earliestTimestamp() { return earliestTimestamp; },
         set earliestTimestamp(value) { earliestTimestamp = value; },
-        
+
         get selectedPeriod() { return selectedPeriod; },
         set selectedPeriod(value) { selectedPeriod = value; },
-        
+
         get currentPriceUSD() { return currentPriceUSD; },
         set currentPriceUSD(value) { currentPriceUSD = value; },
-        
+
         get currentPriceBRL() { return currentPriceBRL; },
         set currentPriceBRL(value) { currentPriceBRL = value; },
-        
+
         get currentPriceEUR() { return currentPriceEUR; },
         set currentPriceEUR(value) { currentPriceEUR = value; },
-        
+
         get currentPriceGBP() { return currentPriceGBP; },
         set currentPriceGBP(value) { currentPriceGBP = value; },
-        
+
         get currentPriceChangePercent() { return currentPriceChangePercent; },
         set currentPriceChangePercent(value) { currentPriceChangePercent = value; },
-        
+
         get currentAmount() { return currentAmount; },
         set currentAmount(value) { currentAmount = value; },
-        
+
         get btcUnit() { return btcUnit; },
         set btcUnit(value) { btcUnit = value; },
-        
+
         get fiatUnit() { return fiatUnit; },
         set fiatUnit(value) { fiatUnit = value; },
-        
+
         // Constants
         supportedCurrencies,
         periodCodes,
         periodToDaysAgo,
         fiatFormatter,
         btcFormatter,
-        
+
         // Functions
         formatNumberWithCommas,
         formatSats,
