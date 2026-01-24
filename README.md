@@ -36,4 +36,4 @@ python -m http.server
 
 ## API
 
-Uses CoinGecko API for live Bitcoin prices.
+Uses Binance API for live Bitcoin prices.
