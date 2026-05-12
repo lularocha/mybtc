@@ -4,8 +4,9 @@ const translations = {
     currentBitcoinPrice: "Current Bitcoin Price",
     refreshPrice: "refresh price",
     help: "help",
-    footerInfo:
-      "Click or tap the BTC/SATS or Fiat Currency display to enter an amounts.",
+    footerInfo: "Click or tap field to enter amount",
+    pageFooter:
+      'developed by Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     howToUse: "How to use:",
     instruction1:
       "Use the EN/PT buttons to select the language: English or Portuguese",
@@ -52,8 +53,9 @@ const translations = {
     currentBitcoinPrice: "Preço atual do Bitcoin",
     refreshPrice: "atualizar preço",
     help: "ajuda",
-    footerInfo:
-      "Clique ou toque no display BTC/SATS ou de moedas fiat para inserir o valores.",
+    footerInfo: "Clique ou toque num campo para inserir valores",
+    pageFooter:
+      'desenvolvido por Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     howToUse: "Como usar:",
     instruction1:
       "Use os botões EN/PT para selecionar o idioma: Inglês ou Português",
