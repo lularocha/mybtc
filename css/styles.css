@@ -79,11 +79,15 @@
 body {
   margin: 0;
   padding: 25px;
+  padding-bottom: calc(25px + env(safe-area-inset-bottom));
   box-sizing: border-box;
   font-family: var(--font-main);
   background-color: var(--color-primary);
   overflow-x: hidden;
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 *,
@@ -102,6 +106,7 @@ a {
    LAYOUT
    -------------------------------------------------------------------------- */
 .main-container {
+  width: 100%;
   max-width: 620px;
   margin: 0 auto;
   background-color: var(--color-primary);
@@ -109,7 +114,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 81vh;
+  flex: 1;
   transition:
     transform var(--transition-standard),
     padding-bottom var(--transition-standard);
