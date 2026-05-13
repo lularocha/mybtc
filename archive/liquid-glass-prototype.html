@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>MYBTC · Liquid Glass Prototype</title>
+    <link rel="icon" type="image/x-icon" href="../assets/btc_icon2.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=DM+Sans:opsz,wght@9..40,300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --------------------------------------------------------------------
+         TOKENS
+         -------------------------------------------------------------------- */
+      :root {
+        --font-ui:
+          "Geist", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        --font-num:
+          "DM Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+        --bg-base: #0a0612;
+        --ink: rgba(255, 255, 255, 0.96);
+        --ink-soft: rgba(255, 255, 255, 0.62);
+        --ink-mute: rgba(255, 255, 255, 0.42);
+
+        --btc: #f7931a;
+        --gain: #4ade80;
+
+        /* Glass system */
+        --glass-tint: rgba(255, 255, 255, 0.08);
+        --glass-tint-strong: rgba(255, 255, 255, 0.14);
+        --glass-border: rgba(255, 255, 255, 0.18);
+        --glass-border-soft: rgba(255, 255, 255, 0.1);
+
+        --r-lg: 32px;
+        --r-md: 22px;
+        --r-sm: 14px;
+        --r-pill: 999px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100dvh;
+        font-family: var(--font-ui);
+        color: var(--ink);
+        background: var(--bg-base);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* --------------------------------------------------------------------
+         AMBIENT BACKGROUND — mesh gradient + drifting orbs + grain
+         -------------------------------------------------------------------- */
+      .stage {
+        position: relative;
+        min-height: 100dvh;
+        padding: 28px 22px calc(28px + env(safe-area-inset-bottom));
+        display: flex;
+        justify-content: center;
+        isolation: isolate;
+      }
+
+      .stage::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background:
+          radial-gradient(
+            50% 42% at 88% 8%,
+            rgba(196, 98, 26, 0.65) 0%,
+            transparent 72%
+          ),
+          radial-gradient(
+            58% 48% at 8% 92%,
+            rgba(140, 28, 56, 0.6) 0%,
+            transparent 74%
+          ),
+          radial-gradient(
+            44% 38% at 95% 92%,
+            rgba(106, 24, 78, 0.58) 0%,
+            transparent 74%
+          ),
+          radial-gradient(
+            52% 44% at 4% 6%,
+            rgba(168, 56, 40, 0.55) 0%,
+            transparent 74%
+          ),
+          linear-gradient(180deg, #1a0608 0%, #0a0305 55%, #14060a 100%);
+      }
+
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.7;
+        z-index: -1;
+        will-change: transform;
+      }
+      .orb-1 {
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, #c4621a 0%, transparent 65%);
+        top: -80px;
+        right: -60px;
+        animation: drift1 22s ease-in-out infinite;
+        opacity: 0.55;
+      }
+      .orb-2 {
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, #8c1c38 0%, transparent 65%);
+        bottom: -60px;
+        left: -40px;
+        animation: drift2 28s ease-in-out infinite;
+        opacity: 0.55;
+      }
+      .orb-3 {
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, #6a184e 0%, transparent 65%);
+        bottom: 30%;
+        right: -50px;
+        animation: drift3 26s ease-in-out infinite;
+        opacity: 0.55;
+      }
+
+      @keyframes drift1 {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(-40px, 60px);
+        }
+      }
+      @keyframes drift2 {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(60px, -40px);
+        }
+      }
+      @keyframes drift3 {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(-30px, -50px);
+        }
+      }
+
+      /* Subtle grain overlay for tactile glass feel */
+      .stage::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.18;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+      }
+
+      /* --------------------------------------------------------------------
+         APP SHELL
+         -------------------------------------------------------------------- */
+      .app {
+        width: 100%;
+        max-width: 460px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        animation: rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.985);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* --------------------------------------------------------------------
+         GLASS — the recipe
+         -------------------------------------------------------------------- */
+      .glass {
+        position: relative;
+        background: var(--glass-tint);
+        backdrop-filter: blur(40px) saturate(180%);
+        -webkit-backdrop-filter: blur(40px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--r-lg);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.35),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+          inset 0 -1px 1px rgba(0, 0, 0, 0.18),
+          0 20px 50px -12px rgba(0, 0, 0, 0.45),
+          0 2px 6px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      /* Specular highlight — that signature liquid-glass shine */
+      .glass::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.18) 0%,
+          rgba(255, 255, 255, 0.02) 28%,
+          transparent 55%
+        );
+        pointer-events: none;
+        opacity: 0.9;
+      }
+
+      /* --------------------------------------------------------------------
+         HEADER
+         -------------------------------------------------------------------- */
+      .header {
+        padding: 18px 20px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 14px;
+        border-radius: var(--r-lg);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 32% 28%,
+          #ffb84d 0%,
+          #f7931a 45%,
+          #c46a00 100%
+        );
+        box-shadow:
+          inset 0 1px 1px rgba(255, 255, 255, 0.5),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.25),
+          0 6px 16px -4px rgba(247, 147, 26, 0.55);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 22px;
+        font-family: var(--font-num);
+        letter-spacing: -0.02em;
+      }
+
+      .brand-text {
+        line-height: 1;
+      }
+
+      .brand-name {
+        font-weight: 700;
+        font-size: 1.45rem;
+        letter-spacing: -0.025em;
+      }
+
+      .brand-tag {
+        margin-bottom: 4px;
+        font-size: 0.68rem;
+        color: var(--ink-mute);
+        letter-spacing: 0.04em;
+      }
+
+      .lang-segment {
+        display: inline-flex;
+        padding: 3px;
+        gap: 2px;
+        background: rgba(0, 0, 0, 0.22);
+        border-radius: var(--r-pill);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+      }
+
+      .lang-segment button {
+        appearance: none;
+        border: 0;
+        padding: 6px 12px;
+        font-family: var(--font-ui);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--ink-soft);
+        background: transparent;
+        border-radius: var(--r-pill);
+        cursor: pointer;
+        transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .lang-segment button.active {
+        background: rgba(255, 255, 255, 0.92);
+        color: #1a0b2e;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 1),
+          0 1px 3px rgba(0, 0, 0, 0.25);
+      }
+
+      /* --------------------------------------------------------------------
+         AMOUNT CARDS
+         -------------------------------------------------------------------- */
+      .amount-card {
+        padding: 18px 20px 22px;
+      }
+
+      .amount-row-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+
+      .unit-pill {
+        display: inline-flex;
+        padding: 3px;
+        gap: 2px;
+        background: rgba(0, 0, 0, 0.22);
+        border-radius: var(--r-pill);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+      }
+
+      .unit-pill button {
+        appearance: none;
+        border: 0;
+        padding: 7px 14px;
+        font-family: var(--font-ui);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--ink-soft);
+        background: transparent;
+        border-radius: var(--r-pill);
+        cursor: pointer;
+        min-width: 52px;
+        transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .unit-pill button.active {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.98) 0%,
+          rgba(245, 245, 245, 0.9) 100%
+        );
+        color: #1a0b2e;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 1),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+          0 1px 3px rgba(0, 0, 0, 0.25);
+      }
+
+      .info-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: var(--ink-soft);
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      .amount-display {
+        font-family: var(--font-num);
+        font-weight: 500;
+        font-size: 2.35rem;
+        line-height: 1.05;
+        color: var(--ink);
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        word-break: break-all;
+      }
+
+      .amount-unit {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--ink-mute);
+        letter-spacing: 0.02em;
+        font-family: var(--font-ui);
+      }
+
+      .fiat-symbol {
+        color: var(--ink-mute);
+        font-weight: 400;
+        margin-right: 2px;
+      }
+
+      /* --------------------------------------------------------------------
+         CURRENT + CHANGE ROW
+         -------------------------------------------------------------------- */
+      .stat-row {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 16px 16px 18px;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+        color: var(--ink-mute);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        line-height: 1.1;
+      }
+
+      .stat-value {
+        font-family: var(--font-num);
+        font-weight: 500;
+        font-size: 1.5rem;
+        color: var(--ink);
+        display: flex;
+        align-items: baseline;
+        gap: 3px;
+      }
+
+      .stat-value.gain {
+        color: var(--gain);
+      }
+
+      .arrow {
+        font-family: "Material Symbols Rounded";
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 600;
+        font-size: 22px;
+        margin-right: 2px;
+        transform: translateY(2px);
+      }
+
+      .period-tag {
+        margin-top: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.66rem;
+        color: var(--ink-soft);
+        letter-spacing: 0.03em;
+      }
+
+      .period-tag .caret {
+        font-family: "Material Symbols Rounded";
+        font-size: 14px;
+      }
+
+      /* --------------------------------------------------------------------
+         BUTTON ROW
+         -------------------------------------------------------------------- */
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .btn {
+        appearance: none;
+        border: 0;
+        padding: 16px 18px;
+        font-family: var(--font-ui);
+        font-size: 0.92rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        border-radius: var(--r-md);
+        cursor: pointer;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.22) 0%,
+          rgba(255, 255, 255, 0.02) 35%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          180deg,
+          rgba(247, 147, 26, 0.92) 0%,
+          rgba(214, 120, 14, 0.88) 100%
+        );
+        color: #fff;
+        border: 1px solid rgba(255, 200, 130, 0.5);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.5),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+          0 10px 28px -8px rgba(247, 147, 26, 0.55);
+      }
+
+      .btn-secondary {
+        background: var(--glass-tint-strong);
+        color: var(--ink);
+        border: 1px solid var(--glass-border);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.35),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+          0 8px 22px -10px rgba(0, 0, 0, 0.5);
+      }
+
+      .btn .ico {
+        font-family: "Material Symbols Rounded";
+        font-variation-settings: "wght" 500;
+        font-size: 19px;
+      }
+
+      /* --------------------------------------------------------------------
+         FOOTER
+         -------------------------------------------------------------------- */
+      .footer {
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 6px;
+        font-size: 0.7rem;
+        color: var(--ink-mute);
+      }
+
+      .footer a {
+        color: var(--ink-soft);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      }
+
+      .theme-toggle {
+        appearance: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+          180deg,
+          rgba(20, 8, 4, 0.85) 0%,
+          rgba(10, 4, 2, 0.92) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.85);
+        cursor: pointer;
+        backdrop-filter: blur(20px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.18),
+          inset 0 -1px 1px rgba(0, 0, 0, 0.4),
+          0 6px 16px -4px rgba(0, 0, 0, 0.55);
+        transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.05);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+
+      .theme-toggle .ico-moon {
+        font-family: "Material Symbols Rounded";
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 500;
+        font-size: 18px;
+      }
+
+      /* --------------------------------------------------------------------
+         STAGGER
+         -------------------------------------------------------------------- */
+      .app > * {
+        opacity: 0;
+        animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .app > *:nth-child(1) {
+        animation-delay: 0ms;
+      }
+      .app > *:nth-child(2) {
+        animation-delay: 70ms;
+      }
+      .app > *:nth-child(3) {
+        animation-delay: 140ms;
+      }
+      .app > *:nth-child(4) {
+        animation-delay: 210ms;
+      }
+      .app > *:nth-child(5) {
+        animation-delay: 280ms;
+      }
+      .app > *:nth-child(6) {
+        animation-delay: 350ms;
+      }
+
+      /* --------------------------------------------------------------------
+         PROTOTYPE NOTE
+         -------------------------------------------------------------------- */
+      .proto-tag {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 10;
+        padding: 6px 12px;
+        font-family: var(--font-ui);
+        font-size: 0.68rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--r-pill);
+      }
+
+      @media (max-width: 380px) {
+        .amount-display {
+          font-size: 2rem;
+        }
+        .stat-value {
+          font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="proto-tag">Prototype · Liquid Glass</div>
+
+    <div class="stage">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <div class="app">
+        <!-- HEADER -->
+        <header class="glass header">
+          <div class="brand">
+            <div class="brand-logo">₿</div>
+            <div class="brand-text">
+              <div class="brand-tag">sugiro.ai</div>
+              <div class="brand-name">MYBTC</div>
+            </div>
+          </div>
+          <div></div>
+          <div class="lang-segment">
+            <button class="active">EN</button>
+            <button>PT</button>
+          </div>
+        </header>
+
+        <!-- BTC / SATS -->
+        <section class="glass amount-card">
+          <div class="amount-row-top">
+            <div class="unit-pill">
+              <button class="active">BTC</button>
+              <button>SATS</button>
+            </div>
+            <div class="info-icon">i</div>
+          </div>
+          <div class="amount-display">
+            <span>0.582&thinsp;746&thinsp;31</span>
+            <span class="amount-unit">BTC</span>
+          </div>
+        </section>
+
+        <!-- FIAT -->
+        <section class="glass amount-card">
+          <div class="amount-row-top">
+            <div class="unit-pill">
+              <button class="active">USD</button>
+              <button>BRL</button>
+              <button>EUR</button>
+              <button>GBP</button>
+            </div>
+          </div>
+          <div class="amount-display">
+            <span class="fiat-symbol">$</span>
+            <span>61,425.83</span>
+          </div>
+        </section>
+
+        <!-- CURRENT + CHANGE -->
+        <div class="stat-row">
+          <section class="glass stat-card">
+            <div class="stat-label">Current Bitcoin Price</div>
+            <div class="stat-value">
+              <span class="fiat-symbol">$</span>105,420.50
+            </div>
+            <div class="period-tag">Live · refreshed 2m ago</div>
+          </section>
+          <section class="glass stat-card">
+            <div class="stat-label">Last 12 months</div>
+            <div class="stat-value gain">
+              <span class="arrow material-icon">arrow_upward</span>47.3%
+            </div>
+            <div class="period-tag">
+              12 months <span class="caret">expand_more</span>
+            </div>
+          </section>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+          <button class="btn btn-primary">refresh price</button>
+          <button class="btn btn-secondary">help</button>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+          <span>developed by Lula Rocha / <a href="#">sugiro.ai</a></span>
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <span class="ico-moon">dark_mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Apply Material icon font to the arrow/caret spans without changing markup
+      document
+        .querySelectorAll(".material-icon, .arrow, .caret, .ico, .ico-moon")
+        .forEach((el) => {
+          if (!el.style.fontFamily) {
+            el.style.fontFamily = '"Material Symbols Rounded"';
+          }
+        });
+
+      // Simple segmented-control toggle for visual evaluation
+      document.querySelectorAll(".lang-segment, .unit-pill").forEach((seg) => {
+        seg.addEventListener("click", (e) => {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          seg
+            .querySelectorAll("button")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>
