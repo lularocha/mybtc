@@ -436,11 +436,27 @@
       .stat-row {
         display: grid;
         grid-template-columns: 3fr 2fr;
-        gap: 12px;
+        padding: 4px;
       }
 
       .stat-card {
-        padding: 16px 16px 18px;
+        padding: 14px 18px 16px;
+        position: relative;
+      }
+
+      .stat-card + .stat-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 14px;
+        bottom: 14px;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.18) 50%,
+          transparent 100%
+        );
       }
 
       .stat-label {
@@ -498,6 +514,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 12px;
+        margin-top: 20px;
       }
 
       .btn {
@@ -578,7 +595,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 0 6px;
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         color: var(--ink-mute);
       }
 
@@ -718,15 +735,15 @@
         </section>
 
         <!-- CURRENT + CHANGE -->
-        <div class="stat-row">
-          <section class="glass stat-card">
+        <section class="glass stat-row">
+          <div class="stat-card">
             <div class="stat-label">Current Bitcoin Price</div>
             <div class="stat-value">
               <span class="fiat-symbol">$</span>105,420.50
             </div>
             <div class="period-tag">Live · refreshed 2m ago</div>
-          </section>
-          <section class="glass stat-card">
+          </div>
+          <div class="stat-card">
             <div class="stat-label">Last 12 months</div>
             <div class="stat-value gain">
               <span class="arrow material-icon">arrow_upward</span>47.3%
@@ -734,8 +751,8 @@
             <div class="period-tag">
               12 months <span class="caret">expand_more</span>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
         <!-- ACTIONS -->
         <div class="actions">
