@@ -25,6 +25,8 @@
     --color-danger-hover: #d00;
     --color-warning: #f80;
     --color-warning-hover: #f60;
+    --color-ok: #050;
+    --color-ok-hover: #080;
 
     /* Colors - Neutral */
     --color-black: #000;
@@ -32,7 +34,9 @@
     --color-gray-dark: #111;
     --color-gray-medium: #222;
     --color-gray-light: #ddd;
+    --color-gray-muted: #ccc;
     --color-gray-dim: #333;
+    --color-gray-btn: #3d3d3d;
 
     /* Typography */
     --font-main: "Space Grotesk", sans-serif;
@@ -48,11 +52,12 @@
 
     /* Theme Colors (Defaults to Light) */
     --bg-body: #fe0;
+    --surface-idle: var(--color-primary-light);
+    --surface-active: var(--color-primary-dark);
     --theme-bg-secondary: var(--color-primary-light);
     --theme-bg-page: var(--color-black);
     --theme-text-main: var(--color-black);
     --theme-text-white: var(--color-white);
-    --theme-active-btn: var(--color-primary-dark);
     --theme-active-btn-text: var(--color-white);
     --theme-status-pos: #090;
     --theme-status-neg: #f00;
@@ -61,11 +66,12 @@
 
 :root.dark-mode {
     --bg-body: #1a1a1a;
+    --surface-idle: #2a2a2a;
+    --surface-active: #f50;
     --theme-bg-secondary: #2a2a2a;
     --theme-bg-page: #000;
     --theme-text-main: #fff;
     --theme-text-white: #000;
-    --theme-active-btn: #f50;
     --theme-active-btn-text: #fff;
     --theme-status-pos: #0c0;
     --theme-status-neg: #ff3333;
@@ -130,6 +136,9 @@ a {
 
 .header {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .footer {
@@ -150,24 +159,37 @@ a {
 /* --------------------------------------------------------------------------
    COMPONENTS - Header
    -------------------------------------------------------------------------- */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-titles {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    gap: 2px;
+}
+
 h1#mybtc-brand {
     font-size: 2.45rem;
     font-weight: 700;
     margin: 0;
+    line-height: 1;
 }
 
 h1#sugiro-logo {
     font-size: 0.8rem;
     font-weight: 500;
-    position: absolute;
-    left: 2px;
-    top: -22px;
+    margin: 0;
+    line-height: 1;
 }
 
 .mybtclogo {
-    float: right;
-    width: 54px;
-    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
     display: block;
 }
 
@@ -175,10 +197,36 @@ h1#sugiro-logo {
     animation: spinEightTimes 1s ease-in-out;
 }
 
+.circle-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.circle-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.btc-circle-logo {
+    cursor: pointer;
+}
+
+.btc-circle-logo.spin {
+    animation: spinEightTimes 1s ease-in-out;
+}
+
+/* -- old selector kept for backward compat -- */
 .lang-btn-container {
-    position: absolute;
-    top: 10px;
-    left: 145px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -191,21 +239,21 @@ button {
 }
 
 button.lang-btn {
-    background-color: var(--color-primary-light);
+    background-color: var(--surface-idle);
     color: var(--color-black);
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     font-weight: 800;
-    border-radius: 3px;
-    padding: 5px 12px;
+    padding: 0;
+    border: none;
 }
 
 button.lang-btn.active {
-    background-color: var(--color-primary-dark);
+    background-color: var(--surface-active);
     color: var(--color-white);
 }
 
 button.unit-btn {
-    background-color: var(--color-primary-light);
+    background-color: var(--surface-idle);
     border-radius: 5px;
     padding: 6px 12px;
     color: var(--color-black);
@@ -216,7 +264,7 @@ button.unit-btn {
 }
 
 button.unit-btn.active {
-    background-color: var(--color-primary-dark);
+    background-color: var(--surface-active);
     color: var(--color-white);
     font-weight: 700;
 }
@@ -264,7 +312,7 @@ button#refresh:hover {
     align-items: center;
     font-size: 50px;
     font-weight: 500;
-    background: var(--color-primary-light);
+    background: var(--surface-idle);
     padding: 7px 0;
     border-radius: 5px;
     min-height: 65px;
@@ -282,11 +330,11 @@ button#refresh:hover {
     padding: 7px 0;
     font-size: 50px;
     font-weight: 500;
-    border: 2px solid var(--color-primary-dark);
+    border: 2px solid var(--surface-active);
     border-radius: 5px;
     box-sizing: border-box;
     font-family: var(--font-main);
-    background-color: var(--color-primary-light);
+    background-color: var(--surface-idle);
     text-align: center;
     display: none;
 }
@@ -379,7 +427,7 @@ img.info-icon {
 }
 
 .period-menu button.selected {
-    background-color: var(--color-primary-dark);
+    background-color: var(--surface-active);
     color: var(--color-white);
     font-weight: 700;
 }
@@ -468,11 +516,11 @@ img.info-icon {
 }
 
 .modal-actions .ok {
-    background: #050;
+    background: var(--color-ok);
 }
 
 .modal-actions .ok:hover {
-    background: #080;
+    background: var(--color-ok-hover);
 }
 
 /* --------------------------------------------------------------------------
@@ -607,7 +655,7 @@ body.dark-mode {
 }
 
 .dark-mode .amount-display {
-    background-color: var(--theme-bg-secondary);
+    background-color: var(--surface-idle);
     color: var(--theme-text-main);
 }
 
@@ -623,7 +671,7 @@ body.dark-mode {
 }
 
 .page-footer a {
-    color: #f00;
+    color: var(--theme-status-neg);
     text-decoration: none;
     font-weight: 400;
 }
@@ -661,28 +709,28 @@ body.dark-mode {
 }
 
 .dark-mode .amount-input {
-    background-color: var(--theme-bg-secondary);
+    background-color: var(--surface-idle);
     color: var(--theme-text-main);
-    border-color: var(--theme-active-btn);
+    border-color: var(--surface-active);
 }
 
 .dark-mode button.unit-btn {
-    background-color: var(--theme-bg-secondary);
-    color: #ccc;
+    background-color: var(--surface-idle);
+    color: var(--color-gray-muted);
 }
 
 .dark-mode button.unit-btn.active {
-    background-color: var(--theme-active-btn);
+    background-color: var(--surface-active);
     color: var(--theme-active-btn-text) !important;
 }
 
 .dark-mode button.lang-btn {
-    background-color: #2a2a2a;
-    color: #ccc;
+    background-color: var(--surface-idle);
+    color: var(--color-gray-muted);
 }
 
 .dark-mode button.lang-btn.active {
-    background-color: var(--theme-active-btn);
+    background-color: var(--surface-active);
     color: var(--theme-active-btn-text) !important;
 }
 
@@ -691,20 +739,20 @@ body.dark-mode {
 }
 
 .dark-mode .period-menu button {
-    background-color: #3d3d3d;
-    color: #fff;
+    background-color: var(--color-gray-btn);
+    color: var(--theme-text-main);
 }
 
 .dark-mode .period-menu button.selected {
-    background-color: var(--theme-active-btn);
+    background-color: var(--surface-active);
 }
 
 .dark-mode .info-panel {
-    background-color: #000;
+    background-color: var(--theme-bg-page);
 }
 
 .dark-mode .info-modal {
-    background: #000;
+    background: var(--theme-bg-page);
 }
 
 .dark-mode-icon {
@@ -718,7 +766,7 @@ body.dark-mode {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: #333;
+    background: var(--color-gray-dim);
     margin-left: 10px;
     margin-top: 18px;
 }
@@ -779,7 +827,8 @@ body.dark-mode {
 
 /* Desktop Hover */
 @media (min-width: 992px) {
-    img.mybtclogo:hover {
+    img.mybtclogo:hover,
+    .btc-circle-logo:hover {
         transform: scale(1.05);
     }
 }
