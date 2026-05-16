@@ -380,7 +380,9 @@ p#current-BTC-change-label {
 img.info-icon {
     width: 24px;
     height: 24px;
-    padding-top: 2px;
+    flex-shrink: 0;
+    margin-left: auto;
+    align-self: center;
 }
 
 /* --------------------------------------------------------------------------
