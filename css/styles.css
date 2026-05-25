@@ -501,7 +501,7 @@ img.info-icon {
 }
 
 .modal-actions button {
-    width: 48%;
+    width: 31%;
     padding: 10px 0 12px;
     font-size: 18px;
     border-radius: 4px;
@@ -515,6 +515,14 @@ img.info-icon {
 
 .modal-actions .cancel:hover {
     background: var(--color-danger-hover);
+}
+
+.modal-actions .paste {
+    background: var(--color-gray-btn);
+}
+
+.modal-actions .paste:hover {
+    background: var(--color-gray-medium);
 }
 
 .modal-actions .ok {

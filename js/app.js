@@ -559,9 +559,7 @@ window.MYBTC.UI = (function () {
         translations[Core.currentLang].periodLabels[Core.selectedPeriod];
   }
 
-  function handlePaste(event) {
-    event.preventDefault();
-    const pastedText = (event.clipboardData || window.clipboardData).getData("text");
+  function applyPastedText(pastedText) {
     let cleanValue = pastedText.replace(/[^0-9.]/g, "");
     const dotParts = cleanValue.split(".");
     if (dotParts.length > 2) cleanValue = dotParts[0] + "." + dotParts.slice(1).join("");
@@ -591,6 +589,20 @@ window.MYBTC.UI = (function () {
       updateInputFontSize(fiatInput, Core.fiatUnit);
     }
     updateEquivalentValue();
+  }
+
+  function handlePaste(event) {
+    event.preventDefault();
+    applyPastedText((event.clipboardData || window.clipboardData).getData("text"));
+  }
+
+  async function pasteFromClipboard() {
+    try {
+      const text = await navigator.clipboard.readText();
+      applyPastedText(text);
+    } catch {
+      // Clipboard API unavailable or permission denied
+    }
   }
 
   function setupEventListeners() {
@@ -667,6 +679,7 @@ window.MYBTC.UI = (function () {
     deleteLast,
     cancelInput,
     submitInput,
+    pasteFromClipboard,
   };
 })();
 
@@ -676,6 +689,7 @@ window.appendToDisplay = window.MYBTC.UI.appendToDisplay;
 window.deleteLast = window.MYBTC.UI.deleteLast;
 window.cancelInput = window.MYBTC.UI.cancelInput;
 window.submitInput = window.MYBTC.UI.submitInput;
+window.pasteFromClipboard = window.MYBTC.UI.pasteFromClipboard;
 
 document.addEventListener("DOMContentLoaded", () => {
   window.MYBTC.UI.init();
