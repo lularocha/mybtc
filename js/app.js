@@ -184,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btcDisplay.style.display = "none";
     btcInput.style.display = "block";
+    btcInput.removeAttribute("inputmode");
     btcInput.focus();
   }
 
@@ -194,6 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fiatDisplay.style.display = "none";
     fiatInput.style.display = "block";
+    fiatInput.removeAttribute("inputmode");
     fiatInput.focus();
   }
 
@@ -381,6 +383,7 @@ window.MYBTC.UI = (function () {
       } else tempValue = "0";
       btcInput.value = Core.formatNumberWithCommas(tempValue, Core.btcUnit);
       updateInputFontSize(btcInput, Core.btcUnit);
+      btcInput.focus();
     } else {
       fiatDisplay.style.display = "none";
       fiatInput.style.display = "block";
@@ -393,6 +396,7 @@ window.MYBTC.UI = (function () {
       } else tempValue = "0";
       fiatInput.value = Core.formatNumberWithCommas(tempValue, Core.fiatUnit);
       updateInputFontSize(fiatInput, Core.fiatUnit);
+      fiatInput.focus();
     }
     previousValue = tempValue;
     modal.style.display = "flex";
@@ -555,7 +559,43 @@ window.MYBTC.UI = (function () {
         translations[Core.currentLang].periodLabels[Core.selectedPeriod];
   }
 
+  function handlePaste(event) {
+    event.preventDefault();
+    const pastedText = (event.clipboardData || window.clipboardData).getData("text");
+    let cleanValue = pastedText.replace(/[^0-9.]/g, "");
+    const dotParts = cleanValue.split(".");
+    if (dotParts.length > 2) cleanValue = dotParts[0] + "." + dotParts.slice(1).join("");
+    if (!cleanValue || cleanValue === ".") return;
+
+    if (activeField === "btc") {
+      if (Core.btcUnit === "BTC") {
+        const parts = cleanValue.split(".");
+        if (parts.length > 1 && parts[1].length > 8)
+          parts[1] = parts[1].substring(0, 8);
+        cleanValue = parts.join(".");
+      } else {
+        cleanValue = cleanValue.split(".")[0];
+      }
+      tempValue = cleanValue || "0";
+      const btcInput = document.querySelector(".BTC-input");
+      btcInput.value = Core.formatNumberWithCommas(tempValue, Core.btcUnit);
+      updateInputFontSize(btcInput, Core.btcUnit);
+    } else {
+      const parts = cleanValue.split(".");
+      if (parts.length > 1 && parts[1].length > 2)
+        parts[1] = parts[1].substring(0, 2);
+      cleanValue = parts.join(".");
+      tempValue = cleanValue || "0";
+      const fiatInput = document.querySelector(".fiat-input");
+      fiatInput.value = Core.formatNumberWithCommas(tempValue, Core.fiatUnit);
+      updateInputFontSize(fiatInput, Core.fiatUnit);
+    }
+    updateEquivalentValue();
+  }
+
   function setupEventListeners() {
+    document.querySelector(".BTC-input").addEventListener("paste", handlePaste);
+    document.querySelector(".fiat-input").addEventListener("paste", handlePaste);
     document.querySelector(".btc-btn").addEventListener("click", () => {
       Core.btcUnit = "BTC";
       updateUnitButtons();
