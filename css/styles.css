@@ -523,11 +523,11 @@ img.info-icon {
 }
 
 .modal-actions .paste {
-    background: var(--color-gray-btn);
+    background: #4D22B2;
 }
 
 .modal-actions .paste:hover {
-    background: var(--color-gray-medium);
+    background: #5E30EB;
 }
 
 .modal-actions .ok {
