@@ -337,6 +337,11 @@ button#refresh:hover {
     background-color: var(--surface-idle);
     text-align: center;
     display: none;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    caret-color: transparent;
+    -webkit-touch-callout: none;
 }
 
 .amount-input:focus {

@@ -184,6 +184,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btcDisplay.style.display = "none";
     btcInput.style.display = "block";
+    btcInput.style.pointerEvents = "auto";
+    btcInput.style.userSelect = "auto";
+    btcInput.style.caretColor = "";
     btcInput.removeAttribute("inputmode");
     btcInput.focus();
   }
@@ -195,6 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fiatDisplay.style.display = "none";
     fiatInput.style.display = "block";
+    fiatInput.style.pointerEvents = "auto";
+    fiatInput.style.userSelect = "auto";
+    fiatInput.style.caretColor = "";
     fiatInput.removeAttribute("inputmode");
     fiatInput.focus();
   }
