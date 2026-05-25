@@ -363,6 +363,8 @@ window.MYBTC.UI = (function () {
     }
   }
 
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
   function openModal(field) {
     activeField = field;
     const btcDisplay = document.getElementById("BTC-amount-display");
@@ -383,7 +385,7 @@ window.MYBTC.UI = (function () {
       } else tempValue = "0";
       btcInput.value = Core.formatNumberWithCommas(tempValue, Core.btcUnit);
       updateInputFontSize(btcInput, Core.btcUnit);
-      btcInput.focus();
+      if (!isTouchDevice) btcInput.focus();
     } else {
       fiatDisplay.style.display = "none";
       fiatInput.style.display = "block";
@@ -396,7 +398,7 @@ window.MYBTC.UI = (function () {
       } else tempValue = "0";
       fiatInput.value = Core.formatNumberWithCommas(tempValue, Core.fiatUnit);
       updateInputFontSize(fiatInput, Core.fiatUnit);
-      fiatInput.focus();
+      if (!isTouchDevice) fiatInput.focus();
     }
     previousValue = tempValue;
     modal.style.display = "flex";
