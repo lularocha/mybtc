@@ -567,11 +567,56 @@ window.MYBTC.UI = (function () {
         translations[Core.currentLang].periodLabels[Core.selectedPeriod];
   }
 
+  // Shows brief feedback on the paste button (green tick or red cross)
+  function showPasteFeedback(success) {
+    const pasteBtn = document.querySelector(".modal-actions .paste");
+    if (!pasteBtn) return;
+    const originalText = pasteBtn.textContent;
+    pasteBtn.textContent = success ? "✓ pasted" : "✗ failed";
+    pasteBtn.style.opacity = "0.75";
+    setTimeout(() => {
+      pasteBtn.textContent = originalText;
+      pasteBtn.style.opacity = "";
+    }, 1500);
+  }
+
+  // Normalises a pasted string into a plain decimal number string.
+  // Handles: currency symbols ($, €, £, R$), thousand-separator commas/dots,
+  // BTC/SATS suffixes, and European decimal format (1.234,56).
+  function normalisePastedNumber(raw) {
+    let s = raw.trim();
+
+    // Strip common currency prefixes/suffixes and whitespace
+    s = s.replace(/^[\$€£]|R\$\s*/g, "");
+    s = s.replace(/\s*(BTC|SATS|btc|sats|sat)\s*$/i, "");
+    s = s.trim();
+
+    // Detect European format: digits then dot(s) as thousand separators, comma as decimal
+    // e.g. "1.234,56" or "1.234.567,89"
+    const euroFormat = /^\d{1,3}(\.\d{3})*(,\d+)?$/.test(s);
+    if (euroFormat) {
+      s = s.replace(/\./g, "").replace(",", ".");
+    } else {
+      // Standard format: remove thousand-separator commas, keep decimal dot
+      s = s.replace(/,(?=\d{3}(?:[^\d]|$))/g, "");
+      // Remove any remaining non-numeric characters except a single dot
+      s = s.replace(/[^0-9.]/g, "");
+    }
+
+    // Collapse multiple dots — keep only the first one
+    const parts = s.split(".");
+    if (parts.length > 2) s = parts[0] + "." + parts.slice(1).join("");
+
+    return s;
+  }
+
   function applyPastedText(pastedText) {
-    let cleanValue = pastedText.replace(/[^0-9.]/g, "");
-    const dotParts = cleanValue.split(".");
-    if (dotParts.length > 2) cleanValue = dotParts[0] + "." + dotParts.slice(1).join("");
-    if (!cleanValue || cleanValue === ".") return;
+    let cleanValue = normalisePastedNumber(pastedText);
+
+    if (!cleanValue || cleanValue === ".") {
+      showPasteFeedback(false);
+      return;
+    }
 
     if (activeField === "btc") {
       if (Core.btcUnit === "BTC") {
@@ -580,6 +625,7 @@ window.MYBTC.UI = (function () {
           parts[1] = parts[1].substring(0, 8);
         cleanValue = parts.join(".");
       } else {
+        // SATS are whole numbers
         cleanValue = cleanValue.split(".")[0];
       }
       tempValue = cleanValue || "0";
@@ -597,6 +643,7 @@ window.MYBTC.UI = (function () {
       updateInputFontSize(fiatInput, Core.fiatUnit);
     }
     updateEquivalentValue();
+    showPasteFeedback(true);
   }
 
   function handlePaste(event) {
@@ -607,9 +654,14 @@ window.MYBTC.UI = (function () {
   async function pasteFromClipboard() {
     try {
       const text = await navigator.clipboard.readText();
+      if (!text || !text.trim()) {
+        showPasteFeedback(false);
+        return;
+      }
       applyPastedText(text);
     } catch {
       // Clipboard API unavailable or permission denied
+      showPasteFeedback(false);
     }
   }
 
@@ -758,6 +810,15 @@ if (/Android/i.test(navigator.userAgent)) {
     if (cancelBtn) {
       addTouchHandler(cancelBtn, function () {
         window.cancelInput();
+      });
+    }
+
+    const pasteBtn = document.querySelector(
+      '.modal-actions button[data-action="paste"]',
+    );
+    if (pasteBtn) {
+      addTouchHandler(pasteBtn, function () {
+        window.pasteFromClipboard();
       });
     }
 
