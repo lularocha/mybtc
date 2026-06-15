@@ -15,32 +15,32 @@ document.addEventListener(
 );
 
 // ==============================================
-// LOGO ANIMATION (from btclogo-animation.js)
+// REFRESH ICON SPIN ANIMATION
 // ==============================================
 document.addEventListener("DOMContentLoaded", () => {
-  const logo = document.querySelector(".btc-circle-logo");
   const refreshButton = document.getElementById("refresh");
+  const refreshIcon = refreshButton?.querySelector(
+    ".material-symbols-outlined",
+  );
 
-  // Function to trigger the spin animation
-  window.spinLogo = function () {
-    if (!logo) return;
-    logo.classList.remove("spin");
+  window.spinRefresh = function () {
+    if (!refreshIcon) return;
+    refreshIcon.classList.remove("spin");
     requestAnimationFrame(() => {
-      logo.classList.add("spin");
+      refreshIcon.classList.add("spin");
     });
   };
 
-  // Add event listener to the refresh button
   if (refreshButton) {
-    refreshButton.addEventListener("click", window.spinLogo);
+    refreshButton.addEventListener("click", window.spinRefresh);
   }
 });
 
 // ==============================================
-// INFO PANEL & MODAL (from info.js)
+// INFO PANEL (Help) & SATS INFO MODAL
 // ==============================================
 document.addEventListener("DOMContentLoaded", () => {
-  // Info Panel Logic
+  // Info Panel (Help) Logic
   const infoButton = document.getElementById("info");
   const infoPanel = document.getElementById("info-panel");
   const closeInfoPanel = document.getElementById("close-info-panel");
@@ -63,13 +63,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (closeInfoPanel) closeInfoPanel.addEventListener("click", closePanel);
 
     window.addEventListener("click", (event) => {
-      if (!infoPanel.contains(event.target) && event.target !== infoButton) {
+      if (
+        !infoPanel.contains(event.target) &&
+        !infoButton.contains(event.target)
+      ) {
         closePanel();
       }
     });
   }
 
-  // Info Modal Logic
+  // Sats Info Modal Logic (parked: no trigger wired until decided)
   const infoIcon = document.querySelector(".info-icon");
   const infoModal = document.getElementById("info-modal");
   const closeModalBtn = document.getElementById("close-info-modal");
@@ -122,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==============================================
-// DARK MODE LOGIC (from dark-mode.js)
+// DARK MODE LOGIC
 // ==============================================
 function toggleDarkMode(enabled) {
   if (enabled) {
@@ -171,71 +174,16 @@ function setupDarkModeToggle() {
 document.addEventListener("DOMContentLoaded", setupDarkModeToggle);
 
 // ==============================================
-// ANDROID KEYPAD FALLBACK (from android-keypad-fallback.js)
-// ==============================================
-document.addEventListener("DOMContentLoaded", () => {
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  if (!isAndroid) return;
-
-  function showNativeBtcInput() {
-    const btcDisplay = document.getElementById("BTC-amount-display");
-    const btcInput = document.querySelector(".BTC-input");
-    if (!btcDisplay || !btcInput) return;
-
-    btcDisplay.style.display = "none";
-    btcInput.style.display = "block";
-    btcInput.style.pointerEvents = "auto";
-    btcInput.style.userSelect = "auto";
-    btcInput.style.caretColor = "";
-    btcInput.removeAttribute("inputmode");
-    btcInput.focus();
-  }
-
-  function showNativeFiatInput() {
-    const fiatDisplay = document.getElementById("fiat-amount-display");
-    const fiatInput = document.querySelector(".fiat-input");
-    if (!fiatDisplay || !fiatInput) return;
-
-    fiatDisplay.style.display = "none";
-    fiatInput.style.display = "block";
-    fiatInput.style.pointerEvents = "auto";
-    fiatInput.style.userSelect = "auto";
-    fiatInput.style.caretColor = "";
-    fiatInput.removeAttribute("inputmode");
-    fiatInput.focus();
-  }
-
-  const btcDisplay = document.getElementById("BTC-amount-display");
-  const fiatDisplay = document.getElementById("fiat-amount-display");
-
-  if (btcDisplay)
-    btcDisplay.addEventListener("click", (e) => {
-      if (isAndroid) {
-        e.stopImmediatePropagation();
-        showNativeBtcInput();
-      }
-    });
-
-  if (fiatDisplay)
-    fiatDisplay.addEventListener("click", (e) => {
-      if (isAndroid) {
-        e.stopImmediatePropagation();
-        showNativeFiatInput();
-      }
-    });
-});
-
-// ==============================================
-// UI CORE LOGIC (from mybtc-ui.js)
+// UI CORE LOGIC
 // ==============================================
 window.MYBTC.UI = (function () {
   const Core = window.MYBTC.Core;
   const API = window.MYBTC.API;
 
+  // Which field the keypad is currently editing ("btc" | "fiat")
   let activeField = "btc";
+  // Raw (un-grouped) value being typed into the active field
   let tempValue = "0";
-  let previousValue = "0";
-  let modal = null;
 
   function updateDisplay() {
     const periodLabel =
@@ -271,10 +219,6 @@ window.MYBTC.UI = (function () {
     }
     btcDisplaySpan.textContent = displayAmount;
 
-    const fiatSymbolSpan = document.querySelector(
-      "#fiat-amount-display .fiat-symbol",
-    );
-    fiatSymbolSpan.textContent = symbol;
     const fiatAmountSpan = document.querySelector(
       "#fiat-amount-display .fiat-amount",
     );
@@ -306,24 +250,39 @@ window.MYBTC.UI = (function () {
     btcDisplaySpan.style.fontSize = `${Core.getFontSizeBtcSats(Core.countDigits(btcText))}px`;
 
     const fiatText = fiatAmountSpan.textContent;
-    const fontSize = Core.getFontSizeUsdBrl(Core.countDigits(fiatText));
-    fiatAmountSpan.style.fontSize = `${fontSize}px`;
-    fiatSymbolSpan.style.fontSize = `${fontSize}px`;
+    fiatAmountSpan.style.fontSize = `${Core.getFontSizeUsdBrl(Core.countDigits(fiatText))}px`;
   }
 
+  // Update the BTC toggle label and fiat dropdown label/selection
   function updateUnitButtons() {
-    document
-      .querySelector(".btc-btn")
-      .classList.toggle("active", Core.btcUnit === "BTC");
-    document
-      .querySelector(".sats-btn")
-      .classList.toggle("active", Core.btcUnit === "SATS");
-    Object.keys(Core.supportedCurrencies).forEach((currency) => {
-      const button = document.querySelector(`.${currency.toLowerCase()}-btn`);
-      if (button) button.classList.toggle("active", Core.fiatUnit === currency);
+    const btcLabel = document.querySelector(".btc-toggle .unit-label");
+    if (btcLabel) btcLabel.textContent = Core.btcUnit;
+    const fiatLabel = document.querySelector(".fiat-dropdown .unit-label");
+    if (fiatLabel) fiatLabel.textContent = Core.fiatUnit;
+    document.querySelectorAll("#fiat-menu button").forEach((btn) => {
+      btn.classList.toggle("selected", btn.dataset.currency === Core.fiatUnit);
     });
   }
 
+  // Render the active field's display straight from the raw tempValue
+  function renderActiveValue() {
+    if (activeField === "btc") {
+      const span = document.querySelector("#BTC-amount-display .BTC-amount");
+      span.textContent = Core.formatNumberWithCommas(tempValue, Core.btcUnit);
+      span.style.fontSize = `${Core.getFontSizeBtcSats(Core.countDigits(span.textContent))}px`;
+    } else {
+      const amountSpan = document.querySelector(
+        "#fiat-amount-display .fiat-amount",
+      );
+      amountSpan.textContent = Core.formatNumberWithCommas(
+        tempValue,
+        Core.fiatUnit,
+      );
+      amountSpan.style.fontSize = `${Core.getFontSizeUsdBrl(Core.countDigits(amountSpan.textContent))}px`;
+    }
+  }
+
+  // Render the non-active field as the live equivalent of tempValue
   function updateEquivalentValue() {
     const currentPrice = Core.getCurrentPrice(Core.fiatUnit);
     if (!currentPrice) return;
@@ -339,13 +298,7 @@ window.MYBTC.UI = (function () {
         "#fiat-amount-display .fiat-amount",
       );
       fiatDisplaySpan.textContent = Core.fiatFormatter.format(fiatValue);
-      const fontSize = Core.getFontSizeUsdBrl(
-        Core.countDigits(fiatDisplaySpan.textContent),
-      );
-      fiatDisplaySpan.style.fontSize = `${fontSize}px`;
-      document.querySelector(
-        "#fiat-amount-display .fiat-symbol",
-      ).style.fontSize = `${fontSize}px`;
+      fiatDisplaySpan.style.fontSize = `${Core.getFontSizeUsdBrl(Core.countDigits(fiatDisplaySpan.textContent))}px`;
     } else {
       const fiatValue = parseFloat(currentValue) || 0;
       const btcValue = fiatValue / currentPrice;
@@ -360,28 +313,22 @@ window.MYBTC.UI = (function () {
     }
   }
 
-  function updateInputFontSize(inputElement, unit) {
-    let text = inputElement.value;
-    if (unit === "BTC" || unit === "SATS") {
-      inputElement.style.fontSize = `${Core.getFontSizeBtcSats(Core.countDigits(text))}px`;
-    } else if (Object.keys(Core.supportedCurrencies).includes(unit)) {
-      inputElement.style.fontSize = `${Core.getFontSizeUsdBrl(Core.countDigits(text))}px`;
+  // Commit the typed value into Core.currentAmount (always stored as BTC)
+  function commitCurrentAmount() {
+    if (activeField === "btc") {
+      Core.currentAmount =
+        Core.btcUnit === "BTC"
+          ? parseFloat(tempValue) || 0
+          : (parseInt(tempValue, 10) || 0) / 100000000;
+    } else {
+      const price = Core.getCurrentPrice(Core.fiatUnit);
+      if (price) Core.currentAmount = (parseFloat(tempValue) || 0) / price;
     }
   }
 
-  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
-  function openModal(field) {
-    activeField = field;
-    const btcDisplay = document.getElementById("BTC-amount-display");
-    const fiatDisplay = document.getElementById("fiat-amount-display");
-    const btcInput = document.querySelector(".BTC-input");
-    const fiatInput = document.querySelector(".fiat-input");
-    document.querySelector(".main-container").classList.add("slide-up");
-
-    if (field === "btc") {
-      btcDisplay.style.display = "none";
-      btcInput.style.display = "block";
+  // Seed tempValue from the stored amount for the active field
+  function seedTempFromAmount() {
+    if (activeField === "btc") {
       if (Core.currentAmount !== null) {
         tempValue =
           Core.btcUnit === "BTC"
@@ -389,12 +336,7 @@ window.MYBTC.UI = (function () {
             : Math.round(Core.currentAmount * 100000000).toString();
         if (tempValue === "") tempValue = "0";
       } else tempValue = "0";
-      btcInput.value = Core.formatNumberWithCommas(tempValue, Core.btcUnit);
-      updateInputFontSize(btcInput, Core.btcUnit);
-      if (!isTouchDevice) btcInput.focus();
     } else {
-      fiatDisplay.style.display = "none";
-      fiatInput.style.display = "block";
       const price = Core.getCurrentPrice(Core.fiatUnit);
       if (Core.currentAmount !== null && price) {
         tempValue = (price * Core.currentAmount)
@@ -402,23 +344,20 @@ window.MYBTC.UI = (function () {
           .replace(/\.?0+$/, "");
         if (tempValue === "") tempValue = "0";
       } else tempValue = "0";
-      fiatInput.value = Core.formatNumberWithCommas(tempValue, Core.fiatUnit);
-      updateInputFontSize(fiatInput, Core.fiatUnit);
-      if (!isTouchDevice) fiatInput.focus();
     }
-    previousValue = tempValue;
-    modal.style.display = "flex";
-    setTimeout(() => modal.classList.add("open"), 10);
-    document.body.style.overflow = "hidden";
   }
 
-  function closeModal() {
-    document.querySelector(".main-container").classList.remove("slide-up");
-    modal.classList.remove("open");
-    setTimeout(() => {
-      modal.style.display = "none";
-      document.body.style.overflow = "";
-    }, 300);
+  function setActiveField(field) {
+    activeField = field;
+    seedTempFromAmount();
+    document
+      .getElementById("BTC-amount-display")
+      .classList.toggle("active-field", field === "btc");
+    document
+      .getElementById("fiat-amount-display")
+      .classList.toggle("active-field", field === "fiat");
+    updateDisplay();
+    renderActiveValue();
   }
 
   function appendToDisplay(value) {
@@ -434,23 +373,15 @@ window.MYBTC.UI = (function () {
           parts[1] = parts[1].substring(0, 8);
         currentValue = parts.join(".");
       } else currentValue = currentValue.replace(/\D/g, "");
-      tempValue = currentValue;
-      const btcInput = document.querySelector(".BTC-input");
-      btcInput.value = Core.formatNumberWithCommas(currentValue, Core.btcUnit);
-      updateInputFontSize(btcInput, Core.btcUnit);
     } else {
       let parts = currentValue.split(".");
       if (parts.length > 1 && parts[1].length > 2)
         parts[1] = parts[1].substring(0, 2);
       currentValue = parts.join(".");
-      tempValue = currentValue;
-      const fiatInput = document.querySelector(".fiat-input");
-      fiatInput.value = Core.formatNumberWithCommas(
-        currentValue,
-        Core.fiatUnit,
-      );
-      updateInputFontSize(fiatInput, Core.fiatUnit);
     }
+    tempValue = currentValue;
+    renderActiveValue();
+    commitCurrentAmount();
     updateEquivalentValue();
   }
 
@@ -458,54 +389,49 @@ window.MYBTC.UI = (function () {
     let currentValue = tempValue.replace(/,/g, "").slice(0, -1);
     if (currentValue === "") currentValue = "0";
     tempValue = currentValue;
-    if (activeField === "btc") {
-      const btcInput = document.querySelector(".BTC-input");
-      btcInput.value = Core.formatNumberWithCommas(currentValue, Core.btcUnit);
-      updateInputFontSize(btcInput, Core.btcUnit);
-    } else {
-      const fiatInput = document.querySelector(".fiat-input");
-      fiatInput.value = Core.formatNumberWithCommas(
-        currentValue,
-        Core.fiatUnit,
-      );
-      updateInputFontSize(fiatInput, Core.fiatUnit);
-    }
+    renderActiveValue();
+    commitCurrentAmount();
     updateEquivalentValue();
   }
 
-  function cancelInput() {
-    tempValue = previousValue;
-    closeModal();
-    const btcDisplay = document.getElementById("BTC-amount-display"),
-      fiatDisplay = document.getElementById("fiat-amount-display");
-    const btcInput = document.querySelector(".BTC-input"),
-      fiatInput = document.querySelector(".fiat-input");
-    btcInput.style.display = "none";
-    fiatInput.style.display = "none";
-    btcDisplay.style.display = "flex";
-    fiatDisplay.style.display = "flex";
+  function toggleBtcUnit() {
+    Core.btcUnit = Core.btcUnit === "BTC" ? "SATS" : "BTC";
+    updateUnitButtons();
+    seedTempFromAmount();
+    updateDisplay();
+    renderActiveValue();
   }
 
-  function submitInput() {
-    if (activeField === "btc") {
-      Core.currentAmount =
-        Core.btcUnit === "BTC"
-          ? parseFloat(tempValue) || 0
-          : (parseInt(tempValue, 10) || 0) / 100000000;
-    } else {
-      const price = Core.getCurrentPrice(Core.fiatUnit);
-      if (price) Core.currentAmount = (parseFloat(tempValue) || 0) / price;
-    }
-    const btcDisplay = document.getElementById("BTC-amount-display"),
-      fiatDisplay = document.getElementById("fiat-amount-display");
-    const btcInput = document.querySelector(".BTC-input"),
-      fiatInput = document.querySelector(".fiat-input");
-    btcInput.style.display = "none";
-    fiatInput.style.display = "none";
-    btcDisplay.style.display = "flex";
-    fiatDisplay.style.display = "flex";
-    closeModal();
+  function selectFiat(currency) {
+    Core.fiatUnit = currency;
+    updateUnitButtons();
+    seedTempFromAmount();
     updateDisplay();
+    renderActiveValue();
+    closeFiatMenu();
+  }
+
+  function setupFiatMenu() {
+    const menu = document.getElementById("fiat-menu");
+    Object.keys(Core.supportedCurrencies).forEach((currency) => {
+      const button = document.createElement("button");
+      button.textContent = currency;
+      button.dataset.currency = currency;
+      button.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectFiat(currency);
+      });
+      menu.appendChild(button);
+    });
+  }
+
+  function toggleFiatMenu(e) {
+    e.stopPropagation();
+    document.getElementById("fiat-menu").classList.toggle("active");
+  }
+
+  function closeFiatMenu() {
+    document.getElementById("fiat-menu").classList.remove("active");
   }
 
   function setupPeriodMenu() {
@@ -535,6 +461,7 @@ window.MYBTC.UI = (function () {
                   100
                 : null;
             updateDisplay();
+            renderActiveValue();
           },
         );
         periodMenu.classList.remove("active");
@@ -570,7 +497,8 @@ window.MYBTC.UI = (function () {
   function applyPastedText(pastedText) {
     let cleanValue = pastedText.replace(/[^0-9.]/g, "");
     const dotParts = cleanValue.split(".");
-    if (dotParts.length > 2) cleanValue = dotParts[0] + "." + dotParts.slice(1).join("");
+    if (dotParts.length > 2)
+      cleanValue = dotParts[0] + "." + dotParts.slice(1).join("");
     if (!cleanValue || cleanValue === ".") return;
 
     if (activeField === "btc") {
@@ -582,26 +510,16 @@ window.MYBTC.UI = (function () {
       } else {
         cleanValue = cleanValue.split(".")[0];
       }
-      tempValue = cleanValue || "0";
-      const btcInput = document.querySelector(".BTC-input");
-      btcInput.value = Core.formatNumberWithCommas(tempValue, Core.btcUnit);
-      updateInputFontSize(btcInput, Core.btcUnit);
     } else {
       const parts = cleanValue.split(".");
       if (parts.length > 1 && parts[1].length > 2)
         parts[1] = parts[1].substring(0, 2);
       cleanValue = parts.join(".");
-      tempValue = cleanValue || "0";
-      const fiatInput = document.querySelector(".fiat-input");
-      fiatInput.value = Core.formatNumberWithCommas(tempValue, Core.fiatUnit);
-      updateInputFontSize(fiatInput, Core.fiatUnit);
     }
+    tempValue = cleanValue || "0";
+    renderActiveValue();
+    commitCurrentAmount();
     updateEquivalentValue();
-  }
-
-  function handlePaste(event) {
-    event.preventDefault();
-    applyPastedText((event.clipboardData || window.clipboardData).getData("text"));
   }
 
   async function pasteFromClipboard() {
@@ -614,160 +532,90 @@ window.MYBTC.UI = (function () {
   }
 
   function setupEventListeners() {
-    document.querySelector(".BTC-input").addEventListener("paste", handlePaste);
-    document.querySelector(".fiat-input").addEventListener("paste", handlePaste);
-    document.querySelector(".btc-btn").addEventListener("click", () => {
-      Core.btcUnit = "BTC";
-      updateUnitButtons();
-      updateDisplay();
+    // BTC/SATS toggle
+    document.querySelector(".btc-toggle").addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleBtcUnit();
     });
-    document.querySelector(".sats-btn").addEventListener("click", () => {
-      Core.btcUnit = "SATS";
-      updateUnitButtons();
-      updateDisplay();
-    });
-    Object.keys(Core.supportedCurrencies).forEach((currency) => {
-      const btn = document.querySelector(`.${currency.toLowerCase()}-btn`);
-      if (btn)
-        btn.addEventListener("click", () => {
-          Core.fiatUnit = currency;
-          updateUnitButtons();
-          updateDisplay();
-        });
-    });
+
+    // Fiat currency dropdown
+    document
+      .querySelector(".fiat-dropdown")
+      .addEventListener("click", toggleFiatMenu);
+    setupFiatMenu();
+
+    // Paste icons (paste into the active field)
+    document.querySelectorAll(".paste-btn").forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        pasteFromClipboard();
+      }),
+    );
+
+    // Tap a display to make it the active field
     document
       .getElementById("BTC-amount-display")
-      .addEventListener("click", () => openModal("btc"));
+      .addEventListener("click", () => setActiveField("btc"));
     document
       .getElementById("fiat-amount-display")
-      .addEventListener("click", () => openModal("fiat"));
+      .addEventListener("click", () => setActiveField("fiat"));
+
+    // Refresh price (re-derives the equivalent at the new price)
     document.getElementById("refresh").addEventListener("click", async () => {
       await API.fetchData();
+      commitCurrentAmount();
       updateDisplay();
+      renderActiveValue();
     });
-    document
-      .querySelector(".btc-circle-logo")
-      .addEventListener("click", async () => {
-        window.spinLogo();
-        await API.fetchData();
-        updateDisplay();
-      });
+
     setupPeriodMenu();
+
+    // Language switch
     document.querySelectorAll(".lang-btn").forEach((btn) =>
       btn.addEventListener("click", () => {
         Core.setLanguage(btn.getAttribute("data-lang"));
         updatePeriodMenuLanguage();
       }),
     );
-    window.addEventListener("resize", updateDisplay);
+
+    // Close fiat menu when clicking outside it
+    document.addEventListener("click", (e) => {
+      const menu = document.getElementById("fiat-menu");
+      const dropdown = document.querySelector(".fiat-dropdown");
+      if (menu && !menu.contains(e.target) && !dropdown.contains(e.target)) {
+        menu.classList.remove("active");
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      updateDisplay();
+      renderActiveValue();
+    });
   }
 
   async function init() {
-    modal = document.getElementById("keypadModal");
-    await API.fetchData();
-    updateDisplay();
-    updateUnitButtons();
-    if (modal)
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) cancelInput();
-      });
-    document
-      .querySelectorAll(".keypad button")
-      .forEach((button) => (button.style.touchAction = "manipulation"));
     setupEventListeners();
+    await API.fetchData();
+    updateUnitButtons();
+    setActiveField("btc");
   }
 
   return {
     init,
     updateDisplay,
     updateUnitButtons,
-    openModal,
-    closeModal,
+    setActiveField,
     appendToDisplay,
     deleteLast,
-    cancelInput,
-    submitInput,
     pasteFromClipboard,
   };
 })();
 
-window.openModal = window.MYBTC.UI.openModal;
-window.closeModal = window.MYBTC.UI.closeModal;
 window.appendToDisplay = window.MYBTC.UI.appendToDisplay;
 window.deleteLast = window.MYBTC.UI.deleteLast;
-window.cancelInput = window.MYBTC.UI.cancelInput;
-window.submitInput = window.MYBTC.UI.submitInput;
 window.pasteFromClipboard = window.MYBTC.UI.pasteFromClipboard;
 
 document.addEventListener("DOMContentLoaded", () => {
   window.MYBTC.UI.init();
   window.MYBTC.Core.setLanguage("en");
 });
-
-// Additional Android compatibility logic (moved from index.html)
-if (/Android/i.test(navigator.userAgent)) {
-  document.addEventListener("DOMContentLoaded", function () {
-    function addTouchHandler(element, handler) {
-      if (!element) return;
-      element.addEventListener(
-        "touchstart",
-        function (e) {
-          e.preventDefault();
-          setTimeout(function () {
-            handler(e);
-          }, 10);
-        },
-        { passive: false },
-      );
-    }
-
-    // Apply to BTC and fiat displays
-    addTouchHandler(document.getElementById("BTC-amount-display"), function () {
-      window.openModal("btc");
-    });
-
-    addTouchHandler(
-      document.getElementById("fiat-amount-display"),
-      function () {
-        window.openModal("fiat");
-      },
-    );
-
-    // Apply to all keypad buttons using data attributes
-    document
-      .querySelectorAll(".keypad button[data-value]")
-      .forEach(function (button) {
-        addTouchHandler(button, function () {
-          window.appendToDisplay(button.getAttribute("data-value"));
-        });
-      });
-
-    // Special actions
-    const deleteBtn = document.querySelector(
-      '.keypad button[data-action="delete"]',
-    );
-    if (deleteBtn) {
-      addTouchHandler(deleteBtn, function () {
-        window.deleteLast();
-      });
-    }
-
-    const cancelBtn = document.querySelector(
-      '.modal-actions button[data-action="cancel"]',
-    );
-    if (cancelBtn) {
-      addTouchHandler(cancelBtn, function () {
-        window.cancelInput();
-      });
-    }
-
-    const okBtn = document.querySelector(
-      '.modal-actions button[data-action="ok"]',
-    );
-    if (okBtn) {
-      addTouchHandler(okBtn, function () {
-        window.submitInput();
-      });
-    }
-  });
-}

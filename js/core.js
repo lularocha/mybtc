@@ -218,6 +218,11 @@ window.MYBTC.Core = (function () {
     return text.replace(/[^0-9]/g, "").length;
   }
 
+  // Scale factor for the amount-field fonts. The inline unit picker eats
+  // horizontal space next to the value, so the values render a bit smaller
+  // than the legacy full-width display to avoid clipping.
+  const FONT_SCALE = 0.8;
+
   /**
    * Calculate font size for BTC/SATS display based on digit count and screen width
    * @param {number} digitCount - Number of digits
@@ -225,7 +230,7 @@ window.MYBTC.Core = (function () {
    */
   function getFontSizeBtcSats(digitCount) {
     const screenWidth = window.innerWidth;
-    if (screenWidth >= 520) return 50;
+    if (screenWidth >= 520) return 50 * FONT_SCALE;
 
     const fontSizeTable = {
       case1: {
@@ -251,7 +256,8 @@ window.MYBTC.Core = (function () {
     const sizeKey = effectiveDigitCount <= 9 ? 9 : effectiveDigitCount;
 
     return (
-      fontSizeTable[caseKey].sizes[sizeKey] || fontSizeTable[caseKey].sizes[12]
+      (fontSizeTable[caseKey].sizes[sizeKey] ||
+        fontSizeTable[caseKey].sizes[12]) * FONT_SCALE
     );
   }
 
@@ -262,7 +268,7 @@ window.MYBTC.Core = (function () {
    */
   function getFontSizeUsdBrl(digitCount) {
     const screenWidth = window.innerWidth;
-    if (screenWidth >= 520) return 50;
+    if (screenWidth >= 520) return 50 * FONT_SCALE;
 
     const fontSizeTable = {
       case1: {
@@ -288,7 +294,8 @@ window.MYBTC.Core = (function () {
     const sizeKey = effectiveDigitCount <= 8 ? 8 : effectiveDigitCount;
 
     return (
-      fontSizeTable[caseKey].sizes[sizeKey] || fontSizeTable[caseKey].sizes[11]
+      (fontSizeTable[caseKey].sizes[sizeKey] ||
+        fontSizeTable[caseKey].sizes[11]) * FONT_SCALE
     );
   }
 

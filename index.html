@@ -13,7 +13,7 @@
       sizes="180x180"
       href="assets/apple-touch-icon.png"
     />
-    <link rel="stylesheet" href="css/styles.css?v=2" />
+    <link rel="stylesheet" href="css/styles.css?v=8" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,90 +25,35 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       rel="stylesheet"
     />
-
-    <!-- Android compatibility flag is now handled in app.js -->
-    <script>
-      if (/Android/i.test(navigator.userAgent)) {
-        document.documentElement.classList.add("android-device");
-      }
-    </script>
   </head>
 
   <body>
     <div class="main-container">
-      <div class="header">
-        <div class="header-left">
-          <div class="header-titles">
-            <h1 id="sugiro-logo"><a href="/">sugiro.ai</a></h1>
-            <h1 id="mybtc-brand">MYBTC</h1>
+      <div class="top-section">
+        <div class="header">
+          <div class="header-left">
+            <div class="header-titles">
+              <h1 id="sugiro-logo"><a href="/">sugiro.ai</a></h1>
+              <h1 id="mybtc-brand">MYBTC</h1>
+            </div>
+          </div>
+
+          <div class="circle-group">
+            <button
+              class="circle-btn icon-btn"
+              id="refresh"
+              aria-label="Refresh price"
+            >
+              <span class="material-symbols-outlined">refresh</span>
+            </button>
+            <button class="circle-btn icon-btn" id="info" aria-label="Help">
+              <span class="material-symbols-outlined">help</span>
+            </button>
+            <button class="circle-btn lang-btn" data-lang="pt">PT</button>
+            <button class="circle-btn lang-btn" data-lang="en">EN</button>
           </div>
         </div>
 
-        <div class="circle-group">
-          <button class="circle-btn lang-btn" data-lang="en">EN</button>
-          <button class="circle-btn lang-btn" data-lang="pt">PT</button>
-          <img
-            class="circle-btn btc-circle-logo"
-            src="assets/btc-logo.png"
-            alt="Bitcoin"
-            role="button"
-            tabindex="0"
-          />
-        </div>
-      </div>
-      <div class="info-container">
-        <!-- BTC/SATS Amount -->
-        <div class="amount-container">
-          <div class="unit-selector btc-unit-selector">
-            <button class="unit-btn btc-btn active">BTC</button>
-            <button class="unit-btn sats-btn">SATS</button>
-            <img class="info-icon" src="assets/infoicon.png" alt="Info Icon" />
-            <!-- Info Modal -->
-            <div class="info-modal" id="info-modal" style="display: none">
-              <button class="close-modal-btn" id="close-info-modal">×</button>
-              <p class="modal-text" data-translate="infoModalText0">
-                Placeholder text for the new first paragraph of the info modal.
-              </p>
-              <p class="modal-text" data-translate="infoModalText1">
-                Placeholder text for the first paragraph of the info modal.
-              </p>
-              <p class="modal-text" data-translate="infoModalText2">
-                Placeholder text for the second paragraph of the info modal.
-              </p>
-              <p class="modal-text" data-translate="infoModalText3">
-                Placeholder text for the third paragraph of the info modal.
-              </p>
-            </div>
-          </div>
-          <div class="amount-display" id="BTC-amount-display">
-            <span class="BTC-amount">0</span>
-          </div>
-          <input
-            type="text"
-            class="amount-input BTC-input"
-            style="display: none"
-            inputmode="none"
-          />
-        </div>
-        <!-- Multi-Currency Fiat Amount -->
-        <div class="amount-container">
-          <div class="unit-selector fiat-unit-selector">
-            <button class="unit-btn usd-btn active">USD</button>
-            <button class="unit-btn brl-btn">BRL</button>
-            <button class="unit-btn eur-btn">EUR</button>
-            <button class="unit-btn gbp-btn">GBP</button>
-          </div>
-          <div class="amount-display" id="fiat-amount-display">
-            <span class="fiat-symbol">$</span>
-            <span class="fiat-amount">0.00</span>
-          </div>
-          <input
-            type="text"
-            class="amount-input fiat-input"
-            style="display: none"
-            inputmode="none"
-          />
-        </div>
         <!-- CURRENT BTC Price and Change Display -->
         <div class="current">
           <!-- Current BTC Price Display -->
@@ -135,12 +80,93 @@
           </div>
         </div>
       </div>
-      <div class="button-container">
-        <button id="refresh" data-translate="refreshPrice">
-          refresh price
-        </button>
-        <button id="info" data-translate="help">help</button>
+
+      <div class="info-container">
+        <!-- BTC/SATS Amount -->
+        <div class="amount-container">
+          <div class="amount-display active-field" id="BTC-amount-display">
+            <div class="amount-value"><span class="BTC-amount">0</span></div>
+            <div class="display-controls">
+              <button class="paste-btn" aria-label="Paste">
+                <span class="material-symbols-outlined">content_paste</span>
+              </button>
+              <button
+                class="unit-toggle btc-toggle"
+                aria-label="Switch BTC/SATS"
+              >
+                <span class="unit-label">BTC</span>
+                <span class="material-symbols-outlined">unfold_more</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multi-Currency Fiat Amount -->
+        <div class="amount-container">
+          <div class="amount-display" id="fiat-amount-display">
+            <div class="amount-value">
+              <span class="fiat-amount">0.00</span>
+            </div>
+            <div class="display-controls">
+              <button class="paste-btn" aria-label="Paste">
+                <span class="material-symbols-outlined">content_paste</span>
+              </button>
+              <button
+                class="unit-dropdown fiat-dropdown"
+                aria-label="Select currency"
+              >
+                <span class="unit-label">USD</span>
+                <span class="material-symbols-outlined">unfold_more</span>
+              </button>
+              <div class="fiat-menu" id="fiat-menu"></div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Inline Keypad -->
+      <div class="keypad-section">
+        <div class="keypad">
+          <button onclick="appendToDisplay('1')">1</button>
+          <button onclick="appendToDisplay('2')">2</button>
+          <button onclick="appendToDisplay('3')">3</button>
+          <button onclick="appendToDisplay('4')">4</button>
+          <button onclick="appendToDisplay('5')">5</button>
+          <button onclick="appendToDisplay('6')">6</button>
+          <button onclick="appendToDisplay('7')">7</button>
+          <button onclick="appendToDisplay('8')">8</button>
+          <button onclick="appendToDisplay('9')">9</button>
+          <button onclick="appendToDisplay('.')">.</button>
+          <button onclick="appendToDisplay('0')">0</button>
+          <button
+            class="delete"
+            data-action="delete"
+            onclick="deleteLast()"
+            aria-label="Backspace"
+          >
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              class="delete-icon"
+            >
+              <path
+                fill="white"
+                stroke="white"
+                stroke-width="0.5"
+                d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z"
+              />
+              <path
+                fill="white"
+                stroke="white"
+                stroke-width="0.5"
+                d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <div class="footer">
         <p class="page-footer" data-translate="pageFooter">
           developed by Lula Rocha /
@@ -150,7 +176,8 @@
         </p>
         <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
       </div>
-      <!-- Info Panel -->
+
+      <!-- Info Panel (Help) -->
       <div class="info-panel" id="info-panel">
         <div class="info-panel-content">
           <button id="close-info-panel" class="close-btn">
@@ -169,71 +196,26 @@
           </ul>
         </div>
       </div>
-    </div>
 
-    <!-- Keypad Modal - Enhanced for Android compatibility -->
-    <div class="modal" id="keypadModal">
-      <div class="modal-content">
-        <div class="keypad-container">
-          <div class="keypad">
-            <button data-value="1" onclick="appendToDisplay('1')">1</button>
-            <button data-value="2" onclick="appendToDisplay('2')">2</button>
-            <button data-value="3" onclick="appendToDisplay('3')">3</button>
-            <button data-value="4" onclick="appendToDisplay('4')">4</button>
-            <button data-value="5" onclick="appendToDisplay('5')">5</button>
-            <button data-value="6" onclick="appendToDisplay('6')">6</button>
-            <button data-value="7" onclick="appendToDisplay('7')">7</button>
-            <button data-value="8" onclick="appendToDisplay('8')">8</button>
-            <button data-value="9" onclick="appendToDisplay('9')">9</button>
-            <button data-value="." onclick="appendToDisplay('.')">.</button>
-            <button data-value="0" onclick="appendToDisplay('0')">0</button>
-            <button
-              class="delete"
-              data-action="delete"
-              onclick="deleteLast()"
-              aria-label="Backspace"
-            >
-              <svg
-                width="1em"
-                height="1em"
-                viewBox="0 0 16 16"
-                class="delete-icon"
-              >
-                <path
-                  fill="white"
-                  stroke="white"
-                  stroke-width="0.5"
-                  d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z"
-                />
-                <path
-                  fill="white"
-                  stroke="white"
-                  stroke-width="0.5"
-                  d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"
-                />
-              </svg>
-            </button>
-          </div>
-          <div class="modal-actions">
-            <button class="cancel" data-action="cancel" onclick="cancelInput()">
-              cancel
-            </button>
-            <button
-              class="paste"
-              data-action="paste"
-              onclick="pasteFromClipboard()"
-            >
-              paste
-            </button>
-            <button class="ok" data-action="ok" onclick="submitInput()">
-              enter
-            </button>
-          </div>
-        </div>
+      <!-- Sats Info Modal (parked - trigger to be decided) -->
+      <div class="info-modal" id="info-modal" style="display: none">
+        <button class="close-modal-btn" id="close-info-modal">×</button>
+        <p class="modal-text" data-translate="infoModalText0">
+          Placeholder text for the new first paragraph of the info modal.
+        </p>
+        <p class="modal-text" data-translate="infoModalText1">
+          Placeholder text for the first paragraph of the info modal.
+        </p>
+        <p class="modal-text" data-translate="infoModalText2">
+          Placeholder text for the second paragraph of the info modal.
+        </p>
+        <p class="modal-text" data-translate="infoModalText3">
+          Placeholder text for the third paragraph of the info modal.
+        </p>
       </div>
     </div>
 
-    <script src="js/core.js?v=3"></script>
-    <script src="js/app.js?v=3"></script>
+    <script src="js/core.js?v=4"></script>
+    <script src="js/app.js?v=5"></script>
   </body>
 </html>

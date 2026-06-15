@@ -8,657 +8,640 @@
    DESIGN TOKENS (Variables)
    -------------------------------------------------------------------------- */
 :root {
-    /* Colors - Brand */
-    --color-primary: #fe0;
-    /* Main Yellow */
-    --color-primary-dark: #f90;
-    /* Brand Orange */
-    --color-primary-light: #fd0;
-    /* Lighter Yellow for buttons/inputs */
-    --color-accent: #fa0;
-    /* Highlight Yellow */
+  /* Colors - Brand */
+  --color-primary: #fe0;
+  /* Main Yellow */
+  --color-primary-dark: #f90;
+  /* Brand Orange */
+  --color-primary-light: #fd0;
+  /* Lighter Yellow for buttons/inputs */
+  --color-accent: #fa0;
+  /* Highlight Yellow */
 
-    /* Colors - Actions */
-    --color-success: #00b129;
-    --color-success-hover: #009a22;
-    --color-danger: #900;
-    --color-danger-hover: #d00;
-    --color-warning: #f80;
-    --color-warning-hover: #f60;
-    --color-ok: #050;
-    --color-ok-hover: #080;
+  /* Colors - Actions */
+  --color-success: #00b129;
+  --color-success-hover: #009a22;
+  --color-danger: #900;
+  --color-danger-hover: #d00;
+  --color-warning: #f80;
+  --color-warning-hover: #f60;
+  --color-ok: #050;
+  --color-ok-hover: #080;
 
-    /* Colors - Neutral */
-    --color-black: #000;
-    --color-white: #fff;
-    --color-gray-dark: #111;
-    --color-gray-medium: #222;
-    --color-gray-light: #ddd;
-    --color-gray-muted: #ccc;
-    --color-gray-dim: #333;
-    --color-gray-btn: #3d3d3d;
+  /* Colors - Neutral */
+  --color-black: #000;
+  --color-white: #fff;
+  --color-gray-dark: #111;
+  --color-gray-medium: #222;
+  --color-gray-light: #ddd;
+  --color-gray-muted: #ccc;
+  --color-gray-dim: #333;
+  --color-gray-btn: #3d3d3d;
 
-    /* Typography */
-    --font-main: "Space Grotesk", sans-serif;
+  /* Typography */
+  --font-main: "Space Grotesk", sans-serif;
 
-    /* Layers (Z-index) */
-    --z-main: 1;
-    --z-menu: 100;
-    --z-overlay: 1000;
-    --z-modal-content: 1001;
+  /* Layers (Z-index) */
+  --z-main: 1;
+  --z-menu: 100;
+  --z-overlay: 1000;
+  --z-modal-content: 1001;
 
-    /* Transitions */
-    --transition-standard: 0.3s ease-out;
+  /* Transitions */
+  --transition-standard: 0.3s ease-out;
 
-    /* Theme Colors (Defaults to Light) */
-    --bg-body: #fe0;
-    --surface-idle: var(--color-primary-light);
-    --surface-active: var(--color-primary-dark);
-    --theme-bg-secondary: var(--color-primary-light);
-    --theme-bg-page: var(--color-black);
-    --theme-text-main: var(--color-black);
-    --theme-text-white: var(--color-white);
-    --theme-active-btn-text: var(--color-white);
-    --theme-status-pos: #090;
-    --theme-status-neg: #f00;
-    --theme-accent: var(--color-accent);
+  /* Theme Colors (Defaults to Light) */
+  --bg-body: #fe0;
+  --surface-idle: var(--color-primary-light);
+  --surface-active: var(--color-primary-dark);
+  --theme-bg-secondary: var(--color-primary-light);
+  --theme-bg-page: var(--color-black);
+  --theme-text-main: var(--color-black);
+  --theme-text-white: var(--color-white);
+  --theme-active-btn-text: var(--color-white);
+  --theme-status-pos: #090;
+  --theme-status-neg: #f00;
+  --theme-accent: var(--color-accent);
+  --divider-color: rgba(0, 0, 0, 0.45);
 }
 
 :root.dark-mode {
-    --bg-body: #1a1a1a;
-    --surface-idle: #2a2a2a;
-    --surface-active: #f50;
-    --theme-bg-secondary: #2a2a2a;
-    --theme-bg-page: #000;
-    --theme-text-main: #fff;
-    --theme-text-white: #000;
-    --theme-active-btn-text: #fff;
-    --theme-status-pos: #0c0;
-    --theme-status-neg: #ff3333;
-    --theme-accent: #ff3333;
-    /* For icons/highlights */
+  --bg-body: #1a1a1a;
+  --surface-idle: #2a2a2a;
+  --surface-active: #f50;
+  --theme-bg-secondary: #2a2a2a;
+  --theme-bg-page: #000;
+  --theme-text-main: #fff;
+  --theme-text-white: #000;
+  --theme-active-btn-text: #fff;
+  --theme-status-pos: #0c0;
+  --theme-status-neg: #ff3333;
+  --theme-accent: #ff3333;
+  --divider-color: rgba(255, 255, 255, 0.22);
+  /* For icons/highlights */
 }
 
 /* --------------------------------------------------------------------------
    BASE STYLES & RESET
    -------------------------------------------------------------------------- */
 body {
-    margin: 0;
-    padding: 25px;
-    padding-bottom: calc(25px + env(safe-area-inset-bottom));
-    box-sizing: border-box;
-    font-family: var(--font-main);
-    background-color: var(--bg-body);
-    overflow-x: hidden;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
+  margin: 0;
+  padding: 25px;
+  padding-bottom: calc(25px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  font-family: var(--font-main);
+  background-color: var(--bg-body);
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 a {
-    color: var(--color-black);
-    text-decoration: none;
-    transition: color 0.2s;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 /* --------------------------------------------------------------------------
    LAYOUT
    -------------------------------------------------------------------------- */
 .main-container {
-    width: 100%;
-    max-width: 620px;
-    margin: 0 auto;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-    transition:
-        transform var(--transition-standard),
-        padding-bottom var(--transition-standard);
-    position: relative;
-    z-index: var(--z-main);
-    transform: translate3d(0, 0, 0);
-    /* Hardware acceleration */
-}
-
-.slide-up {
-    transform: translateY(-90px);
-    padding-bottom: 90px;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  transition:
+    transform var(--transition-standard),
+    padding-bottom var(--transition-standard);
+  position: relative;
+  z-index: var(--z-main);
+  transform: translate3d(0, 0, 0);
+  /* Hardware acceleration */
 }
 
 .header {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--divider-color);
 }
 
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .info-container {
-    margin-top: 35px;
+  margin-top: 8px;
 }
 
 .amount-container {
-    margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
 /* --------------------------------------------------------------------------
    COMPONENTS - Header
    -------------------------------------------------------------------------- */
 .header-left {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .header-titles {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
 }
 
 h1#mybtc-brand {
-    font-size: 2.45rem;
-    font-weight: 700;
-    margin: 0;
-    line-height: 1;
+  font-size: 2.45rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
 }
 
 h1#sugiro-logo {
-    font-size: 14px;
-    font-weight: 500;
-    margin: 0;
-    line-height: 1;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1;
 }
 
 .mybtclogo {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 .mybtclogo.spin {
-    animation: spinEightTimes 1s ease-in-out;
+  animation: spinEightTimes 1s ease-in-out;
 }
 
 .circle-group {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .circle-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    object-fit: cover;
-    flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .btc-circle-logo {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .btc-circle-logo.spin {
-    animation: spinEightTimes 1s ease-in-out;
+  animation: spinEightTimes 1s ease-in-out;
 }
 
 /* -- old selector kept for backward compat -- */
 .lang-btn-container {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 /* --------------------------------------------------------------------------
    COMPONENTS - Buttons
    -------------------------------------------------------------------------- */
 button {
-    font-family: var(--font-main);
-    cursor: pointer;
-    border: none;
+  font-family: var(--font-main);
+  cursor: pointer;
+  border: none;
 }
 
 button.lang-btn {
-    background-color: var(--surface-idle);
-    color: var(--color-black);
-    font-size: 1.05rem;
-    font-weight: 800;
-    padding: 0;
-    border: none;
+  background-color: var(--surface-idle);
+  color: var(--color-black);
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 0;
+  border: none;
 }
 
 button.lang-btn.active {
-    background-color: var(--surface-active);
-    color: var(--color-white);
+  background-color: var(--surface-active);
+  color: var(--color-white);
 }
 
-button.unit-btn {
-    background-color: var(--surface-idle);
-    border-radius: 5px;
-    padding: 6px 12px;
-    color: var(--color-black);
-    font-size: 0.9rem;
-    font-weight: 500;
-    min-width: 50px;
-    text-align: center;
+.circle-btn.icon-btn {
+  background-color: var(--surface-idle);
+  color: var(--color-black);
 }
 
-button.unit-btn.active {
-    background-color: var(--surface-active);
-    color: var(--color-white);
-    font-weight: 700;
+.circle-btn.icon-btn .material-symbols-outlined {
+  font-size: 24px;
 }
 
-.button-container {
-    width: 100%;
-    margin-top: auto;
-    padding-top: 20px;
-    display: flex;
-    gap: 10px;
+.circle-btn.icon-btn:hover {
+  background-color: var(--surface-active);
+  color: var(--color-white);
 }
 
-.button-container button {
-    color: var(--color-white);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 1;
-    padding: 14px 0 16px;
-    border-radius: 5px;
-    flex: 1;
-}
-
-button#info {
-    background-color: var(--color-success);
-}
-
-button#info:hover {
-    background-color: var(--color-success-hover);
-}
-
-button#refresh {
-    background-color: var(--color-warning);
-}
-
-button#refresh:hover {
-    background-color: var(--color-warning-hover);
+.circle-btn.icon-btn .material-symbols-outlined.spin {
+  display: inline-block;
+  animation: spinEightTimes 1s ease-in-out;
 }
 
 /* --------------------------------------------------------------------------
    COMPONENTS - Displays & Inputs
    -------------------------------------------------------------------------- */
 .amount-display {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 50px;
-    font-weight: 500;
-    background: var(--surface-idle);
-    padding: 7px 0;
-    border-radius: 5px;
-    min-height: 65px;
-    text-align: center;
-    cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 50px;
+  font-weight: 500;
+  background: transparent;
+  padding: 12px 0 12px 18px;
+  min-height: 64px;
+  cursor: pointer;
 }
 
-.amount-display .fiat-symbol {
-    font-weight: 400;
-    margin-right: 3px;
+/* Thick orange left bar marks the active (currently editing) field */
+.amount-display::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 8px;
+  background: var(--surface-active);
+  opacity: 0;
+  transition: opacity var(--transition-standard);
 }
 
-.amount-input {
-    width: 100%;
-    padding: 7px 0;
-    font-size: 50px;
-    font-weight: 500;
-    border: 2px solid var(--surface-active);
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-family: var(--font-main);
-    background-color: var(--surface-idle);
-    text-align: center;
-    display: none;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-    caret-color: transparent;
-    -webkit-touch-callout: none;
+.amount-display.active-field::before {
+  opacity: 1;
 }
 
-.amount-input:focus {
-    outline: none;
+/* BTC and fiat values are separated only by a divider line, no box */
+#BTC-amount-display {
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.amount-value {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.display-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.unit-toggle,
+.unit-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background: transparent;
+  color: var(--color-black);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.unit-toggle .material-symbols-outlined,
+.unit-dropdown .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.paste-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-black);
+  padding: 0;
+}
+
+.paste-btn .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.amount-display.active-field .paste-btn {
+  display: flex;
+}
+
+.fiat-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 72px;
+  background-color: var(--color-white);
+  border-radius: 4px;
+  box-shadow: 0 0 15px #0005;
+  z-index: var(--z-menu);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity var(--transition-standard),
+    transform var(--transition-standard);
+}
+
+.fiat-menu.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.fiat-menu button {
+  color: var(--color-black);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 9px 14px;
+  margin-bottom: 1px;
+  background-color: var(--color-gray-light);
+  text-align: center;
+}
+
+.fiat-menu button:last-child {
+  margin-bottom: 0;
+}
+
+.fiat-menu button:hover {
+  background-color: var(--color-white);
+}
+
+.fiat-menu button.selected {
+  background-color: var(--surface-active);
+  color: var(--color-white);
+  font-weight: 700;
 }
 
 .current {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 36px;
 }
 
 h2#current-BTC-price-display,
 h2#current-BTC-change-display {
-    font-size: 32px;
-    font-weight: 500;
-    margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0;
 }
 
 p#current-BTC-price-label,
 p#current-BTC-change-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-top: 10px;
-    margin-bottom: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 .current-BTC-change {
-    text-align: right;
-    position: relative;
-    cursor: pointer;
-}
-
-.unit-selector {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 5px;
-    position: relative;
-    flex-wrap: wrap;
-}
-
-img.info-icon {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    margin-left: auto;
-    align-self: center;
+  text-align: right;
+  position: relative;
+  cursor: pointer;
 }
 
 /* --------------------------------------------------------------------------
    COMPONENTS - Menus
    -------------------------------------------------------------------------- */
 .period-menu {
-    display: flex;
-    position: absolute;
-    bottom: -20px;
-    right: 0;
-    width: 60px;
-    background-color: var(--color-white);
-    border-radius: 3px;
-    z-index: var(--z-menu);
-    flex-direction: column;
-    box-shadow: 0 0 15px #0005;
-    opacity: 0;
-    transform: translateY(100px);
-    transition:
-        opacity var(--transition-standard),
-        transform var(--transition-standard);
-    pointer-events: none;
+  display: flex;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 60px;
+  background-color: var(--color-white);
+  border-radius: 3px;
+  z-index: var(--z-menu);
+  flex-direction: column;
+  box-shadow: 0 0 15px #0005;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    opacity var(--transition-standard),
+    transform var(--transition-standard);
+  pointer-events: none;
 }
 
 .period-menu.active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .period-menu button {
-    color: var(--color-black);
-    font-size: 1.2rem;
-    font-weight: 500;
-    display: block;
-    width: 100%;
-    padding: 9px 0;
-    margin: 0 0 1px;
-    background-color: var(--color-gray-light);
+  color: var(--color-black);
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  padding: 9px 0;
+  margin: 0 0 1px;
+  background-color: var(--color-gray-light);
+}
+
+.period-menu button:last-child {
+  margin-bottom: 0;
 }
 
 .period-menu button:hover {
-    background-color: var(--color-white);
+  background-color: var(--color-white);
 }
 
 .period-menu button.selected {
-    background-color: var(--surface-active);
-    color: var(--color-white);
-    font-weight: 700;
+  background-color: var(--surface-active);
+  color: var(--color-white);
+  font-weight: 700;
 }
 
 /* --------------------------------------------------------------------------
-   OVERLAYS - Modal & Keypad
+   COMPONENTS - Keypad (inline)
    -------------------------------------------------------------------------- */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    justify-content: center;
-    align-items: flex-end;
-    z-index: var(--z-overlay);
-    transform: translateZ(0);
-    /* Hardware acceleration */
-}
-
-.modal-content {
-    background: var(--color-black);
-    padding: 20px 20px 30px;
-    width: 100%;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(100%);
-    transition: transform var(--transition-standard);
-    will-change: transform;
-    z-index: var(--z-modal-content);
-    user-select: none;
-}
-
-.modal.open .modal-content {
-    transform: translateY(0);
-}
-
-.keypad-container {
-    max-width: 400px;
-    margin: 0 auto;
-    width: 100%;
+.keypad-section {
+  margin: 10px 0;
 }
 
 .keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
 .keypad button {
-    padding: 9px 0;
-    font-size: 21px;
-    background: var(--color-gray-medium);
-    color: var(--color-white);
-    border-radius: 4px;
-    font-weight: 500;
-    touch-action: manipulation;
+  padding: 16px 0;
+  font-size: 26px;
+  font-weight: 600;
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  border-radius: 999px;
+  touch-action: manipulation;
 }
 
-.keypad button:hover {
-    background: var(--color-warning-hover);
+.keypad button:hover,
+.keypad button:active {
+  background: var(--color-warning-hover);
 }
 
-.modal-actions {
-    display: flex;
-    justify-content: space-between;
-}
-
-.modal-actions button {
-    width: 31%;
-    padding: 10px 0 12px;
-    font-size: 18px;
-    border-radius: 4px;
-    color: var(--color-white);
-    font-weight: 500;
-}
-
-.modal-actions .cancel {
-    background: var(--color-danger);
-}
-
-.modal-actions .cancel:hover {
-    background: var(--color-danger-hover);
-}
-
-.modal-actions .paste {
-    background: #4D22B2;
-}
-
-.modal-actions .paste:hover {
-    background: #5E30EB;
-}
-
-.modal-actions .ok {
-    background: var(--color-ok);
-}
-
-.modal-actions .ok:hover {
-    background: var(--color-ok-hover);
+.keypad .delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* --------------------------------------------------------------------------
    OVERLAYS - Info Panel & Info Modal
    -------------------------------------------------------------------------- */
 .info-panel {
-    position: fixed;
-    top: 0;
-    right: -135%;
-    width: 360px;
-    height: auto;
-    background-color: var(--color-black);
-    border-radius: 10px 0 0 10px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: right var(--transition-standard);
-    z-index: var(--z-overlay);
+  position: fixed;
+  top: 0;
+  right: -135%;
+  width: 360px;
+  height: auto;
+  background-color: var(--color-black);
+  border-radius: 10px 0 0 10px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right var(--transition-standard);
+  z-index: var(--z-overlay);
 }
 
 .info-panel.open {
-    right: -25px;
+  right: -25px;
 }
 
 .info-panel-content {
-    color: var(--color-white);
-    padding: 30px 20px 30px 30px;
-    position: relative;
+  color: var(--color-white);
+  padding: 30px 20px 30px 30px;
+  position: relative;
 }
 
 .close-btn {
-    position: absolute;
-    top: 22px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
-    background-color: var(--color-gray-dim);
-    color: var(--color-white);
-    border-radius: 50%;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: 22px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-gray-dim);
+  color: var(--color-white);
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h3.panel-title {
-    color: var(--color-primary);
-    font-size: 1.5rem;
-    margin: -5px 0 20px;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  margin: -5px 0 20px;
 }
 
 .info-panel p,
 .info-panel ul {
-    font-size: 1.1rem;
-    font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .info-panel ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 0;
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 .info-panel ul li {
-    line-height: 1.35;
-    padding-bottom: 20px;
+  line-height: 1.35;
+  padding-bottom: 20px;
 }
 
 .info-panel a {
-    color: var(--color-white);
-    border-bottom: 1px dashed var(--color-white);
+  color: var(--color-white);
+  border-bottom: 1px dashed var(--color-white);
 }
 
 .info-panel a:hover {
-    color: var(--color-accent);
-    border-bottom: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
 }
 
 /* Inline Info Modal */
 .info-modal {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--color-black);
-    border-radius: 5px;
-    padding: 20px;
-    z-index: var(--z-overlay);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transform: translateY(270%);
-    transition: transform var(--transition-standard);
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-black);
+  border-radius: 5px;
+  padding: 20px;
+  z-index: var(--z-overlay);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(270%);
+  transition: transform var(--transition-standard);
 }
 
 .info-modal.is-visible {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 .modal-text {
-    margin: -5px 10px;
-    font-size: 1.12rem;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--color-white);
-    padding: 9px 0;
+  margin: -5px 10px;
+  font-size: 1.12rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-white);
+  padding: 9px 0;
 }
 
 .info-modal p.modal-text[data-translate="infoModalText0"] {
-    color: var(--color-primary);
-    font-weight: 900;
+  color: var(--color-primary);
+  font-weight: 900;
 }
 
 .close-modal-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: var(--color-white);
-    background: none;
-    font-size: 16px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: var(--color-white);
+  background: none;
+  font-size: 16px;
 }
 
 /* --------------------------------------------------------------------------
    DARK MODE THEME OVERRIDES
    -------------------------------------------------------------------------- */
 body.dark-mode {
-    background-color: var(--bg-body) !important;
-    color: var(--theme-text-main);
+  background-color: var(--bg-body) !important;
+  color: var(--theme-text-main);
 }
 
 .dark-mode h1,
@@ -666,12 +649,12 @@ body.dark-mode {
 .dark-mode h3,
 .dark-mode p,
 .dark-mode a {
-    color: var(--theme-text-main);
+  color: var(--theme-text-main);
 }
 
 .dark-mode .amount-display {
-    background-color: var(--surface-idle);
-    color: var(--theme-text-main);
+  background-color: transparent;
+  color: var(--theme-text-main);
 }
 
 /* --------------------------------------------------------------------------
@@ -679,122 +662,132 @@ body.dark-mode {
    -------------------------------------------------------------------------- */
 
 .page-footer {
-    margin: 0;
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--color-black);
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-black);
 }
 
 .page-footer a {
-    color: var(--theme-status-neg);
-    text-decoration: none;
-    font-weight: 400;
+  color: var(--theme-status-neg);
+  text-decoration: none;
+  font-weight: 400;
 }
 
 .page-footer a:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .dark-mode .page-footer {
-    color: var(--theme-text-main);
+  color: var(--theme-text-main);
 }
 
 .dark-mode .page-footer a {
-    color: var(--color-accent);
+  color: var(--color-accent);
 }
 
-.dark-mode .amount-input {
-    background-color: var(--surface-idle);
-    color: var(--theme-text-main);
-    border-color: var(--surface-active);
+.dark-mode .unit-toggle,
+.dark-mode .unit-dropdown,
+.dark-mode .paste-btn {
+  color: var(--theme-text-main);
 }
 
-.dark-mode button.unit-btn {
-    background-color: var(--surface-idle);
-    color: var(--color-gray-muted);
+.dark-mode .circle-btn.icon-btn {
+  background-color: var(--surface-idle);
+  color: var(--color-gray-muted);
 }
 
-.dark-mode button.unit-btn.active {
-    background-color: var(--surface-active);
-    color: var(--theme-active-btn-text) !important;
+.dark-mode .circle-btn.icon-btn:hover {
+  background-color: var(--surface-active);
+  color: var(--color-white);
+}
+
+.dark-mode .fiat-menu {
+  background-color: var(--theme-bg-secondary);
+}
+
+.dark-mode .fiat-menu button {
+  background-color: var(--color-gray-btn);
+  color: var(--theme-text-main);
+}
+
+.dark-mode .fiat-menu button.selected {
+  background-color: var(--surface-active);
+  color: var(--color-white);
 }
 
 .dark-mode button.lang-btn {
-    background-color: var(--surface-idle);
-    color: var(--color-gray-muted);
+  background-color: var(--surface-idle);
+  color: var(--color-gray-muted);
 }
 
 .dark-mode button.lang-btn.active {
-    background-color: var(--surface-active);
-    color: var(--theme-active-btn-text) !important;
+  background-color: var(--surface-active);
+  color: var(--theme-active-btn-text) !important;
 }
 
 .dark-mode .period-menu {
-    background-color: var(--theme-bg-secondary);
+  background-color: var(--theme-bg-secondary);
 }
 
 .dark-mode .period-menu button {
-    background-color: var(--color-gray-btn);
-    color: var(--theme-text-main);
+  background-color: var(--color-gray-btn);
+  color: var(--theme-text-main);
 }
 
 .dark-mode .period-menu button.selected {
-    background-color: var(--surface-active);
+  background-color: var(--surface-active);
 }
 
 .dark-mode .info-panel {
-    background-color: var(--theme-bg-page);
+  background-color: var(--theme-bg-page);
 }
 
 .dark-mode .info-modal {
-    background: var(--theme-bg-page);
+  background: var(--theme-bg-page);
 }
 
 .dark-mode-icon {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: var(--color-gray-dim);
-    margin-left: 10px;
-    margin-top: 18px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--color-gray-dim);
+  margin-left: 10px;
+  margin-top: 18px;
 }
 
 .dark-mode-icon .material-symbols-outlined {
-    font-size: 24px;
-    color: var(--color-accent);
-}
-
-.dark-mode img.info-icon {
-    filter: invert(1);
+  font-size: 24px;
+  color: var(--color-accent);
 }
 
 /* Override for larger screens */
 @media (min-width: 768px) {
-    body.dark-mode {
-        background-color: var(--theme-bg-page) !important;
-    }
+  body.dark-mode {
+    background-color: var(--theme-bg-page) !important;
+  }
 }
 
 /* --------------------------------------------------------------------------
    ANIMATIONS
    -------------------------------------------------------------------------- */
 @keyframes spinEightTimes {
-    0% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
 
-    100% {
-        transform: rotate(2160deg);
-    }
+  100% {
+    transform: rotate(2160deg);
+  }
 
-    /* 8 * 360 = 2880? No, 8*360=2880. Existing code had 2160 (6 times). Keeping as is for consistency. */
+  /* 8 * 360 = 2880? No, 8*360=2880. Existing code had 2160 (6 times). Keeping as is for consistency. */
 }
 
 /* --------------------------------------------------------------------------
@@ -803,64 +796,52 @@ body.dark-mode {
 
 /* Large Screens */
 @media (min-width: 768px) {
-    body.dark-mode {
-        background-color: var(--color-black) !important;
-    }
+  body.dark-mode {
+    background-color: var(--color-black) !important;
+  }
 
-    .main-container {
-        padding: 30px !important;
-    }
+  .main-container {
+    padding: 30px !important;
+  }
 
-    body.dark-mode {
-        height: 100vh;
-    }
+  body.dark-mode {
+    height: 100vh;
+  }
 
-    .keypad button {
-        padding: 18px;
-    }
+  .keypad button {
+    padding: 18px;
+  }
 }
 
 /* Desktop Hover */
 @media (min-width: 992px) {
-    img.mybtclogo:hover,
-    .btc-circle-logo:hover {
-        transform: scale(1.05);
-    }
+  img.mybtclogo:hover,
+  .btc-circle-logo:hover {
+    transform: scale(1.05);
+  }
 }
 
 /* Small Screens */
 @media (max-width: 400px) {
-    h2#current-BTC-price-display,
-    h2#current-BTC-change-display {
-        font-size: 27px;
-    }
+  h2#current-BTC-price-display,
+  h2#current-BTC-change-display {
+    font-size: 27px;
+  }
 }
 
 /* Extra Small Screens */
 @media (max-width: 325px) {
-    .info-panel {
-        width: 330px;
-    }
+  .info-panel {
+    width: 330px;
+  }
 
-    .info-panel p,
-    .info-panel ul {
-        font-size: 0.9rem !important;
-    }
+  .info-panel p,
+  .info-panel ul {
+    font-size: 0.9rem !important;
+  }
 
-    .info-panel ul li {
-        line-height: 1.15 !important;
-        padding-bottom: 13px !important;
-    }
-}
-
-@media (max-width: 320px) {
-    .fiat-unit-selector {
-        gap: 2px;
-    }
-
-    button.unit-btn {
-        padding: 3px 4px;
-        font-size: 0.7rem;
-        min-width: 35px;
-    }
+  .info-panel ul li {
+    line-height: 1.15 !important;
+    padding-bottom: 13px !important;
+  }
 }

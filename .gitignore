@@ -6,6 +6,8 @@
 # API keys and secrets
 config.js
 secrets.js
+*.pem
+*.key
 
 # System files
 .DS_Store
@@ -37,3 +39,6 @@ node_modules/
 # Build files (if applicable)
 dist/
 build/
+
+# Design references
+new ui.png
