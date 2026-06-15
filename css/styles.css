@@ -416,7 +416,7 @@ button.lang-btn.active {
 
 h2#current-BTC-price-display,
 h2#current-BTC-change-display {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 500;
   margin: 0;
 }

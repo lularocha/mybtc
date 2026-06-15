@@ -9,15 +9,14 @@ const translations = {
       'developed by Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     howToUse: "How to use:",
     instruction1:
-      "Use the EN/PT buttons to select the language: English or Portuguese",
+      "Tap EN or PT at the top to switch between English and Portuguese",
     instruction2:
-      "Use the BTC/SATS buttons or Fiat Currency USD BRL EUR GBP buttons to select the desired unit",
+      "Tap BTC / SATS to switch unit, and tap the currency (USD) to choose USD, BRL, EUR or GBP",
     instruction3:
-      "Click or tap the BTC/SATS display or fiat currency display to enter amount and press OK to update the dashboard",
+      "Tap the Bitcoin value or the currency value to select it (marked by the orange bar), then type on the keypad — both values update instantly",
     instruction4:
-      "Click or tap the Refresh Price button to update the current Bitcoin price",
-    instruction5:
-      "Click or tap the Return % value to select a different period",
+      "Tap the refresh icon at the top to update the current Bitcoin price",
+    instruction5: "Tap the return % value to choose a different period",
     instruction6:
       '<a href="https://21bitcoin.info" target="_blank">Learn Bitcoin</a>',
     infoModalText0: "You can buy small pieces of Bitcoin!",
@@ -58,15 +57,15 @@ const translations = {
       'desenvolvido por Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     howToUse: "Como usar:",
     instruction1:
-      "Use os botões EN/PT para selecionar o idioma: Inglês ou Português",
+      "Toque em EN ou PT no topo para alternar entre Inglês e Português",
     instruction2:
-      "Use os botões BRL/SATS ou USD BRL EUR GBP para selecionar a unidade",
+      "Toque em BTC / SATS para trocar a unidade, e toque na moeda (USD) para escolher USD, BRL, EUR ou GBP",
     instruction3:
-      "Clique ou toque no display BTC/SATS ou no display de moedas fiduciárias para inserir o valor e pressione OK para atualizar o painel",
+      "Toque no valor em Bitcoin ou no valor em moeda para selecioná-lo (indicado pela barra laranja) e digite no teclado — os dois valores são atualizados na hora",
     instruction4:
-      "Clique ou toque no botão Atualizar Preço para atualizar o preço atual do Bitcoin",
+      "Toque no ícone de atualizar no topo para atualizar o preço atual do Bitcoin",
     instruction5:
-      "Clique ou toque no valor % de retorno para selecionar um período diferente",
+      "Toque no valor de retorno % para escolher um período diferente",
     instruction6:
       '<a href="https://21bitcoin.info" target="_blank">Aprenda Bitcoin</a>',
     infoModalText0: "Você pode comprar pequenos pedaços de Bitcoin!",
