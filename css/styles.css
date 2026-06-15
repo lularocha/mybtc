@@ -287,15 +287,18 @@ button.lang-btn.active {
   cursor: pointer;
 }
 
-/* Thick orange left bar marks the active (currently editing) field */
+/* Orange triangle marks the active (currently editing) field */
 .amount-display::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 4px;
-  background: var(--surface-active);
+  top: calc(50% - 6px);
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid var(--surface-active);
   opacity: 0;
   transition: opacity var(--transition-standard);
 }
