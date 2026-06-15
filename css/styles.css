@@ -282,7 +282,7 @@ button.lang-btn.active {
   font-size: 50px;
   font-weight: 500;
   background: transparent;
-  padding: 12px 0 12px 18px;
+  padding: 0 0 12px 18px;
   min-height: 64px;
   cursor: pointer;
 }
