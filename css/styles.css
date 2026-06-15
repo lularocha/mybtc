@@ -312,7 +312,7 @@ button.lang-btn.active {
 .amount-value {
   flex: 1;
   min-width: 0;
-  text-align: left;
+  text-align: right;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -355,7 +355,8 @@ button.lang-btn.active {
 }
 
 .amount-display.active-field .paste-btn {
-  display: flex;
+  /* Paste button hidden for now — restore `display: flex` to bring it back */
+  display: none;
 }
 
 .fiat-menu {
@@ -501,8 +502,8 @@ p#current-BTC-change-label {
 }
 
 .keypad button {
-  padding: 16px 0;
-  font-size: 26px;
+  padding: 12px 0;
+  font-size: 21px;
   font-weight: 600;
   background: var(--color-primary-dark);
   color: var(--color-white);

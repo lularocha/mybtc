@@ -179,10 +179,18 @@ window.MYBTC.Core = (function () {
    */
   function formatNumberWithCommas(value, unit) {
     if (unit === "BTC") {
-      // For BTC, format with 8 decimals and commas for thousands
+      // Comma-group the integer part, and always show the full 8 decimals
+      // space-grouped in 3s (e.g. 1.23 456 789) to match btcFormatter.
       const parts = value.split(".");
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      return parts.join(".");
+      const intGrouped = (parts[0] || "0").replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ",",
+      );
+      const decGrouped = (parts[1] || "")
+        .slice(0, 8)
+        .padEnd(8, "0")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      return `${intGrouped}.${decGrouped}`;
     } else if (unit === "SATS") {
       // For SATS, format with commas for thousands (no decimals)
       return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
