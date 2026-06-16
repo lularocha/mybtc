@@ -13,7 +13,7 @@
       sizes="180x180"
       href="assets/apple-touch-icon.png"
     />
-    <link rel="stylesheet" href="css/styles.css?v=17" />
+    <link rel="stylesheet" href="css/styles.css?v=20" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -81,100 +81,103 @@
         </div>
       </div>
 
-      <div class="info-container">
-        <!-- BTC/SATS Amount -->
-        <div class="amount-container">
-          <div class="amount-display active-field" id="BTC-amount-display">
-            <div class="amount-value"><span class="BTC-amount">0</span></div>
-            <div class="display-controls">
-              <button class="paste-btn" aria-label="Paste">
-                <span class="material-symbols-outlined">content_paste</span>
-              </button>
-              <button
-                class="unit-toggle btc-toggle"
-                aria-label="Switch BTC/SATS"
-              >
-                <span class="unit-label">BTC</span>
-                <span class="material-symbols-outlined">unfold_more</span>
-              </button>
+      <div class="bottom-section">
+        <!-- Amount Section -->
+        <div class="amount-section">
+          <!-- BTC/SATS Amount -->
+          <div class="amount-container">
+            <div class="amount-display active-field" id="BTC-amount-display">
+              <div class="amount-value"><span class="BTC-amount">0</span></div>
+              <div class="display-controls">
+                <button class="paste-btn" aria-label="Paste">
+                  <span class="material-symbols-outlined">content_paste</span>
+                </button>
+                <button
+                  class="unit-toggle btc-toggle"
+                  aria-label="Switch BTC/SATS"
+                >
+                  <span class="unit-label">BTC</span>
+                  <span class="material-symbols-outlined">unfold_more</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Multi-Currency Fiat Amount -->
+          <div class="amount-container">
+            <div class="amount-display" id="fiat-amount-display">
+              <div class="amount-value">
+                <span class="fiat-amount">0.00</span>
+              </div>
+              <div class="display-controls">
+                <button class="paste-btn" aria-label="Paste">
+                  <span class="material-symbols-outlined">content_paste</span>
+                </button>
+                <button
+                  class="unit-dropdown fiat-dropdown"
+                  aria-label="Select currency"
+                >
+                  <span class="unit-label">USD</span>
+                  <span class="material-symbols-outlined">unfold_more</span>
+                </button>
+                <div class="fiat-menu" id="fiat-menu"></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Multi-Currency Fiat Amount -->
-        <div class="amount-container">
-          <div class="amount-display" id="fiat-amount-display">
-            <div class="amount-value">
-              <span class="fiat-amount">0.00</span>
-            </div>
-            <div class="display-controls">
-              <button class="paste-btn" aria-label="Paste">
-                <span class="material-symbols-outlined">content_paste</span>
-              </button>
-              <button
-                class="unit-dropdown fiat-dropdown"
-                aria-label="Select currency"
-              >
-                <span class="unit-label">USD</span>
-                <span class="material-symbols-outlined">unfold_more</span>
-              </button>
-              <div class="fiat-menu" id="fiat-menu"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Inline Keypad -->
-      <div class="keypad-section">
-        <div class="keypad">
-          <button onclick="appendToDisplay('1')">1</button>
-          <button onclick="appendToDisplay('2')">2</button>
-          <button onclick="appendToDisplay('3')">3</button>
-          <button onclick="appendToDisplay('4')">4</button>
-          <button onclick="appendToDisplay('5')">5</button>
-          <button onclick="appendToDisplay('6')">6</button>
-          <button onclick="appendToDisplay('7')">7</button>
-          <button onclick="appendToDisplay('8')">8</button>
-          <button onclick="appendToDisplay('9')">9</button>
-          <button onclick="appendToDisplay('.')">.</button>
-          <button onclick="appendToDisplay('0')">0</button>
-          <button
-            class="delete"
-            data-action="delete"
-            onclick="deleteLast()"
-            aria-label="Backspace"
-          >
-            <svg
-              width="1em"
-              height="1em"
-              viewBox="0 0 16 16"
-              class="delete-icon"
+        <!-- Inline Keypad -->
+        <div class="keypad-section">
+          <div class="keypad">
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button
+              class="delete"
+              data-action="delete"
+              onclick="deleteLast()"
+              aria-label="Backspace"
             >
-              <path
-                fill="white"
-                stroke="white"
-                stroke-width="0.5"
-                d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z"
-              />
-              <path
-                fill="white"
-                stroke="white"
-                stroke-width="0.5"
-                d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"
-              />
-            </svg>
-          </button>
+              <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 16 16"
+                class="delete-icon"
+              >
+                <path
+                  fill="white"
+                  stroke="white"
+                  stroke-width="0.5"
+                  d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708L8.683 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.537 5.146a.5.5 0 0 0-.707 0z"
+                />
+                <path
+                  fill="white"
+                  stroke="white"
+                  stroke-width="0.5"
+                  d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="footer">
-        <p class="page-footer" data-translate="pageFooter">
-          developed by Lula Rocha /
-          <a href="https://sugiro.ai" target="_blank" rel="noopener"
-            >sugiro.ai</a
-          >
-        </p>
-        <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
+        <div class="footer">
+          <p class="page-footer" data-translate="pageFooter">
+            developed by Lula Rocha /
+            <a href="https://sugiro.ai" target="_blank" rel="noopener"
+              >sugiro.ai</a
+            >
+          </p>
+          <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
+        </div>
       </div>
 
       <!-- Info Panel (Help) -->
@@ -216,6 +219,6 @@
     </div>
 
     <script src="js/core.js?v=6"></script>
-    <script src="js/app.js?v=5"></script>
+    <script src="js/app.js?v=6"></script>
   </body>
 </html>

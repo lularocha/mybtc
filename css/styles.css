@@ -63,6 +63,7 @@
   --theme-status-neg: #f00;
   --theme-accent: var(--color-accent);
   --divider-color: rgba(0, 0, 0, 0.45);
+  --keypad-bg: #fb0;
 }
 
 :root.dark-mode {
@@ -79,6 +80,7 @@
   --theme-accent: #ff3333;
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
+  --keypad-bg: #444;
 }
 
 /* --------------------------------------------------------------------------
@@ -136,7 +138,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 14px;
+  padding-bottom: 24px;
   border-bottom: 1px solid var(--divider-color);
 }
 
@@ -147,7 +149,7 @@ a {
   margin-top: 20px;
 }
 
-.info-container {
+.amount-section {
   margin-top: 8px;
 }
 
@@ -507,7 +509,7 @@ p#current-BTC-change-label {
   padding: 12px 0;
   font-size: 21px;
   font-weight: 600;
-  background: var(--color-primary-dark);
+  background: var(--keypad-bg);
   color: var(--color-white);
   border-radius: 999px;
   touch-action: manipulation;
@@ -846,5 +848,31 @@ body.dark-mode {
   .info-panel ul li {
     line-height: 1.15 !important;
     padding-bottom: 13px !important;
+  }
+}
+
+/* Touch devices (mobile): drop sticky :hover on buttons, keep tap :active */
+@media (hover: none) {
+  .circle-btn.icon-btn:hover {
+    background-color: var(--surface-idle);
+    color: var(--color-black);
+  }
+
+  .dark-mode .circle-btn.icon-btn:hover {
+    background-color: var(--surface-idle);
+    color: var(--color-gray-muted);
+  }
+
+  .fiat-menu button:hover,
+  .period-menu button:hover {
+    background-color: var(--color-gray-light);
+  }
+
+  .keypad button:hover {
+    background: var(--keypad-bg);
+  }
+
+  .keypad button:active {
+    background: var(--color-warning-hover);
   }
 }

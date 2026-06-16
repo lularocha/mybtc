@@ -15,6 +15,20 @@ document.addEventListener(
 );
 
 // ==============================================
+// HAPTIC FEEDBACK (Android — Vibration API)
+// ==============================================
+// Short tick on every button press, including dynamically-created ones
+// (fiat/period menus). The Vibration API is a no-op on devices without a
+// motor (desktop) and unsupported on iOS Safari, so no platform check needed.
+if ("vibrate" in navigator) {
+  document.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("button")) {
+      navigator.vibrate(10); // ms — tweak for a stronger/lighter tap
+    }
+  });
+}
+
+// ==============================================
 // REFRESH ICON SPIN ANIMATION
 // ==============================================
 document.addEventListener("DOMContentLoaded", () => {
