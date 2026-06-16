@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Info Panel (Help) Logic
   const infoButton = document.getElementById("info");
   const infoPanel = document.getElementById("info-panel");
-  const closeInfoPanel = document.getElementById("close-info-panel");
 
   if (infoButton && infoPanel) {
     infoButton.setAttribute("aria-expanded", "false");
@@ -92,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     infoButton.addEventListener("click", openPanel);
-    if (closeInfoPanel) closeInfoPanel.addEventListener("click", closePanel);
 
     window.addEventListener("click", (event) => {
       if (

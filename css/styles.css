@@ -552,26 +552,11 @@ p#current-BTC-change-label {
   position: relative;
 }
 
-.close-btn {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-gray-dim);
-  color: var(--color-white);
-  border-radius: 50%;
-  font-size: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* Tabs (How to use / About SATS) */
 .panel-tabs {
   display: flex;
   gap: 4px;
-  margin: 28px 0 22px;
+  margin: 0 0 22px;
 }
 
 .tab-btn {
