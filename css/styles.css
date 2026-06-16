@@ -80,7 +80,7 @@
   --theme-accent: #ff3333;
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
-  --keypad-bg: #444;
+  --keypad-bg: #2c2c2c;
 }
 
 /* --------------------------------------------------------------------------
@@ -145,8 +145,8 @@ a {
 .footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+  align-items: baseline;
+  margin-top: 0;
 }
 
 .amount-section {
@@ -496,7 +496,7 @@ p#current-BTC-change-label {
    COMPONENTS - Keypad (inline)
    -------------------------------------------------------------------------- */
 .keypad-section {
-  margin: 10px 0;
+  margin: 10px 0 0;
 }
 
 .keypad {
