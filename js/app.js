@@ -19,7 +19,7 @@ document.addEventListener(
 // ==============================================
 // Android browser haptics go through the Vibration API. Very short pulses can
 // be too weak on some devices, so use a small-but-detectable tap duration.
-const HAPTIC_TAP_MS = 30;
+const HAPTIC_TAP_MS = 45;
 const HAPTIC_TARGET_SELECTOR = [
   "button",
   '[role="button"]',
