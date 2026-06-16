@@ -17,16 +17,43 @@ document.addEventListener(
 // ==============================================
 // HAPTIC FEEDBACK (Android — Vibration API)
 // ==============================================
-// Short tick on every button press, including dynamically-created ones
-// (fiat/period menus). The Vibration API is a no-op on devices without a
-// motor (desktop) and unsupported on iOS Safari, so no platform check needed.
-if ("vibrate" in navigator) {
-  document.addEventListener("pointerdown", (event) => {
-    if (event.target.closest("button")) {
-      navigator.vibrate(10); // ms — tweak for a stronger/lighter tap
-    }
-  });
+// Android browser haptics go through the Vibration API. Very short pulses can
+// be too weak on some devices, so use a small-but-detectable tap duration.
+const HAPTIC_TAP_MS = 30;
+const HAPTIC_TARGET_SELECTOR = [
+  "button",
+  '[role="button"]',
+  ".amount-display",
+  ".dark-mode-icon",
+  "#current-BTC-change-display",
+].join(",");
+
+function triggerHapticFeedback(duration = HAPTIC_TAP_MS) {
+  if (typeof navigator.vibrate !== "function") return false;
+
+  try {
+    return navigator.vibrate(duration);
+  } catch {
+    return false;
+  }
 }
+
+document.addEventListener(
+  "pointerdown",
+  (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    if (target?.closest(HAPTIC_TARGET_SELECTOR)) {
+      triggerHapticFeedback();
+    }
+  },
+  { passive: true },
+);
+
+window.MYBTC = window.MYBTC || {};
+window.MYBTC.Haptics = {
+  tap: triggerHapticFeedback,
+  isSupported: () => typeof navigator.vibrate === "function",
+};
 
 // ==============================================
 // REFRESH ICON SPIN ANIMATION
