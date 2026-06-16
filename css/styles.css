@@ -734,6 +734,11 @@ body.dark-mode {
   background-color: var(--theme-bg-page);
 }
 
+.dark-mode .tab-btn.active {
+  background: #f70;
+  color: var(--color-white);
+}
+
 .dark-mode-icon {
   width: 36px;
   height: 36px;
