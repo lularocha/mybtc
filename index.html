@@ -13,7 +13,7 @@
       sizes="180x180"
       href="assets/apple-touch-icon.png"
     />
-    <link rel="stylesheet" href="css/styles.css?v=24" />
+    <link rel="stylesheet" href="css/styles.css?v=26" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -180,45 +180,64 @@
         </div>
       </div>
 
-      <!-- Info Panel (Help) -->
+      <!-- Info Panel (Help) — tabbed: How to use / About SATS -->
       <div class="info-panel" id="info-panel">
         <div class="info-panel-content">
           <button id="close-info-panel" class="close-btn">
             <span class="closex">×</span>
           </button>
-          <h3 class="panel-title" data-translate="howToUse">How to use:</h3>
-          <ul>
-            <li data-translate="instruction1">Instruction 1</li>
-            <li data-translate="instruction2">Instruction 2</li>
-            <li data-translate="instruction3">Instruction 3</li>
-            <li data-translate="instruction4">Instruction 4</li>
-            <li data-translate="instruction5">Instruction 5</li>
-            <li data-translate="instruction6">
-              <a href="https://21bitcoin.info" target="_blank">Learn Bitcoin</a>
-            </li>
-          </ul>
-        </div>
-      </div>
 
-      <!-- Sats Info Modal (parked - trigger to be decided) -->
-      <div class="info-modal" id="info-modal" style="display: none">
-        <button class="close-modal-btn" id="close-info-modal">×</button>
-        <p class="modal-text" data-translate="infoModalText0">
-          Placeholder text for the new first paragraph of the info modal.
-        </p>
-        <p class="modal-text" data-translate="infoModalText1">
-          Placeholder text for the first paragraph of the info modal.
-        </p>
-        <p class="modal-text" data-translate="infoModalText2">
-          Placeholder text for the second paragraph of the info modal.
-        </p>
-        <p class="modal-text" data-translate="infoModalText3">
-          Placeholder text for the third paragraph of the info modal.
-        </p>
+          <div class="panel-tabs" role="tablist">
+            <button
+              class="tab-btn active"
+              data-tab="how-to-use"
+              data-translate="tabHowToUse"
+            >
+              How to use
+            </button>
+            <button
+              class="tab-btn"
+              data-tab="about-sats"
+              data-translate="tabAboutSats"
+            >
+              About SATS
+            </button>
+          </div>
+
+          <div class="tab-pane active" id="tab-how-to-use">
+            <ul>
+              <li data-translate="instruction1">Instruction 1</li>
+              <li data-translate="instruction2">Instruction 2</li>
+              <li data-translate="instruction3">Instruction 3</li>
+              <li data-translate="instruction4">Instruction 4</li>
+              <li data-translate="instruction5">Instruction 5</li>
+              <li data-translate="instruction6">
+                <a href="https://21bitcoin.info" target="_blank"
+                  >Learn Bitcoin</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-pane" id="tab-about-sats">
+            <p class="modal-text" data-translate="infoModalText0">
+              Placeholder text for the new first paragraph of the info modal.
+            </p>
+            <p class="modal-text" data-translate="infoModalText1">
+              Placeholder text for the first paragraph of the info modal.
+            </p>
+            <p class="modal-text" data-translate="infoModalText2">
+              Placeholder text for the second paragraph of the info modal.
+            </p>
+            <p class="modal-text" data-translate="infoModalText3">
+              Placeholder text for the third paragraph of the info modal.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <script src="js/core.js?v=6"></script>
-    <script src="js/app.js?v=6"></script>
+    <script src="js/core.js?v=7"></script>
+    <script src="js/app.js?v=7"></script>
   </body>
 </html>

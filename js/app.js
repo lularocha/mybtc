@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==============================================
-// INFO PANEL (Help) & SATS INFO MODAL
+// INFO PANEL (Help) — tabbed: How to use / About SATS
 // ==============================================
 document.addEventListener("DOMContentLoaded", () => {
   // Info Panel (Help) Logic
@@ -63,7 +63,25 @@ document.addEventListener("DOMContentLoaded", () => {
     infoButton.setAttribute("aria-expanded", "false");
     infoButton.setAttribute("aria-controls", "info-panel");
 
+    // Tabbed content: How to use / About SATS
+    const tabButtons = infoPanel.querySelectorAll(".tab-btn");
+    const tabPanes = infoPanel.querySelectorAll(".tab-pane");
+
+    const activateTab = (tabId) => {
+      tabButtons.forEach((btn) =>
+        btn.classList.toggle("active", btn.dataset.tab === tabId),
+      );
+      tabPanes.forEach((pane) =>
+        pane.classList.toggle("active", pane.id === `tab-${tabId}`),
+      );
+    };
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+    });
+
     const openPanel = () => {
+      activateTab("how-to-use"); // always open on the first tab
       infoPanel.classList.add("open");
       infoButton.setAttribute("aria-expanded", "true");
     };
@@ -82,57 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
         !infoButton.contains(event.target)
       ) {
         closePanel();
-      }
-    });
-  }
-
-  // Sats Info Modal Logic (parked: no trigger wired until decided)
-  const infoIcon = document.querySelector(".info-icon");
-  const infoModal = document.getElementById("info-modal");
-  const closeModalBtn = document.getElementById("close-info-modal");
-
-  if (infoIcon && infoModal) {
-    infoIcon.setAttribute("aria-expanded", "false");
-    infoIcon.setAttribute("aria-controls", "info-modal");
-    infoIcon.setAttribute("tabindex", "0");
-
-    const openModal = () => {
-      infoModal.style.display = "block";
-      setTimeout(() => infoModal.classList.add("is-visible"), 10);
-      infoIcon.setAttribute("aria-expanded", "true");
-    };
-
-    const closeModal = () => {
-      infoModal.classList.remove("is-visible");
-      setTimeout(() => {
-        if (!infoModal.classList.contains("is-visible")) {
-          infoModal.style.display = "none";
-        }
-      }, 300);
-      infoIcon.setAttribute("aria-expanded", "false");
-    };
-
-    infoIcon.addEventListener("mouseover", openModal);
-    infoIcon.addEventListener("mouseout", closeModal);
-    infoIcon.addEventListener("click", (e) => {
-      e.preventDefault();
-      openModal();
-    });
-    infoIcon.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      openModal();
-    });
-    if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-
-    document.addEventListener("click", (e) => {
-      if (!infoModal.contains(e.target) && e.target !== infoIcon) {
-        closeModal();
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && infoModal.classList.contains("is-visible")) {
-        closeModal();
       }
     });
   }

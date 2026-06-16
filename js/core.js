@@ -8,6 +8,8 @@ const translations = {
     pageFooter:
       'developed by Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     howToUse: "How to use:",
+    tabHowToUse: "How to use",
+    tabAboutSats: "About SATS",
     instruction1:
       "Tap EN or PT at the top to switch between English and Portuguese",
     instruction2:
@@ -56,6 +58,8 @@ const translations = {
     pageFooter:
       'desenvolvido por Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     howToUse: "Como usar:",
+    tabHowToUse: "Como usar",
+    tabAboutSats: "Sobre SATS",
     instruction1:
       "Toque em EN ou PT no topo para alternar entre Inglês e Português",
     instruction2:
