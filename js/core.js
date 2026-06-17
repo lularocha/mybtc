@@ -160,12 +160,17 @@ window.MYBTC.Core = (function () {
     maximumFractionDigits: 2,
   });
 
+  const BTC_DECIMAL_GROUP_SEPARATOR = " ";
+
   const btcFormatter = {
     format(value) {
       const fixed = (Number(value) || 0).toFixed(8);
       const [intPart, decPart] = fixed.split(".");
       const intGrouped = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      const decGrouped = decPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      const decGrouped = decPart.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        BTC_DECIMAL_GROUP_SEPARATOR,
+      );
       return `${intGrouped}.${decGrouped}`;
     },
   };
@@ -192,7 +197,7 @@ window.MYBTC.Core = (function () {
       const decGrouped = (parts[1] || "")
         .slice(0, 8)
         .padEnd(8, "0")
-        .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        .replace(/\B(?=(\d{3})+(?!\d))/g, BTC_DECIMAL_GROUP_SEPARATOR);
       return `${intGrouped}.${decGrouped}`;
     } else if (unit === "SATS") {
       // For SATS, format with commas for thousands (no decimals)
@@ -229,10 +234,17 @@ window.MYBTC.Core = (function () {
     return text.replace(/[^0-9]/g, "").length;
   }
 
-  // Scale factor for the amount-field fonts. The inline unit picker eats
-  // horizontal space next to the value, so the values render a bit smaller
-  // than the legacy full-width display to avoid clipping.
-  const FONT_SCALE = 0.8;
+  function clampNumber(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function getFluidAmountFontSize() {
+    return clampNumber(window.innerWidth * (40 / 425), 28, 52);
+  }
+
+  function shrinkFontSizeForExtraDigits(baseSize, extraDigits) {
+    return baseSize * Math.max(0.76, 1 - extraDigits * 0.08);
+  }
 
   /**
    * Calculate font size for BTC/SATS display based on digit count and screen width
@@ -240,36 +252,9 @@ window.MYBTC.Core = (function () {
    * @returns {number} Font size in pixels
    */
   function getFontSizeBtcSats(digitCount) {
-    const screenWidth = window.innerWidth;
-    if (screenWidth >= 520) return 50 * FONT_SCALE;
-
-    const fontSizeTable = {
-      case1: {
-        maxWidth: 519,
-        minWidth: 430,
-        sizes: { 9: 50, 10: 46, 11: 42, 12: 38 },
-      },
-      case2: {
-        maxWidth: 429,
-        minWidth: 375,
-        sizes: { 9: 42.5, 10: 39.1, 11: 35.7, 12: 32.3 },
-      },
-      case3: {
-        maxWidth: 374,
-        minWidth: 320,
-        sizes: { 9: 35, 10: 32.2, 11: 29.4, 12: 26.6 },
-      },
-    };
-
-    let caseKey =
-      screenWidth >= 430 ? "case1" : screenWidth >= 375 ? "case2" : "case3";
-    const effectiveDigitCount = Math.min(digitCount, 12);
-    const sizeKey = effectiveDigitCount <= 9 ? 9 : effectiveDigitCount;
-
-    return (
-      (fontSizeTable[caseKey].sizes[sizeKey] ||
-        fontSizeTable[caseKey].sizes[12]) * FONT_SCALE
-    );
+    const baseSize = getFluidAmountFontSize();
+    const extraDigits = Math.max(0, Math.min(digitCount, 12) - 9);
+    return shrinkFontSizeForExtraDigits(baseSize, extraDigits);
   }
 
   /**
@@ -278,36 +263,9 @@ window.MYBTC.Core = (function () {
    * @returns {number} Font size in pixels
    */
   function getFontSizeUsdBrl(digitCount) {
-    const screenWidth = window.innerWidth;
-    if (screenWidth >= 520) return 50 * FONT_SCALE;
-
-    const fontSizeTable = {
-      case1: {
-        maxWidth: 519,
-        minWidth: 430,
-        sizes: { 8: 50, 9: 46, 10: 42, 11: 38 },
-      },
-      case2: {
-        maxWidth: 429,
-        minWidth: 375,
-        sizes: { 8: 42.5, 9: 39.1, 10: 35.7, 11: 32.3 },
-      },
-      case3: {
-        maxWidth: 374,
-        minWidth: 320,
-        sizes: { 8: 35, 9: 32.2, 10: 29.4, 11: 26.6 },
-      },
-    };
-
-    let caseKey =
-      screenWidth >= 430 ? "case1" : screenWidth >= 375 ? "case2" : "case3";
-    const effectiveDigitCount = Math.min(digitCount, 11);
-    const sizeKey = effectiveDigitCount <= 8 ? 8 : effectiveDigitCount;
-
-    return (
-      (fontSizeTable[caseKey].sizes[sizeKey] ||
-        fontSizeTable[caseKey].sizes[11]) * FONT_SCALE
-    );
+    const baseSize = getFluidAmountFontSize();
+    const extraDigits = Math.max(0, Math.min(digitCount, 11) - 8);
+    return shrinkFontSizeForExtraDigits(baseSize, extraDigits);
   }
 
   /**

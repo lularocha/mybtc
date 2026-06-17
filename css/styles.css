@@ -70,6 +70,8 @@
   --theme-light-active-text: var(--color-black);
   --theme-dark-active-bg: var(--color-gray-btn);
   --theme-dark-active-text: var(--color-gray-muted);
+  --amount-active-text: var(--color-black);
+  --amount-inactive-text: #555;
   --divider-color: rgba(0, 0, 0, 0.45);
   --keypad-bg: #fb0;
 }
@@ -94,6 +96,8 @@
   --theme-light-active-text: var(--color-gray-muted);
   --theme-dark-active-bg: var(--color-warning-hover);
   --theme-dark-active-text: var(--color-white);
+  --amount-active-text: var(--color-white);
+  --amount-inactive-text: #999;
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
   --keypad-bg: #2c2c2c;
@@ -351,29 +355,15 @@ button.lang-btn.active {
   font-size: 50px;
   font-weight: 500;
   background: transparent;
-  padding: 0 0 12px 18px;
+  color: var(--amount-inactive-text);
+  padding: 0 0 12px;
   min-height: 64px;
   cursor: pointer;
+  transition: color var(--transition-standard);
 }
 
-/* Orange triangle marks the active (currently editing) field */
-.amount-display::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: calc(50% - 2px);
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-left: 12px solid var(--surface-active);
-  opacity: 0;
-  transition: opacity var(--transition-standard);
-}
-
-.amount-display.active-field::before {
-  opacity: 1;
+.amount-display.active-field {
+  color: var(--amount-active-text);
 }
 
 /* BTC and fiat values are separated only by a divider line, no box */
@@ -402,7 +392,7 @@ button.lang-btn.active {
   align-items: center;
   gap: 1px;
   background: transparent;
-  color: var(--color-black);
+  color: inherit;
   font-size: 1.1rem;
   font-weight: 700;
 }
@@ -761,7 +751,6 @@ body.dark-mode {
 
 .dark-mode .amount-display {
   background-color: transparent;
-  color: var(--theme-text-main);
 }
 
 /* --------------------------------------------------------------------------
@@ -793,8 +782,6 @@ body.dark-mode {
   color: var(--color-accent);
 }
 
-.dark-mode .unit-toggle,
-.dark-mode .unit-dropdown,
 .dark-mode .paste-btn {
   color: var(--theme-text-main);
 }

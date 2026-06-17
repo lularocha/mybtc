@@ -42,3 +42,6 @@ build/
 
 # Design references
 new ui.png
+
+# Local migration notes
+ios-android-version/
