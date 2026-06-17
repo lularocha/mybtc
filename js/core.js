@@ -239,7 +239,7 @@ window.MYBTC.Core = (function () {
   }
 
   function getFluidAmountFontSize() {
-    return clampNumber(window.innerWidth * (40 / 425), 28, 52);
+    return clampNumber(window.innerWidth * (45 / 425), 28, 52);
   }
 
   function shrinkFontSizeForExtraDigits(baseSize, extraDigits) {
