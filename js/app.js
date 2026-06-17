@@ -24,7 +24,7 @@ const HAPTIC_TARGET_SELECTOR = [
   "button",
   '[role="button"]',
   ".amount-display",
-  ".dark-mode-icon",
+  ".theme-btn",
   "#current-BTC-change-display",
 ].join(",");
 
@@ -60,9 +60,7 @@ window.MYBTC.Haptics = {
 // ==============================================
 document.addEventListener("DOMContentLoaded", () => {
   const refreshButton = document.getElementById("refresh");
-  const refreshIcon = refreshButton?.querySelector(
-    ".material-symbols-outlined",
-  );
+  const refreshIcon = refreshButton?.querySelector(".icon-refresh");
 
   window.spinRefresh = function () {
     if (!refreshIcon) return;
@@ -78,20 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==============================================
-// INFO PANEL (Help) — tabbed: How to use / About SATS
+// SETTINGS PANEL — language/theme controls plus help tabs
 // ==============================================
 document.addEventListener("DOMContentLoaded", () => {
-  // Info Panel (Help) Logic
-  const infoButton = document.getElementById("info");
-  const infoPanel = document.getElementById("info-panel");
+  const settingsButton = document.getElementById("settings");
+  const settingsPanel = document.getElementById("settings-panel");
 
-  if (infoButton && infoPanel) {
-    infoButton.setAttribute("aria-expanded", "false");
-    infoButton.setAttribute("aria-controls", "info-panel");
-
-    // Tabbed content: How to use / About SATS
-    const tabButtons = infoPanel.querySelectorAll(".tab-btn");
-    const tabPanes = infoPanel.querySelectorAll(".tab-pane");
+  if (settingsButton && settingsPanel) {
+    const tabButtons = settingsPanel.querySelectorAll(".tab-btn");
+    const tabPanes = settingsPanel.querySelectorAll(".tab-pane");
 
     const activateTab = (tabId) => {
       tabButtons.forEach((btn) =>
@@ -108,24 +101,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const openPanel = () => {
       activateTab("how-to-use"); // always open on the first tab
-      infoPanel.classList.add("open");
-      infoButton.setAttribute("aria-expanded", "true");
+      settingsPanel.classList.add("open");
+      settingsButton.setAttribute("aria-expanded", "true");
     };
 
     const closePanel = () => {
-      infoPanel.classList.remove("open");
-      infoButton.setAttribute("aria-expanded", "false");
+      settingsPanel.classList.remove("open");
+      settingsButton.setAttribute("aria-expanded", "false");
     };
 
-    infoButton.addEventListener("click", openPanel);
+    settingsButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (settingsPanel.classList.contains("open")) {
+        closePanel();
+      } else {
+        openPanel();
+      }
+    });
 
     window.addEventListener("click", (event) => {
       if (
-        !infoPanel.contains(event.target) &&
-        !infoButton.contains(event.target)
+        !settingsPanel.contains(event.target) &&
+        !settingsButton.contains(event.target)
       ) {
         closePanel();
       }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closePanel();
     });
   }
 });
@@ -144,28 +148,25 @@ function toggleDarkMode(enabled) {
 }
 
 function setupDarkModeToggle() {
-  const darkModeIconContainer = document.querySelector(".dark-mode-icon");
-  if (!darkModeIconContainer) return;
-
-  const createMaterialIcon = (iconName) => {
-    const iconSpan = document.createElement("span");
-    iconSpan.className = "material-symbols-outlined";
-    iconSpan.textContent = iconName;
-    return iconSpan;
-  };
+  const themeButtons = document.querySelectorAll(".theme-btn");
+  if (!themeButtons.length) return;
 
   const updateIcon = (isDark) => {
-    darkModeIconContainer.innerHTML = "";
-    darkModeIconContainer.appendChild(
-      createMaterialIcon(isDark ? "light_mode" : "dark_mode"),
+    themeButtons.forEach((button) =>
+      button.classList.toggle(
+        "active",
+        button.dataset.theme === (isDark ? "dark" : "light"),
+      ),
     );
   };
 
-  darkModeIconContainer.addEventListener("click", () => {
-    const isDarkMode = document.body.classList.contains("dark-mode");
-    toggleDarkMode(!isDarkMode);
-    updateIcon(!isDarkMode);
-    localStorage.setItem("darkMode", !isDarkMode);
+  themeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const shouldUseDarkMode = button.dataset.theme === "dark";
+      toggleDarkMode(shouldUseDarkMode);
+      updateIcon(shouldUseDarkMode);
+      localStorage.setItem("darkMode", shouldUseDarkMode);
+    });
   });
 
   const savedDarkMode = localStorage.getItem("darkMode") === "true";

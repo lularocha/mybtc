@@ -62,6 +62,14 @@
   --theme-status-pos: #090;
   --theme-status-neg: #f00;
   --theme-accent: var(--color-accent);
+  --theme-panel-control-bg: var(--color-gray-btn);
+  --theme-panel-control-text: var(--color-white);
+  --theme-language-active-bg: var(--color-primary);
+  --theme-language-active-text: var(--color-black);
+  --theme-light-active-bg: var(--color-primary);
+  --theme-light-active-text: var(--color-black);
+  --theme-dark-active-bg: var(--color-gray-btn);
+  --theme-dark-active-text: var(--color-gray-muted);
   --divider-color: rgba(0, 0, 0, 0.45);
   --keypad-bg: #fb0;
 }
@@ -78,6 +86,14 @@
   --theme-status-pos: #0c0;
   --theme-status-neg: #ff3333;
   --theme-accent: #ff3333;
+  --theme-panel-control-bg: var(--color-gray-dim);
+  --theme-panel-control-text: var(--color-gray-muted);
+  --theme-language-active-bg: var(--color-warning-hover);
+  --theme-language-active-text: var(--color-white);
+  --theme-light-active-bg: var(--color-gray-btn);
+  --theme-light-active-text: var(--color-gray-muted);
+  --theme-dark-active-bg: var(--color-warning-hover);
+  --theme-dark-active-text: var(--color-white);
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
   --keypad-bg: #2c2c2c;
@@ -144,9 +160,10 @@ a {
 
 .footer {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-top: 0;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  text-align: center;
 }
 
 .amount-section {
@@ -198,10 +215,31 @@ h1#sugiro-logo {
   animation: spinEightTimes 1s ease-in-out;
 }
 
-.circle-group {
+.header-actions {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
+}
+
+.header-icon-btn {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black);
+  background: transparent;
+}
+
+.header-icon-btn:hover,
+.header-icon-btn:focus-visible {
+  color: var(--surface-active);
+}
+
+.header-icon-btn .icon {
+  width: 34px;
+  height: 34px;
 }
 
 .circle-btn {
@@ -253,28 +291,57 @@ button.lang-btn.active {
   color: var(--color-white);
 }
 
-.circle-btn.icon-btn {
-  background-color: var(--surface-idle);
-  color: var(--color-black);
-}
-
-.circle-btn.icon-btn .material-symbols-outlined {
-  font-size: 24px;
-}
-
-.circle-btn.icon-btn:hover {
-  background-color: var(--surface-active);
-  color: var(--color-white);
-}
-
-.circle-btn.icon-btn .material-symbols-outlined.spin {
-  display: inline-block;
-  animation: spinEightTimes 1s ease-in-out;
-}
-
 /* --------------------------------------------------------------------------
    COMPONENTS - Displays & Inputs
    -------------------------------------------------------------------------- */
+.icon {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.icon-refresh {
+  mask-image: url("../assets/rotate-cw.svg");
+  -webkit-mask-image: url("../assets/rotate-cw.svg");
+}
+
+.icon-settings {
+  mask-image: url("../assets/settings.svg");
+  -webkit-mask-image: url("../assets/settings.svg");
+}
+
+.icon-chevrons-up-down {
+  mask-image: url("../assets/chevrons-up-down.svg");
+  -webkit-mask-image: url("../assets/chevrons-up-down.svg");
+}
+
+.icon-clipboard {
+  mask-image: url("../assets/clipboard.svg");
+  -webkit-mask-image: url("../assets/clipboard.svg");
+}
+
+.icon-sun {
+  mask-image: url("../assets/sun.svg");
+  -webkit-mask-image: url("../assets/sun.svg");
+}
+
+.icon-moon {
+  mask-image: url("../assets/moon.svg");
+  -webkit-mask-image: url("../assets/moon.svg");
+}
+
+.icon.spin {
+  animation: spinEightTimes 1s ease-in-out;
+}
+
 .amount-display {
   position: relative;
   display: flex;
@@ -340,9 +407,10 @@ button.lang-btn.active {
   font-weight: 700;
 }
 
-.unit-toggle .material-symbols-outlined,
-.unit-dropdown .material-symbols-outlined {
-  font-size: 20px;
+.unit-toggle .icon,
+.unit-dropdown .icon {
+  width: 18px;
+  height: 18px;
 }
 
 .paste-btn {
@@ -354,8 +422,9 @@ button.lang-btn.active {
   padding: 0;
 }
 
-.paste-btn .material-symbols-outlined {
-  font-size: 22px;
+.paste-btn .icon {
+  width: 22px;
+  height: 22px;
 }
 
 .amount-display.active-field .paste-btn {
@@ -527,9 +596,9 @@ p#current-BTC-change-label {
 }
 
 /* --------------------------------------------------------------------------
-   OVERLAYS - Info Panel & Info Modal
+   OVERLAYS - Settings Panel & Info Content
    -------------------------------------------------------------------------- */
-.info-panel {
+.settings-panel {
   position: fixed;
   top: 0;
   right: -135%;
@@ -542,14 +611,61 @@ p#current-BTC-change-label {
   z-index: var(--z-overlay);
 }
 
-.info-panel.open {
-  right: -25px;
+.settings-panel.open {
+  right: 0;
 }
 
-.info-panel-content {
+.settings-panel-content {
   color: var(--color-white);
   padding: 20px;
   position: relative;
+}
+
+.settings-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 46px;
+}
+
+.panel-circle-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--theme-panel-control-bg);
+  color: var(--theme-panel-control-text);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+button.panel-circle-btn {
+  background: var(--theme-panel-control-bg);
+  color: var(--theme-panel-control-text);
+}
+
+.panel-circle-btn .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.panel-circle-btn.lang-btn.active {
+  background: var(--theme-language-active-bg);
+  color: var(--theme-language-active-text);
+}
+
+.theme-btn[data-theme="light"].active {
+  background: var(--theme-light-active-bg);
+  color: var(--theme-light-active-text);
+}
+
+.theme-btn[data-theme="dark"].active {
+  background: var(--theme-dark-active-bg);
+  color: var(--theme-dark-active-text);
 }
 
 /* Tabs (How to use / About SATS) */
@@ -585,29 +701,29 @@ p#current-BTC-change-label {
   display: block;
 }
 
-.info-panel p,
-.info-panel ul {
+.settings-panel p,
+.settings-panel ul {
   font-size: 1.1rem;
   font-weight: 500;
 }
 
-.info-panel ul {
+.settings-panel ul {
   list-style-type: none;
   padding-left: 0;
   margin-bottom: 0;
 }
 
-.info-panel ul li {
+.settings-panel ul li {
   line-height: 1.35;
   padding-bottom: 20px;
 }
 
-.info-panel a {
+.settings-panel a {
   color: var(--color-white);
   border-bottom: 1px dashed var(--color-white);
 }
 
-.info-panel a:hover {
+.settings-panel a:hover {
   color: var(--color-accent);
   border-bottom: 1px solid var(--color-accent);
 }
@@ -683,14 +799,13 @@ body.dark-mode {
   color: var(--theme-text-main);
 }
 
-.dark-mode .circle-btn.icon-btn {
-  background-color: var(--surface-idle);
-  color: var(--color-gray-muted);
+.dark-mode .header-icon-btn {
+  color: var(--theme-text-main);
 }
 
-.dark-mode .circle-btn.icon-btn:hover {
-  background-color: var(--surface-active);
-  color: var(--color-white);
+.dark-mode .header-icon-btn:hover,
+.dark-mode .header-icon-btn:focus-visible {
+  color: var(--surface-active);
 }
 
 .dark-mode .fiat-menu {
@@ -707,16 +822,6 @@ body.dark-mode {
   color: var(--color-white);
 }
 
-.dark-mode button.lang-btn {
-  background-color: var(--surface-idle);
-  color: var(--color-gray-muted);
-}
-
-.dark-mode button.lang-btn.active {
-  background-color: var(--surface-active);
-  color: var(--theme-active-btn-text) !important;
-}
-
 .dark-mode .period-menu {
   background-color: var(--theme-bg-secondary);
 }
@@ -730,7 +835,7 @@ body.dark-mode {
   background-color: var(--surface-active);
 }
 
-.dark-mode .info-panel {
+.dark-mode .settings-panel {
   background-color: var(--theme-bg-page);
 }
 
@@ -739,34 +844,8 @@ body.dark-mode {
   color: var(--color-white);
 }
 
-.dark-mode-icon {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background: #fb0;
-  margin-left: 10px;
-  margin-top: 18px;
-}
-
-.dark-mode-icon .material-symbols-outlined {
-  font-size: 24px;
-  color: var(--color-white);
-}
-
-/* Dark mode keeps the original switcher look */
-.dark-mode .dark-mode-icon {
-  background: var(--color-gray-dim);
-}
-
-.dark-mode .dark-mode-icon .material-symbols-outlined {
-  color: var(--color-accent);
+.dark-mode .tab-pane p.modal-text[data-translate="infoModalText0"] {
+  color: #fa0;
 }
 
 /* Override for larger screens */
@@ -832,16 +911,16 @@ body.dark-mode {
 
 /* Extra Small Screens */
 @media (max-width: 325px) {
-  .info-panel {
+  .settings-panel {
     width: 330px;
   }
 
-  .info-panel p,
-  .info-panel ul {
+  .settings-panel p,
+  .settings-panel ul {
     font-size: 0.9rem !important;
   }
 
-  .info-panel ul li {
+  .settings-panel ul li {
     line-height: 1.15 !important;
     padding-bottom: 13px !important;
   }
@@ -849,14 +928,12 @@ body.dark-mode {
 
 /* Touch devices (mobile): drop sticky :hover on buttons, keep tap :active */
 @media (hover: none) {
-  .circle-btn.icon-btn:hover {
-    background-color: var(--surface-idle);
+  .header-icon-btn:hover {
     color: var(--color-black);
   }
 
-  .dark-mode .circle-btn.icon-btn:hover {
-    background-color: var(--surface-idle);
-    color: var(--color-gray-muted);
+  .dark-mode .header-icon-btn:hover {
+    color: var(--theme-text-main);
   }
 
   .fiat-menu button:hover,

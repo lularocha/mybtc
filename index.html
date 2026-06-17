@@ -13,16 +13,12 @@
       sizes="180x180"
       href="assets/apple-touch-icon.png"
     />
-    <link rel="stylesheet" href="css/styles.css?v=28" />
+    <link rel="stylesheet" href="css/styles.css?v=32" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       rel="stylesheet"
     />
   </head>
@@ -38,19 +34,23 @@
             </div>
           </div>
 
-          <div class="circle-group">
+          <div class="header-actions">
             <button
-              class="circle-btn icon-btn"
+              class="header-icon-btn"
               id="refresh"
               aria-label="Refresh price"
             >
-              <span class="material-symbols-outlined">refresh</span>
+              <span class="icon icon-refresh" aria-hidden="true"></span>
             </button>
-            <button class="circle-btn icon-btn" id="info" aria-label="Help">
-              <span class="material-symbols-outlined">help</span>
+            <button
+              class="header-icon-btn"
+              id="settings"
+              aria-label="Settings"
+              aria-expanded="false"
+              aria-controls="settings-panel"
+            >
+              <span class="icon icon-settings" aria-hidden="true"></span>
             </button>
-            <button class="circle-btn lang-btn" data-lang="pt">PT</button>
-            <button class="circle-btn lang-btn" data-lang="en">EN</button>
           </div>
         </div>
 
@@ -90,14 +90,17 @@
               <div class="amount-value"><span class="BTC-amount">0</span></div>
               <div class="display-controls">
                 <button class="paste-btn" aria-label="Paste">
-                  <span class="material-symbols-outlined">content_paste</span>
+                  <span class="icon icon-clipboard" aria-hidden="true"></span>
                 </button>
                 <button
                   class="unit-toggle btc-toggle"
                   aria-label="Switch BTC/SATS"
                 >
                   <span class="unit-label">BTC</span>
-                  <span class="material-symbols-outlined">unfold_more</span>
+                  <span
+                    class="icon icon-chevrons-up-down"
+                    aria-hidden="true"
+                  ></span>
                 </button>
               </div>
             </div>
@@ -111,14 +114,17 @@
               </div>
               <div class="display-controls">
                 <button class="paste-btn" aria-label="Paste">
-                  <span class="material-symbols-outlined">content_paste</span>
+                  <span class="icon icon-clipboard" aria-hidden="true"></span>
                 </button>
                 <button
                   class="unit-dropdown fiat-dropdown"
                   aria-label="Select currency"
                 >
                   <span class="unit-label">USD</span>
-                  <span class="material-symbols-outlined">unfold_more</span>
+                  <span
+                    class="icon icon-chevrons-up-down"
+                    aria-hidden="true"
+                  ></span>
                 </button>
                 <div class="fiat-menu" id="fiat-menu"></div>
               </div>
@@ -176,64 +182,83 @@
               >sugiro.ai</a
             >
           </p>
-          <p class="dark-mode-icon">Insert Dark Mode Icon Here</p>
         </div>
       </div>
 
-      <!-- Info Panel (Help) — tabbed: How to use / About SATS -->
-      <div class="info-panel" id="info-panel">
-        <div class="info-panel-content">
-          <div class="panel-tabs" role="tablist">
-            <button
-              class="tab-btn active"
-              data-tab="how-to-use"
-              data-translate="tabHowToUse"
-            >
-              How to use
-            </button>
-            <button
-              class="tab-btn"
-              data-tab="about-sats"
-              data-translate="tabAboutSats"
-            >
-              About SATS
-            </button>
-          </div>
+    </div>
 
-          <div class="tab-pane active" id="tab-how-to-use">
-            <ul>
-              <li data-translate="instruction1">Instruction 1</li>
-              <li data-translate="instruction2">Instruction 2</li>
-              <li data-translate="instruction3">Instruction 3</li>
-              <li data-translate="instruction4">Instruction 4</li>
-              <li data-translate="instruction5">Instruction 5</li>
-              <li data-translate="instruction6">
-                <a href="https://21bitcoin.info" target="_blank"
-                  >Learn Bitcoin</a
-                >
-              </li>
-            </ul>
-          </div>
+    <!-- Settings Panel — language/theme controls plus help tabs -->
+    <div class="settings-panel" id="settings-panel">
+      <div class="settings-panel-content">
+        <div class="settings-controls" aria-label="Settings controls">
+          <button class="panel-circle-btn lang-btn" data-lang="pt">PT</button>
+          <button class="panel-circle-btn lang-btn" data-lang="en">EN</button>
+          <button
+            class="panel-circle-btn theme-btn"
+            data-theme="light"
+            aria-label="Light theme"
+          >
+            <span class="icon icon-sun" aria-hidden="true"></span>
+          </button>
+          <button
+            class="panel-circle-btn theme-btn"
+            data-theme="dark"
+            aria-label="Dark theme"
+          >
+            <span class="icon icon-moon" aria-hidden="true"></span>
+          </button>
+        </div>
 
-          <div class="tab-pane" id="tab-about-sats">
-            <p class="modal-text" data-translate="infoModalText0">
-              Placeholder text for the new first paragraph of the info modal.
-            </p>
-            <p class="modal-text" data-translate="infoModalText1">
-              Placeholder text for the first paragraph of the info modal.
-            </p>
-            <p class="modal-text" data-translate="infoModalText2">
-              Placeholder text for the second paragraph of the info modal.
-            </p>
-            <p class="modal-text" data-translate="infoModalText3">
-              Placeholder text for the third paragraph of the info modal.
-            </p>
-          </div>
+        <div class="panel-tabs" role="tablist">
+          <button
+            class="tab-btn active"
+            data-tab="how-to-use"
+            data-translate="tabHowToUse"
+          >
+            How to use
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="about-sats"
+            data-translate="tabAboutSats"
+          >
+            About SATS
+          </button>
+        </div>
+
+        <div class="tab-pane active" id="tab-how-to-use">
+          <ul>
+            <li data-translate="instruction1">Instruction 1</li>
+            <li data-translate="instruction2">Instruction 2</li>
+            <li data-translate="instruction3">Instruction 3</li>
+            <li data-translate="instruction4">Instruction 4</li>
+            <li data-translate="instruction5">Instruction 5</li>
+            <li data-translate="instruction6">
+              <a href="https://21bitcoin.info" target="_blank"
+                >Learn Bitcoin</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="tab-pane" id="tab-about-sats">
+          <p class="modal-text" data-translate="infoModalText0">
+            Placeholder text for the new first paragraph of the info modal.
+          </p>
+          <p class="modal-text" data-translate="infoModalText1">
+            Placeholder text for the first paragraph of the info modal.
+          </p>
+          <p class="modal-text" data-translate="infoModalText2">
+            Placeholder text for the second paragraph of the info modal.
+          </p>
+          <p class="modal-text" data-translate="infoModalText3">
+            Placeholder text for the third paragraph of the info modal.
+          </p>
         </div>
       </div>
     </div>
 
     <script src="js/core.js?v=7"></script>
-    <script src="js/app.js?v=10"></script>
+    <script src="js/app.js?v=11"></script>
   </body>
 </html>
