@@ -58,7 +58,7 @@
   --theme-bg-page: var(--color-black);
   --theme-text-main: var(--color-black);
   --theme-text-white: var(--color-white);
-  --theme-active-btn-text: var(--color-white);
+  --theme-active-btn-text: var(--color-black);
   --theme-status-pos: #090;
   --theme-status-neg: #f00;
   --theme-accent: var(--color-accent);
@@ -66,7 +66,7 @@
   --amount-inactive-text: #555;
   --divider-color: rgba(0, 0, 0, 0.45);
   --keypad-bg: rgba(255, 0, 0, 0.15);
-  --keypad-text: var(--color-white);
+  --keypad-text: var(--color-black);
   --keypad-active-bg: var(--color-gray-light);
   --settings-panel-bg: var(--color-white);
   --settings-panel-text: var(--color-black);
@@ -321,7 +321,7 @@ button.lang-btn {
 
 button.lang-btn.active {
   background-color: var(--surface-active);
-  color: var(--color-white);
+  color: var(--theme-active-btn-text);
 }
 
 /* --------------------------------------------------------------------------
@@ -496,7 +496,7 @@ button.lang-btn.active {
 
 .fiat-menu button.selected {
   background-color: var(--surface-active);
-  color: var(--color-white);
+  color: var(--theme-active-btn-text);
   font-weight: 700;
 }
 
@@ -576,7 +576,7 @@ p#current-BTC-change-label {
 
 .period-menu button.selected {
   background-color: var(--surface-active);
-  color: var(--color-white);
+  color: var(--theme-active-btn-text);
   font-weight: 700;
 }
 
