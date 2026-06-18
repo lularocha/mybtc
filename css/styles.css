@@ -51,7 +51,7 @@
   --transition-standard: 0.3s ease-out;
 
   /* Theme Colors (Defaults to Light) */
-  --bg-body: #fe0;
+  --bg-body: var(--color-white);
   --surface-idle: var(--color-primary-light);
   --surface-active: var(--color-primary-dark);
   --theme-bg-secondary: var(--color-primary-light);
@@ -62,22 +62,36 @@
   --theme-status-pos: #090;
   --theme-status-neg: #f00;
   --theme-accent: var(--color-accent);
-  --theme-panel-control-bg: var(--color-gray-btn);
-  --theme-panel-control-text: var(--color-white);
-  --theme-language-active-bg: var(--color-primary);
-  --theme-language-active-text: var(--color-black);
-  --theme-light-active-bg: var(--color-primary);
-  --theme-light-active-text: var(--color-black);
-  --theme-dark-active-bg: var(--color-gray-btn);
-  --theme-dark-active-text: var(--color-gray-muted);
   --amount-active-text: var(--color-black);
   --amount-inactive-text: #555;
   --divider-color: rgba(0, 0, 0, 0.45);
-  --keypad-bg: #fb0;
+  --keypad-bg: #f0f0f0;
+  --keypad-text: var(--color-primary-dark);
+  --keypad-active-bg: var(--color-gray-light);
+  --settings-panel-bg: var(--color-white);
+  --settings-panel-text: var(--color-black);
+  --settings-panel-shadow: rgba(0, 0, 0, 0.5);
+  --settings-panel-control-bg: #f0f0f0;
+  --settings-panel-control-text: #777;
+  --settings-panel-lang-active-bg: var(--color-primary);
+  --settings-panel-lang-active-text: var(--color-black);
+  --settings-panel-theme-light-active-bg: var(--color-primary);
+  --settings-panel-theme-light-active-text: var(--color-black);
+  --settings-panel-theme-dark-active-bg: var(--color-gray-btn);
+  --settings-panel-theme-dark-active-text: var(--color-gray-muted);
+  --settings-panel-tab-bg: #f0f0f0;
+  --settings-panel-tab-text: var(--color-black);
+  --settings-panel-tab-active-bg: var(--color-primary);
+  --settings-panel-tab-active-text: var(--color-black);
+  --settings-panel-link-text: var(--settings-panel-text);
+  --settings-panel-link-border: var(--settings-panel-text);
+  --settings-panel-link-hover-text: var(--color-accent);
+  --settings-panel-link-hover-border: var(--color-accent);
+  --settings-panel-featured-text: var(--settings-panel-text);
 }
 
 :root.dark-mode {
-  --bg-body: #1a1a1a;
+  --bg-body: #000;
   --surface-idle: #2a2a2a;
   --surface-active: #f50;
   --theme-bg-secondary: #2a2a2a;
@@ -88,19 +102,33 @@
   --theme-status-pos: #0c0;
   --theme-status-neg: #ff3333;
   --theme-accent: #ff3333;
-  --theme-panel-control-bg: var(--color-gray-dim);
-  --theme-panel-control-text: var(--color-gray-muted);
-  --theme-language-active-bg: var(--color-warning-hover);
-  --theme-language-active-text: var(--color-white);
-  --theme-light-active-bg: var(--color-gray-btn);
-  --theme-light-active-text: var(--color-gray-muted);
-  --theme-dark-active-bg: var(--color-warning-hover);
-  --theme-dark-active-text: var(--color-white);
   --amount-active-text: var(--color-white);
   --amount-inactive-text: #999;
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
   --keypad-bg: #2c2c2c;
+  --keypad-text: var(--color-white);
+  --keypad-active-bg: var(--color-warning-hover);
+  --settings-panel-bg: var(--color-black);
+  --settings-panel-text: var(--color-white);
+  --settings-panel-shadow: rgba(0, 0, 0, 0.5);
+  --settings-panel-control-bg: var(--color-gray-dim);
+  --settings-panel-control-text: var(--color-gray-muted);
+  --settings-panel-lang-active-bg: var(--color-warning-hover);
+  --settings-panel-lang-active-text: var(--color-white);
+  --settings-panel-theme-light-active-bg: var(--color-gray-btn);
+  --settings-panel-theme-light-active-text: var(--color-gray-muted);
+  --settings-panel-theme-dark-active-bg: var(--color-warning-hover);
+  --settings-panel-theme-dark-active-text: var(--color-white);
+  --settings-panel-tab-bg: var(--color-gray-dim);
+  --settings-panel-tab-text: var(--color-white);
+  --settings-panel-tab-active-bg: #f70;
+  --settings-panel-tab-active-text: var(--color-white);
+  --settings-panel-link-text: var(--settings-panel-text);
+  --settings-panel-link-border: var(--settings-panel-text);
+  --settings-panel-link-hover-text: var(--color-accent);
+  --settings-panel-link-hover-border: var(--color-accent);
+  --settings-panel-featured-text: var(--color-accent);
 }
 
 /* --------------------------------------------------------------------------
@@ -569,14 +597,14 @@ p#current-BTC-change-label {
   font-size: 21px;
   font-weight: 600;
   background: var(--keypad-bg);
-  color: var(--color-white);
+  color: var(--keypad-text);
   border-radius: 999px;
   touch-action: manipulation;
 }
 
 .keypad button:hover,
 .keypad button:active {
-  background: var(--color-warning-hover);
+  background: var(--keypad-active-bg);
 }
 
 .keypad .delete {
@@ -594,9 +622,9 @@ p#current-BTC-change-label {
   right: -135%;
   width: 360px;
   height: auto;
-  background-color: var(--color-black);
+  background-color: var(--settings-panel-bg);
   border-radius: 10px 0 0 10px;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 0 5px var(--settings-panel-shadow);
   transition: right var(--transition-standard);
   z-index: var(--z-overlay);
 }
@@ -606,7 +634,7 @@ p#current-BTC-change-label {
 }
 
 .settings-panel-content {
-  color: var(--color-white);
+  color: var(--settings-panel-text);
   padding: 20px;
   position: relative;
 }
@@ -627,15 +655,15 @@ p#current-BTC-change-label {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: var(--theme-panel-control-bg);
-  color: var(--theme-panel-control-text);
+  background: var(--settings-panel-control-bg);
+  color: var(--settings-panel-control-text);
   font-size: 1.05rem;
   font-weight: 800;
 }
 
 button.panel-circle-btn {
-  background: var(--theme-panel-control-bg);
-  color: var(--theme-panel-control-text);
+  background: var(--settings-panel-control-bg);
+  color: var(--settings-panel-control-text);
 }
 
 .panel-circle-btn .icon {
@@ -644,18 +672,18 @@ button.panel-circle-btn {
 }
 
 .panel-circle-btn.lang-btn.active {
-  background: var(--theme-language-active-bg);
-  color: var(--theme-language-active-text);
+  background: var(--settings-panel-lang-active-bg);
+  color: var(--settings-panel-lang-active-text);
 }
 
 .theme-btn[data-theme="light"].active {
-  background: var(--theme-light-active-bg);
-  color: var(--theme-light-active-text);
+  background: var(--settings-panel-theme-light-active-bg);
+  color: var(--settings-panel-theme-light-active-text);
 }
 
 .theme-btn[data-theme="dark"].active {
-  background: var(--theme-dark-active-bg);
-  color: var(--theme-dark-active-text);
+  background: var(--settings-panel-theme-dark-active-bg);
+  color: var(--settings-panel-theme-dark-active-text);
 }
 
 /* Tabs (How to use / About SATS) */
@@ -668,8 +696,8 @@ button.panel-circle-btn {
 .tab-btn {
   flex: 1;
   padding: 13px 8px;
-  background: var(--color-gray-dim);
-  color: var(--color-white);
+  background: var(--settings-panel-tab-bg);
+  color: var(--settings-panel-tab-text);
   font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -679,8 +707,8 @@ button.panel-circle-btn {
 }
 
 .tab-btn.active {
-  background: var(--color-primary);
-  color: var(--color-black);
+  background: var(--settings-panel-tab-active-bg);
+  color: var(--settings-panel-tab-active-text);
 }
 
 .tab-pane {
@@ -708,14 +736,16 @@ button.panel-circle-btn {
   padding-bottom: 20px;
 }
 
-.settings-panel a {
-  color: var(--color-white);
-  border-bottom: 1px dashed var(--color-white);
+.settings-panel a,
+.settings-panel a:visited {
+  color: var(--settings-panel-link-text);
+  border-bottom: 1px dashed var(--settings-panel-link-border);
 }
 
-.settings-panel a:hover {
-  color: var(--color-accent);
-  border-bottom: 1px solid var(--color-accent);
+.settings-panel a:hover,
+.settings-panel a:focus-visible {
+  color: var(--settings-panel-link-hover-text);
+  border-bottom: 1px solid var(--settings-panel-link-hover-border);
 }
 
 /* About SATS tab content (formerly the inline info modal) */
@@ -724,12 +754,12 @@ button.panel-circle-btn {
   font-size: 1.12rem;
   font-weight: 500;
   line-height: 1.4;
-  color: var(--color-white);
+  color: var(--settings-panel-text);
   padding: 9px 0;
 }
 
 .tab-pane p.modal-text[data-translate="infoModalText0"] {
-  color: var(--color-primary);
+  color: var(--settings-panel-featured-text);
   font-weight: 900;
 }
 
@@ -823,16 +853,16 @@ body.dark-mode {
 }
 
 .dark-mode .settings-panel {
-  background-color: var(--theme-bg-page);
+  background-color: var(--settings-panel-bg);
 }
 
 .dark-mode .tab-btn.active {
-  background: #f70;
-  color: var(--color-white);
+  background: var(--settings-panel-tab-active-bg);
+  color: var(--settings-panel-tab-active-text);
 }
 
 .dark-mode .tab-pane p.modal-text[data-translate="infoModalText0"] {
-  color: #fa0;
+  color: var(--settings-panel-featured-text);
 }
 
 /* Override for larger screens */
@@ -933,6 +963,6 @@ body.dark-mode {
   }
 
   .keypad button:active {
-    background: var(--color-warning-hover);
+    background: var(--keypad-active-bg);
   }
 }
