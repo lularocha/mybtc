@@ -51,7 +51,7 @@
   --transition-standard: 0.3s ease-out;
 
   /* Theme Colors (Defaults to Light) */
-  --bg-body: var(--color-white);
+  --bg-body: #fe0;
   --surface-idle: var(--color-primary-light);
   --surface-active: var(--color-primary-dark);
   --theme-bg-secondary: var(--color-primary-light);
@@ -65,14 +65,14 @@
   --amount-active-text: var(--color-black);
   --amount-inactive-text: #555;
   --divider-color: rgba(0, 0, 0, 0.45);
-  --keypad-bg: #f0f0f0;
-  --keypad-text: var(--color-primary-dark);
+  --keypad-bg: rgba(255, 0, 0, 0.15);
+  --keypad-text: var(--color-white);
   --keypad-active-bg: var(--color-gray-light);
   --settings-panel-bg: var(--color-white);
   --settings-panel-text: var(--color-black);
   --settings-panel-shadow: rgba(0, 0, 0, 0.5);
   --settings-panel-control-bg: #f0f0f0;
-  --settings-panel-control-text: #777;
+  --settings-panel-control-text: var(--color-black);
   --settings-panel-lang-active-bg: var(--color-primary);
   --settings-panel-lang-active-text: var(--color-black);
   --settings-panel-theme-light-active-bg: var(--color-primary);
@@ -226,6 +226,7 @@ h1#mybtc-brand {
   font-weight: 700;
   margin: 0;
   line-height: 1;
+  color: #f70;
 }
 
 h1#sugiro-logo {
@@ -624,7 +625,7 @@ p#current-BTC-change-label {
   height: auto;
   background-color: var(--settings-panel-bg);
   border-radius: 10px 0 0 10px;
-  box-shadow: -2px 0 5px var(--settings-panel-shadow);
+  box-shadow: -2px 0 20px var(--settings-panel-shadow);
   transition: right var(--transition-standard);
   z-index: var(--z-overlay);
 }
