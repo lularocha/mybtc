@@ -65,7 +65,7 @@
   --amount-active-text: var(--color-black);
   --amount-inactive-text: #555;
   --divider-color: rgba(0, 0, 0, 0.45);
-  --keypad-bg: rgba(255, 0, 0, 0.15);
+  --keypad-bg: rgba(255, 0, 0, 0.1);
   --keypad-text: var(--color-black);
   --keypad-active-bg: var(--color-gray-light);
   --settings-panel-bg: var(--color-white);
