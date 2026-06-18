@@ -63,7 +63,7 @@
   --theme-status-neg: #f00;
   --theme-accent: var(--color-accent);
   --amount-active-text: var(--color-black);
-  --amount-inactive-text: #855;
+  --amount-inactive-text: #655;
   --divider-color: rgba(0, 0, 0, 0.45);
   --keypad-bg: rgba(255, 0, 0, 0.1);
   --keypad-text: var(--color-black);
