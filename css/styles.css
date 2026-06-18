@@ -106,7 +106,7 @@
   --amount-inactive-text: #999;
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
-  --keypad-bg: #2c2c2c;
+  --keypad-bg: #191919;
   --keypad-text: var(--color-white);
   --keypad-active-bg: var(--color-warning-hover);
   --settings-panel-bg: var(--color-black);
