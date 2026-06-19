@@ -506,7 +506,7 @@ button.lang-btn.active {
 
 .fiat-menu button.selected {
   background-color: var(--surface-active);
-  color: var(--theme-active-btn-text);
+  color: var(--color-white);
   font-weight: 700;
 }
 
@@ -586,7 +586,7 @@ p#current-BTC-change-label {
 
 .period-menu button.selected {
   background-color: var(--surface-active);
-  color: var(--theme-active-btn-text);
+  color: var(--color-white);
   font-weight: 700;
 }
 
