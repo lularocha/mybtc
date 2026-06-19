@@ -13,7 +13,7 @@
       sizes="180x180"
       href="assets/apple-touch-icon.png"
     />
-    <link rel="stylesheet" href="css/styles.css?v=45" />
+    <link rel="stylesheet" href="css/styles.css?v=46" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -87,7 +87,17 @@
           <!-- BTC/SATS Amount -->
           <div class="amount-container">
             <div class="amount-display active-field" id="BTC-amount-display">
-              <div class="amount-value"><span class="BTC-amount">0</span></div>
+              <div class="amount-value">
+                <span class="BTC-amount">0</span>
+                <input
+                  class="paste-capture"
+                  inputmode="none"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  aria-label="Paste Bitcoin amount"
+                />
+              </div>
               <div class="display-controls">
                 <button
                   class="unit-toggle btc-toggle"
@@ -108,6 +118,14 @@
             <div class="amount-display" id="fiat-amount-display">
               <div class="amount-value">
                 <span class="fiat-amount">0.00</span>
+                <input
+                  class="paste-capture"
+                  inputmode="none"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  aria-label="Paste currency amount"
+                />
               </div>
               <div class="display-controls">
                 <button
@@ -258,19 +276,7 @@
       </div>
     </div>
 
-    <!-- Long-press paste bubble (positioned by JS over the press point) -->
-    <div
-      class="paste-pill"
-      id="paste-pill"
-      role="button"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <span class="icon icon-clipboard" aria-hidden="true"></span>
-      <span data-translate="paste">Paste</span>
-    </div>
-
-    <script src="js/core.js?v=12"></script>
-    <script src="js/app.js?v=12"></script>
+    <script src="js/core.js?v=13"></script>
+    <script src="js/app.js?v=13"></script>
   </body>
 </html>

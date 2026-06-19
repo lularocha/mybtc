@@ -526,102 +526,26 @@ window.MYBTC.UI = (function () {
     updateEquivalentValue();
   }
 
-  async function pasteFromClipboard() {
-    try {
-      const text = await navigator.clipboard.readText();
-      applyPastedText(text);
-    } catch {
-      // Clipboard API unavailable or permission denied
-    }
-  }
+  // Wire the transparent overlay inputs so the OS-native long-press "Paste"
+  // (a single tap, no clipboard-permission prompt) drops straight into the
+  // matching field. The inputs never hold a value — they only capture paste.
+  function setupPasteCapture() {
+    document.querySelectorAll(".paste-capture").forEach((input) => {
+      const field = input.closest("#fiat-amount-display") ? "fiat" : "btc";
 
-  // Press-and-hold an amount field to pop up a "Paste" bubble over the
-  // press point; tapping it pastes the clipboard into that field.
-  function setupPasteLongPress() {
-    const pill = document.getElementById("paste-pill");
-    if (!pill) return;
-
-    const LONG_PRESS_MS = 500;
-    const MOVE_CANCEL_PX = 10;
-    let pressTimer = null;
-    let startX = 0;
-    let startY = 0;
-    let pillVisible = false;
-
-    const clearTimer = () => {
-      if (pressTimer) {
-        clearTimeout(pressTimer);
-        pressTimer = null;
-      }
-    };
-
-    const showPill = (x, y) => {
-      pill.style.left = `${x}px`;
-      pill.style.top = `${y}px`;
-      pill.classList.add("active");
-      pill.setAttribute("aria-hidden", "false");
-      pillVisible = true;
-    };
-
-    const hidePill = () => {
-      if (!pillVisible) return;
-      pill.classList.remove("active");
-      pill.setAttribute("aria-hidden", "true");
-      pillVisible = false;
-    };
-
-    const displays = [
-      { el: document.getElementById("BTC-amount-display"), field: "btc" },
-      { el: document.getElementById("fiat-amount-display"), field: "fiat" },
-    ];
-
-    displays.forEach(({ el, field }) => {
-      if (!el) return;
-
-      el.addEventListener("pointerdown", (e) => {
-        if (e.button && e.button !== 0) return; // primary button / touch only
-        startX = e.clientX;
-        startY = e.clientY;
-        clearTimer();
-        pressTimer = setTimeout(() => {
-          pressTimer = null;
-          setActiveField(field);
-          showPill(startX, startY);
-          triggerHapticFeedback();
-        }, LONG_PRESS_MS);
+      input.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData)?.getData("text");
+        setActiveField(field);
+        if (text) applyPastedText(text);
+        input.value = "";
+        input.blur();
       });
 
-      el.addEventListener("pointermove", (e) => {
-        if (!pressTimer) return;
-        if (
-          Math.abs(e.clientX - startX) > MOVE_CANCEL_PX ||
-          Math.abs(e.clientY - startY) > MOVE_CANCEL_PX
-        ) {
-          clearTimer();
-        }
+      // Keep the overlay empty; the keypad is the only typing input method.
+      input.addEventListener("input", () => {
+        input.value = "";
       });
-
-      ["pointerup", "pointercancel", "pointerleave"].forEach((evt) =>
-        el.addEventListener(evt, clearTimer),
-      );
-
-      // Block the native long-press selection/callout menu
-      el.addEventListener("contextmenu", (e) => e.preventDefault());
-    });
-
-    pill.addEventListener("click", (e) => {
-      e.stopPropagation();
-      pasteFromClipboard();
-      hidePill();
-    });
-
-    document.addEventListener("pointerdown", (e) => {
-      if (pillVisible && !pill.contains(e.target)) hidePill();
-    });
-    window.addEventListener("scroll", hidePill, { passive: true });
-    window.addEventListener("resize", hidePill);
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") hidePill();
     });
   }
 
@@ -638,8 +562,8 @@ window.MYBTC.UI = (function () {
       .addEventListener("click", toggleFiatMenu);
     setupFiatMenu();
 
-    // Long-press a display to reveal the "Paste" bubble
-    setupPasteLongPress();
+    // Native long-press paste into the overlay inputs
+    setupPasteCapture();
 
     // Tap a display to make it the active field
     document

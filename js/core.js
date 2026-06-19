@@ -2,7 +2,6 @@
 const translations = {
   en: {
     currentBitcoinPrice: "Current Bitcoin Price",
-    paste: "Paste",
     pageFooter:
       'developed by Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     tabHowToUse: "How to use",
@@ -49,7 +48,6 @@ const translations = {
   },
   pt: {
     currentBitcoinPrice: "Preço atual do Bitcoin",
-    paste: "Colar",
     pageFooter:
       'desenvolvido por Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
     tabHowToUse: "Como usar",
