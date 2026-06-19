@@ -11,7 +11,7 @@ const translations = {
     instruction2:
       "Tap BTC / SATS to switch unit, and tap the currency (USD) to choose USD, BRL, EUR or GBP",
     instruction3:
-      "Tap the Bitcoin value or the currency value to select it (marked by the orange bar), then type on the keypad — both values update instantly",
+      "Tap the Bitcoin value or the currency value to select it, then type on the keypad — both values update instantly",
     instruction4:
       "Tap the refresh icon at the top to update the current Bitcoin price",
     instruction5: "Tap the return % value to choose a different period",
@@ -57,7 +57,7 @@ const translations = {
     instruction2:
       "Toque em BTC / SATS para trocar a unidade, e toque na moeda (USD) para escolher USD, BRL, EUR ou GBP",
     instruction3:
-      "Toque no valor em Bitcoin ou no valor em moeda para selecioná-lo (indicado pela barra laranja) e digite no teclado — os dois valores são atualizados na hora",
+      "Toque no valor em Bitcoin ou no valor em moeda para selecioná-lo e digite no teclado — os dois valores são atualizados na hora",
     instruction4:
       "Toque no ícone de atualizar no topo para atualizar o preço atual do Bitcoin",
     instruction5:
