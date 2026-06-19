@@ -13,7 +13,7 @@
       sizes="180x180"
       href="assets/apple-touch-icon.png"
     />
-    <link rel="stylesheet" href="css/styles.css?v=44" />
+    <link rel="stylesheet" href="css/styles.css?v=45" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -89,9 +89,6 @@
             <div class="amount-display active-field" id="BTC-amount-display">
               <div class="amount-value"><span class="BTC-amount">0</span></div>
               <div class="display-controls">
-                <button class="paste-btn" aria-label="Paste">
-                  <span class="icon icon-clipboard" aria-hidden="true"></span>
-                </button>
                 <button
                   class="unit-toggle btc-toggle"
                   aria-label="Switch BTC/SATS"
@@ -113,9 +110,6 @@
                 <span class="fiat-amount">0.00</span>
               </div>
               <div class="display-controls">
-                <button class="paste-btn" aria-label="Paste">
-                  <span class="icon icon-clipboard" aria-hidden="true"></span>
-                </button>
                 <button
                   class="unit-dropdown fiat-dropdown"
                   aria-label="Select currency"
@@ -264,7 +258,19 @@
       </div>
     </div>
 
-    <script src="js/core.js?v=11"></script>
-    <script src="js/app.js?v=11"></script>
+    <!-- Long-press paste bubble (positioned by JS over the press point) -->
+    <div
+      class="paste-pill"
+      id="paste-pill"
+      role="button"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <span class="icon icon-clipboard" aria-hidden="true"></span>
+      <span data-translate="paste">Paste</span>
+    </div>
+
+    <script src="js/core.js?v=12"></script>
+    <script src="js/app.js?v=12"></script>
   </body>
 </html>

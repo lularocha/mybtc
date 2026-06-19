@@ -49,12 +49,6 @@ document.addEventListener(
   { passive: true },
 );
 
-window.MYBTC = window.MYBTC || {};
-window.MYBTC.Haptics = {
-  tap: triggerHapticFeedback,
-  isSupported: () => typeof navigator.vibrate === "function",
-};
-
 // ==============================================
 // REFRESH ICON SPIN ANIMATION
 // ==============================================
@@ -541,6 +535,96 @@ window.MYBTC.UI = (function () {
     }
   }
 
+  // Press-and-hold an amount field to pop up a "Paste" bubble over the
+  // press point; tapping it pastes the clipboard into that field.
+  function setupPasteLongPress() {
+    const pill = document.getElementById("paste-pill");
+    if (!pill) return;
+
+    const LONG_PRESS_MS = 500;
+    const MOVE_CANCEL_PX = 10;
+    let pressTimer = null;
+    let startX = 0;
+    let startY = 0;
+    let pillVisible = false;
+
+    const clearTimer = () => {
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+    };
+
+    const showPill = (x, y) => {
+      pill.style.left = `${x}px`;
+      pill.style.top = `${y}px`;
+      pill.classList.add("active");
+      pill.setAttribute("aria-hidden", "false");
+      pillVisible = true;
+    };
+
+    const hidePill = () => {
+      if (!pillVisible) return;
+      pill.classList.remove("active");
+      pill.setAttribute("aria-hidden", "true");
+      pillVisible = false;
+    };
+
+    const displays = [
+      { el: document.getElementById("BTC-amount-display"), field: "btc" },
+      { el: document.getElementById("fiat-amount-display"), field: "fiat" },
+    ];
+
+    displays.forEach(({ el, field }) => {
+      if (!el) return;
+
+      el.addEventListener("pointerdown", (e) => {
+        if (e.button && e.button !== 0) return; // primary button / touch only
+        startX = e.clientX;
+        startY = e.clientY;
+        clearTimer();
+        pressTimer = setTimeout(() => {
+          pressTimer = null;
+          setActiveField(field);
+          showPill(startX, startY);
+          triggerHapticFeedback();
+        }, LONG_PRESS_MS);
+      });
+
+      el.addEventListener("pointermove", (e) => {
+        if (!pressTimer) return;
+        if (
+          Math.abs(e.clientX - startX) > MOVE_CANCEL_PX ||
+          Math.abs(e.clientY - startY) > MOVE_CANCEL_PX
+        ) {
+          clearTimer();
+        }
+      });
+
+      ["pointerup", "pointercancel", "pointerleave"].forEach((evt) =>
+        el.addEventListener(evt, clearTimer),
+      );
+
+      // Block the native long-press selection/callout menu
+      el.addEventListener("contextmenu", (e) => e.preventDefault());
+    });
+
+    pill.addEventListener("click", (e) => {
+      e.stopPropagation();
+      pasteFromClipboard();
+      hidePill();
+    });
+
+    document.addEventListener("pointerdown", (e) => {
+      if (pillVisible && !pill.contains(e.target)) hidePill();
+    });
+    window.addEventListener("scroll", hidePill, { passive: true });
+    window.addEventListener("resize", hidePill);
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") hidePill();
+    });
+  }
+
   function setupEventListeners() {
     // BTC/SATS toggle
     document.querySelector(".btc-toggle").addEventListener("click", (e) => {
@@ -554,13 +638,8 @@ window.MYBTC.UI = (function () {
       .addEventListener("click", toggleFiatMenu);
     setupFiatMenu();
 
-    // Paste icons (paste into the active field)
-    document.querySelectorAll(".paste-btn").forEach((btn) =>
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        pasteFromClipboard();
-      }),
-    );
+    // Long-press a display to reveal the "Paste" bubble
+    setupPasteLongPress();
 
     // Tap a display to make it the active field
     document
@@ -617,13 +696,11 @@ window.MYBTC.UI = (function () {
     setActiveField,
     appendToDisplay,
     deleteLast,
-    pasteFromClipboard,
   };
 })();
 
 window.appendToDisplay = window.MYBTC.UI.appendToDisplay;
 window.deleteLast = window.MYBTC.UI.deleteLast;
-window.pasteFromClipboard = window.MYBTC.UI.pasteFromClipboard;
 
 document.addEventListener("DOMContentLoaded", () => {
   window.MYBTC.UI.init();

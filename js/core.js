@@ -2,12 +2,9 @@
 const translations = {
   en: {
     currentBitcoinPrice: "Current Bitcoin Price",
-    refreshPrice: "refresh price",
-    help: "help",
-    footerInfo: "Click or tap field to enter amount",
+    paste: "Paste",
     pageFooter:
       'developed by Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
-    howToUse: "How to use:",
     tabHowToUse: "How to use",
     tabAboutSats: "About SATS",
     instruction1:
@@ -52,12 +49,9 @@ const translations = {
   },
   pt: {
     currentBitcoinPrice: "Preço atual do Bitcoin",
-    refreshPrice: "atualizar preço",
-    help: "ajuda",
-    footerInfo: "Clique ou toque num campo para inserir valores",
+    paste: "Colar",
     pageFooter:
       'desenvolvido por Lula Rocha / <a href="https://sugiro.ai" target="_blank" rel="noopener">sugiro.ai</a>',
-    howToUse: "Como usar:",
     tabHowToUse: "Como usar",
     tabAboutSats: "Sobre SATS",
     instruction1:
@@ -289,37 +283,6 @@ window.MYBTC.Core = (function () {
   }
 
   /**
-   * Set the current price for the specified currency
-   * @param {string} currency - Currency code (USD, BRL, EUR, GBP, CAD)
-   * @param {number} price - Price to set
-   */
-  function setCurrentPrice(currency, price) {
-    switch (currency) {
-      case "USD":
-        currentPriceUSD = price;
-        break;
-      case "BRL":
-        currentPriceBRL = price;
-        break;
-      case "EUR":
-        currentPriceEUR = price;
-        break;
-      case "GBP":
-        currentPriceGBP = price;
-        break;
-    }
-  }
-
-  /**
-   * Get the translation for the current language
-   * @param {string} key - Translation key
-   * @returns {string} Translated text
-   */
-  function getTranslation(key) {
-    return translations[currentLang][key] || key;
-  }
-
-  /**
    * Set the application language
    * @param {string} lang - Language code ('en' or 'pt')
    */
@@ -445,8 +408,6 @@ window.MYBTC.Core = (function () {
     getFontSizeBtcSats,
     getFontSizeUsdBrl,
     getCurrentPrice,
-    setCurrentPrice,
-    getTranslation,
     setLanguage,
   };
 })(); /**
@@ -647,8 +608,6 @@ window.MYBTC.API = (function () {
   // PUBLIC API
   // ==============================================
   return {
-    fetchPrice,
-    getEarliestBitcoinPrice,
     fetchHistoricalBitcoinPrice,
     fetchData,
   };

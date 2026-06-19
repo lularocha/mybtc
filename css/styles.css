@@ -88,6 +88,8 @@
   --settings-panel-link-hover-text: var(--color-accent);
   --settings-panel-link-hover-border: var(--color-accent);
   --settings-panel-featured-text: var(--settings-panel-text);
+  --paste-pill-bg: #222;
+  --paste-pill-text: var(--color-white);
 }
 
 :root.dark-mode {
@@ -129,6 +131,8 @@
   --settings-panel-link-hover-text: var(--color-accent);
   --settings-panel-link-hover-border: var(--color-accent);
   --settings-panel-featured-text: var(--color-accent);
+  --paste-pill-bg: #f0f0f0;
+  --paste-pill-text: var(--color-black);
 }
 
 /* --------------------------------------------------------------------------
@@ -236,18 +240,6 @@ h1#sugiro-logo {
   line-height: 1;
 }
 
-.mybtclogo {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-}
-
-.mybtclogo.spin {
-  animation: spinEightTimes 1s ease-in-out;
-}
-
 .header-actions {
   display: flex;
   gap: 12px;
@@ -285,32 +277,6 @@ h1#sugiro-logo {
   height: 32px;
 }
 
-.circle-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.btc-circle-logo {
-  cursor: pointer;
-}
-
-.btc-circle-logo.spin {
-  animation: spinEightTimes 1s ease-in-out;
-}
-
-/* -- old selector kept for backward compat -- */
-.lang-btn-container {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
 /* --------------------------------------------------------------------------
    COMPONENTS - Buttons
    -------------------------------------------------------------------------- */
@@ -318,20 +284,6 @@ button {
   font-family: var(--font-main);
   cursor: pointer;
   border: none;
-}
-
-button.lang-btn {
-  background-color: var(--surface-idle);
-  color: var(--color-black);
-  font-size: 1.05rem;
-  font-weight: 800;
-  padding: 0;
-  border: none;
-}
-
-button.lang-btn.active {
-  background-color: var(--surface-active);
-  color: var(--theme-active-btn-text);
 }
 
 /* --------------------------------------------------------------------------
@@ -404,6 +356,9 @@ button.lang-btn.active {
   min-height: 64px;
   cursor: pointer;
   transition: color var(--transition-standard);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .amount-display.active-field {
@@ -445,25 +400,6 @@ button.lang-btn.active {
 .unit-dropdown .icon {
   width: 18px;
   height: 18px;
-}
-
-.paste-btn {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: var(--color-black);
-  padding: 0;
-}
-
-.paste-btn .icon {
-  width: 22px;
-  height: 22px;
-}
-
-.amount-display.active-field .paste-btn {
-  /* Paste button hidden for now — restore `display: flex` to bring it back */
-  display: none;
 }
 
 .fiat-menu {
@@ -593,6 +529,54 @@ p#current-BTC-change-label {
   background-color: var(--surface-active);
   color: var(--color-white);
   font-weight: 700;
+}
+
+/* Long-press paste bubble — JS sets left/top to the press point */
+.paste-pill {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background-color: var(--paste-pill-bg);
+  color: var(--paste-pill-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  z-index: var(--z-overlay);
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 16px)) scale(0.9);
+  transform-origin: bottom center;
+  pointer-events: none;
+  transition:
+    opacity var(--transition-standard),
+    transform var(--transition-standard);
+}
+
+.paste-pill.active {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 12px)) scale(1);
+  pointer-events: auto;
+}
+
+/* Downward tail pointing at the press point */
+.paste-pill::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--paste-pill-bg);
+}
+
+.paste-pill .icon {
+  width: 18px;
+  height: 18px;
 }
 
 /* --------------------------------------------------------------------------
@@ -852,10 +836,6 @@ body.dark-mode {
   color: var(--color-accent);
 }
 
-.dark-mode .paste-btn {
-  color: var(--theme-text-main);
-}
-
 .dark-mode .header-icon-btn {
   color: var(--theme-text-main);
 }
@@ -947,14 +927,6 @@ body.dark-mode {
 
   .keypad button {
     padding: 18px;
-  }
-}
-
-/* Desktop Hover */
-@media (min-width: 992px) {
-  img.mybtclogo:hover,
-  .btc-circle-logo:hover {
-    transform: scale(1.05);
   }
 }
 
