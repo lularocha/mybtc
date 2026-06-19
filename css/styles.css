@@ -63,7 +63,7 @@
   --theme-status-neg: #f00;
   --theme-accent: var(--color-accent);
   --amount-active-text: var(--color-black);
-  --amount-inactive-text: rgba(0, 0, 0, 0.65);
+  --amount-inactive-text: rgb(0 0 0 / 0.65);
   --divider-color: rgba(0, 0, 0, 0.45);
   --keypad-bg: rgba(255, 0, 0, 0.1);
   --keypad-text: var(--color-black);
@@ -103,7 +103,7 @@
   --theme-status-neg: #ff3333;
   --theme-accent: #ff3333;
   --amount-active-text: var(--color-white);
-  --amount-inactive-text: rgba(255, 255, 255, 0.65);
+  --amount-inactive-text: rgb(255 255 255 / 0.65);
   --divider-color: rgba(255, 255, 255, 0.22);
   /* For icons/highlights */
   --keypad-bg: #191919;
