@@ -412,6 +412,11 @@ button {
   font-weight: 700;
 }
 
+.unit-toggle .unit-label,
+.unit-dropdown .unit-label {
+  font-weight: 500;
+}
+
 .unit-toggle .icon,
 .unit-dropdown .icon {
   width: 18px;
