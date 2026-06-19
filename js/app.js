@@ -119,6 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    const settingsCloseButton = document.getElementById("settings-close");
+    settingsCloseButton?.addEventListener("click", closePanel);
+
     window.addEventListener("click", (event) => {
       if (
         !settingsPanel.contains(event.target) &&

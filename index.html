@@ -184,28 +184,36 @@
           </p>
         </div>
       </div>
-
     </div>
 
     <!-- Settings Panel — language/theme controls plus help tabs -->
     <div class="settings-panel" id="settings-panel">
       <div class="settings-panel-content">
-        <div class="settings-controls" aria-label="Settings controls">
-          <button class="panel-circle-btn lang-btn" data-lang="en">EN</button>
-          <button class="panel-circle-btn lang-btn" data-lang="pt">PT</button>
+        <div class="settings-top">
+          <div class="settings-controls" aria-label="Settings controls">
+            <button class="panel-circle-btn lang-btn" data-lang="en">EN</button>
+            <button class="panel-circle-btn lang-btn" data-lang="pt">PT</button>
+            <button
+              class="panel-circle-btn theme-btn"
+              data-theme="light"
+              aria-label="Light theme"
+            >
+              <span class="icon icon-sun" aria-hidden="true"></span>
+            </button>
+            <button
+              class="panel-circle-btn theme-btn"
+              data-theme="dark"
+              aria-label="Dark theme"
+            >
+              <span class="icon icon-moon" aria-hidden="true"></span>
+            </button>
+          </div>
           <button
-            class="panel-circle-btn theme-btn"
-            data-theme="light"
-            aria-label="Light theme"
+            class="settings-close-btn"
+            id="settings-close"
+            aria-label="Close settings"
           >
-            <span class="icon icon-sun" aria-hidden="true"></span>
-          </button>
-          <button
-            class="panel-circle-btn theme-btn"
-            data-theme="dark"
-            aria-label="Dark theme"
-          >
-            <span class="icon icon-moon" aria-hidden="true"></span>
+            <span class="icon icon-x" aria-hidden="true"></span>
           </button>
         </div>
 
@@ -234,9 +242,7 @@
             <li data-translate="instruction4">Instruction 4</li>
             <li data-translate="instruction5">Instruction 5</li>
             <li data-translate="instruction6">
-              <a href="https://21bitcoin.info" target="_blank"
-                >Learn Bitcoin</a
-              >
+              <a href="https://21bitcoin.info" target="_blank">Learn Bitcoin</a>
             </li>
           </ul>
         </div>
