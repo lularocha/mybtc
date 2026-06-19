@@ -275,6 +275,16 @@ h1#sugiro-logo {
   height: 34px;
 }
 
+.header-icon-btn .icon-refresh {
+  width: 26px;
+  height: 26px;
+}
+
+.header-icon-btn .icon-settings {
+  width: 28px;
+  height: 28px;
+}
+
 .circle-btn {
   width: 42px;
   height: 42px;
