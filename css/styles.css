@@ -87,7 +87,7 @@
   --settings-panel-link-border: var(--settings-panel-text);
   --settings-panel-link-hover-text: var(--color-accent);
   --settings-panel-link-hover-border: var(--color-accent);
-  --settings-panel-featured-text: var(--settings-panel-text);
+  --settings-panel-featured-text: #f70;
 }
 
 :root.dark-mode {
