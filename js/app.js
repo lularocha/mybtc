@@ -628,5 +628,5 @@ window.deleteLast = window.MYBTC.UI.deleteLast;
 
 document.addEventListener("DOMContentLoaded", () => {
   window.MYBTC.UI.init();
-  window.MYBTC.Core.setLanguage("en");
+  window.MYBTC.Core.setLanguage("pt");
 });

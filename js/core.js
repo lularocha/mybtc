@@ -109,7 +109,7 @@ window.MYBTC.Core = (function () {
   // ==============================================
 
   // Language and period settings
-  let currentLang = "en";
+  let currentLang = "pt";
   let earliestPrice = null;
   let earliestTimestamp = null;
   let selectedPeriod = "1Y";
