@@ -28,6 +28,9 @@ Thumbs.db
 *.sln
 *.sw?
 
+# Illustrator autosave/temp files
+~ai-*.tmp
+
 # Logs
 *.log
 npm-debug.log*
