@@ -69,7 +69,7 @@
   --keypad-bg: rgba(255, 0, 0, 0.1);
   --keypad-text: var(--color-black);
   --keypad-active-bg: var(--color-gray-light);
-  --settings-overlay-bg: rgba(0, 0, 0, 0.45);
+  --settings-overlay-bg: rgba(0, 0, 0, 0);
   --settings-panel-bg: var(--color-white);
   --settings-panel-text: var(--color-black);
   --settings-panel-shadow: rgba(0, 0, 0, 0.5);
