@@ -111,7 +111,7 @@
   --keypad-bg: #191919;
   --keypad-text: var(--color-white);
   --keypad-active-bg: var(--color-warning-hover);
-  --settings-overlay-bg: rgba(0, 0, 0, 0.65);
+  --settings-overlay-bg: rgba(255, 255, 255, 0.15);
   --settings-panel-bg: var(--color-black);
   --settings-panel-text: var(--color-white);
   --settings-panel-shadow: rgba(0, 0, 0, 0.5);
