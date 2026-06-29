@@ -44,6 +44,7 @@
   /* Layers (Z-index) */
   --z-main: 1;
   --z-menu: 100;
+  --z-overlay-backdrop: 999;
   --z-overlay: 1000;
   --z-modal-content: 1001;
 
@@ -68,6 +69,7 @@
   --keypad-bg: rgba(255, 0, 0, 0.1);
   --keypad-text: var(--color-black);
   --keypad-active-bg: var(--color-gray-light);
+  --settings-overlay-bg: rgba(0, 0, 0, 0.45);
   --settings-panel-bg: var(--color-white);
   --settings-panel-text: var(--color-black);
   --settings-panel-shadow: rgba(0, 0, 0, 0.5);
@@ -109,6 +111,7 @@
   --keypad-bg: #191919;
   --keypad-text: var(--color-white);
   --keypad-active-bg: var(--color-warning-hover);
+  --settings-overlay-bg: rgba(0, 0, 0, 0.65);
   --settings-panel-bg: var(--color-black);
   --settings-panel-text: var(--color-white);
   --settings-panel-shadow: rgba(0, 0, 0, 0.5);
@@ -589,6 +592,23 @@ p#current-BTC-change-label {
 /* --------------------------------------------------------------------------
    OVERLAYS - Settings Panel & Info Content
    -------------------------------------------------------------------------- */
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--settings-overlay-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-standard),
+    visibility var(--transition-standard);
+  z-index: var(--z-overlay-backdrop);
+}
+
+.settings-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
 .settings-panel {
   position: fixed;
   top: 0;

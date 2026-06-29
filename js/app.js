@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const settingsButton = document.getElementById("settings");
   const settingsPanel = document.getElementById("settings-panel");
+  const settingsOverlay = document.getElementById("settings-overlay");
 
   if (settingsButton && settingsPanel) {
     const tabButtons = settingsPanel.querySelectorAll(".tab-btn");
@@ -96,13 +97,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const openPanel = () => {
       activateTab("how-to-use"); // always open on the first tab
       settingsPanel.classList.add("open");
+      settingsOverlay?.classList.add("open");
+      settingsOverlay?.setAttribute("aria-hidden", "false");
       settingsButton.setAttribute("aria-expanded", "true");
     };
 
     const closePanel = () => {
       settingsPanel.classList.remove("open");
+      settingsOverlay?.classList.remove("open");
+      settingsOverlay?.setAttribute("aria-hidden", "true");
       settingsButton.setAttribute("aria-expanded", "false");
     };
+
+    settingsOverlay?.addEventListener("click", closePanel);
 
     settingsButton.addEventListener("click", (event) => {
       event.stopPropagation();
